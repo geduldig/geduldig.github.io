@@ -1,27 +1,14 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<link rel="stylesheet" href="css/style.css">
-<style>
-  div { color: red; }  
-</style>
 
 <body>
-  <div>testing</div>
-  <div id='tag'></div>
-
   <video autoplay id="vid" style="display:none;"></video>
   <canvas id="canvas" width="640" height="480" style="border:1px solid #d3d3d3;"></canvas><br>
   <button onclick="snapshot()">Take Picture</button>
 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script>
-  $( document ).ready(function() {
-    $('#tag').text('READY!');
-  });
-</script>
 
 <script type="text/javascript">
-
     var video = document.querySelector("#vid");
     var canvas = document.querySelector('#canvas');
     var ctx = canvas.getContext('2d');
@@ -43,5 +30,4 @@
         video.src = window.URL.createObjectURL(stream);
         localMediaStream = stream;
     }, onCameraFail);
-
 </script>
