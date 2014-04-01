@@ -2,13 +2,15 @@
 <meta charset="utf-8">
 
 <body>
-  <video autoplay id="vid" style="display:none;"></video>
+  <div id="video-container">
+    <video id="vid" width="640" autoplay style="border:1px solid #d3d3d3;"></video>
+  </div>
   <canvas id="canvas" width="640" height="480" style="border:1px solid #d3d3d3;"></canvas><br>
   <button onclick="snapshot()">Take Picture</button>
 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
-<script type="text/javascript">
+<script>
     var video = document.querySelector("#vid");
     var canvas = document.querySelector('#canvas');
     var ctx = canvas.getContext('2d');
