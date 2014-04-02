@@ -2,54 +2,29 @@
 <meta charset="utf-8">
 
 <body>
-  <div id="video-container">
-    <video width="200" autoplay style="border:1px solid #d3d3d3;"></video>
-  </div>
-  <div>
-    <button onclick="snapshot()">Take Picture</button>
-  </div>
-  <div>
-    <canvas width="640" height="400" style="border:1px solid #d3d3d3;"></canvas><br>
-  </div>
-
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<div>
+		<video width="200" autoplay style="border:1px solid blue;"></video>
+	</div>
+	<div>
+		<button onclick="snapshot()">Take Picture</button>
+	</div>
+	<div>
+		<canvas width="640" height="400" style="border:1px solid red;"></canvas><br>
+	</div>
 
 <script>
-  /*
-    var video = document.querySelector("#vid");
-    var canvas = document.querySelector('#canvas');
-    var ctx = canvas.getContext('2d');
-    var localMediaStream = null;
-
-    var onCameraFail = function (e) {
-        console.log('Camera did not work.', e);
-    };
-
-    function snapshot() {
-        if (localMediaStream) {
-            ctx.drawImage(video, 0, 0);
-        }
-    }
-
-    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-    window.URL = window.URL || window.webkitURL;
-    navigator.getUserMedia({video:true}, function (stream) {
-        video.src = window.URL.createObjectURL(stream);
-        localMediaStream = stream;
-    }, onCameraFail);
-  */
 	var video = document.querySelector('video');
 	var localMediaStream = null;
 
-    navigator.getUserMedia = navigator.getUserMedia || 
-                             navigator.webkitGetUserMedia || 
-                             navigator.mozGetUserMedia || 
-                             navigator.msGetUserMedia;
+	navigator.getUserMedia = navigator.getUserMedia || 
+	                         navigator.webkitGetUserMedia || 
+	                         navigator.mozGetUserMedia || 
+	                         navigator.msGetUserMedia;
 
-    navigator.getUserMedia({video:true}, onMediaStream, onMediaFail);
+	navigator.getUserMedia({video:true}, onMediaStream, onMediaFail);
 
 	function onMediaStream(stream) {
-	    window.URL = window.URL || window.webkitURL;
+		window.URL = window.URL || window.webkitURL;
 		video.src = window.URL.createObjectURL(stream);
 		localMediaStream = stream;
 	}
@@ -65,5 +40,4 @@
 			ctx.drawImage(video, 0, 0);
 		}
 	}
-  
 </script>
