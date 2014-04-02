@@ -33,6 +33,10 @@
 			//alert(width + ' - ' + height);
 			//video.style.width = this.videoWidth/2;
 			//video.style.height = this.videoHeight/2;
+			var h = video.height;
+			var w = h * video.videoWidth/video.videoHeight;
+			canvas.width = w;
+			canvas.height = h;
 		};
 	}
 
