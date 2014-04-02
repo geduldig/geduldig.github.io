@@ -42,12 +42,7 @@
 
 	function snapshot() {
 		if (localMediaStream) {
-			//var canvas = document.querySelector('canvas');
 			var ctx = canvas.getContext('2d');
-			//var h = video.height;
-			//var w = h * video.videoWidth/video.videoHeight;
-			//canvas.width = w;
-			//canvas.height = h;
 			ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 		}
 	}
