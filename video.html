@@ -28,6 +28,12 @@
 		video.src = window.URL.createObjectURL(stream);
 		alert(video.videoWidth + ' - ' + video.videoHeight);
 		localMediaStream = stream;
+		//video.bind("loadedmetadata", function () {
+		video.onloadedmetadata = function(e) {
+			var width = this.videoWidth;
+			var height = this.videoHeight;
+			alert(width + ' - ' + height);
+		});
 	}
 
 	function onMediaFail(e) {
