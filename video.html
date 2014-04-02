@@ -44,7 +44,9 @@
 		if (localMediaStream) {
 			var canvas = document.querySelector('canvas');
 			var ctx = canvas.getContext('2d');
-			ctx.drawImage(video, 0, 0);
+			var h = video.height;
+			var w = h * video.videoWidth/video.videoHeight;
+			ctx.drawImage(video, 0, 0, w, h);
 		}
 	}
 </script>
