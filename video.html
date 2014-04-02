@@ -3,13 +3,13 @@
 
 <body>
   <div id="video-container">
-    <video id="vid" width="200" autoplay style="border:1px solid #d3d3d3;"></video>
+    <video width="200" autoplay style="border:1px solid #d3d3d3;"></video>
   </div>
   <div>
     <button onclick="snapshot()">Take Picture</button>
   </div>
   <div>
-    <canvas id="canvas" width="640" height="400" style="border:1px solid #d3d3d3;"></canvas><br>
+    <canvas width="640" height="400" style="border:1px solid #d3d3d3;"></canvas><br>
   </div>
 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -38,6 +38,7 @@
         localMediaStream = stream;
     }, onCameraFail);
   */
+	var video = document.querySelector('video');
 	var localMediaStream = null;
 
     navigator.getUserMedia = navigator.getUserMedia || 
@@ -48,7 +49,6 @@
     navigator.getUserMedia({video:true}, onMediaStream, onMediaFail);
 
 	function onMediaStream(stream) {
-		var video = document.querySelector('video');
 	    window.URL = window.URL || window.webkitURL;
 		video.src = window.URL.createObjectURL(stream);
 		localMediaStream = stream;
