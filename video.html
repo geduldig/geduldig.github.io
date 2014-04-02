@@ -15,6 +15,7 @@
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
 <script>
+  /*
     var video = document.querySelector("#vid");
     var canvas = document.querySelector('#canvas');
     var ctx = canvas.getContext('2d');
@@ -36,4 +37,33 @@
         video.src = window.URL.createObjectURL(stream);
         localMediaStream = stream;
     }, onCameraFail);
+  */
+	var localMediaStream = null;
+
+    navigator.getUserMedia = navigator.getUserMedia || 
+                             navigator.webkitGetUserMedia || 
+                             navigator.mozGetUserMedia || 
+                             navigator.msGetUserMedia;
+
+    navigator.getUserMedia({video:true}, onMediaStream, onMediaFail);
+
+	function onMediaStream(stream) {
+		var video = document.querySelector('video');
+	    window.URL = window.URL || window.webkitURL;
+		video.src = window.URL.createObjectURL(stream);
+		localMediaStream = stream;
+	}
+
+	function onMediaFail(e) {
+		console.log('Camera did not work.', e);
+	}
+
+	function snapshot() {
+		if (localMediaStream) {
+			var canvas = document.querySelector('canvas');
+			var ctx = canvas.getContext('2d');
+			ctx.drawImage(video, 0, 0);
+		}
+	}
+  
 </script>
