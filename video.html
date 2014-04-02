@@ -14,6 +14,7 @@
 
 <script>
 	var video = document.querySelector('video');
+	var canvas = document.querySelector('canvas');
 	var localMediaStream = null;
 
 	navigator.getUserMedia = navigator.getUserMedia || 
@@ -28,14 +29,8 @@
 		video.src = window.URL.createObjectURL(stream);
 		localMediaStream = stream;
 		video.onloadedmetadata = function(e) {
-			var width = this.videoWidth;
-			var height = this.videoHeight;
-			//alert(width + ' - ' + height);
-			//video.style.width = this.videoWidth/2;
-			//video.style.height = this.videoHeight/2;
 			var h = video.height;
 			var w = h * video.videoWidth/video.videoHeight;
-			var canvas = document.querySelector('canvas');
 			canvas.width = w;
 			canvas.height = h;
 		};
@@ -47,13 +42,13 @@
 
 	function snapshot() {
 		if (localMediaStream) {
-			var canvas = document.querySelector('canvas');
+			//var canvas = document.querySelector('canvas');
 			var ctx = canvas.getContext('2d');
-			var h = video.height;
-			var w = h * video.videoWidth/video.videoHeight;
-			canvas.width = w;
-			canvas.height = h;
-			ctx.drawImage(video, 0, 0, w, h);
+			//var h = video.height;
+			//var w = h * video.videoWidth/video.videoHeight;
+			//canvas.width = w;
+			//canvas.height = h;
+			ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 		}
 	}
 </script>
