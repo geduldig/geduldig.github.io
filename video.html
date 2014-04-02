@@ -26,7 +26,7 @@
 	function onMediaStream(stream) {
 		window.URL = window.URL || window.webkitURL;
 		video.src = window.URL.createObjectURL(stream);
-		console.log(video.width + ' - ' + video.height);
+		alert(video.videoWidth + ' - ' + video.videoHeight);
 		localMediaStream = stream;
 	}
 
