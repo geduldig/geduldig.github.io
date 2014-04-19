@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
+<link rel="stylesheet" href="css/style.css">
 
 <body>
 	<div>
@@ -12,39 +13,39 @@
 		<canvas height="200" style="border:1px solid red;"></canvas><br>
 	</div>
 
-<script>
-	var video = document.querySelector('video');
-	var canvas = document.querySelector('canvas');
-	var localMediaStream = null;
+	<script>
+		var video = document.querySelector('video');
+		var canvas = document.querySelector('canvas');
+		var localMediaStream = null;
 
-	navigator.getUserMedia = 
-		navigator.getUserMedia || 
-		navigator.webkitGetUserMedia || 
-		navigator.mozGetUserMedia || 
-		navigator.msGetUserMedia;
+		navigator.getUserMedia = 
+			navigator.getUserMedia || 
+			navigator.webkitGetUserMedia || 
+			navigator.mozGetUserMedia || 
+			navigator.msGetUserMedia;
 
-	navigator.getUserMedia({video:true}, onMediaStream, onMediaFail);
+		navigator.getUserMedia({video:true}, onMediaStream, onMediaFail);
 
-	function onMediaStream(stream) {
-		window.URL = window.URL || window.webkitURL;
-		video.src = window.URL.createObjectURL(stream);
-		localMediaStream = stream;
-		video.onloadedmetadata = function(e) {
-			var h = video.height;
-			var w = h * video.videoWidth/video.videoHeight;
-			canvas.width = w;
-			canvas.height = h;
-		};
-	}
-
-	function onMediaFail(e) {
-		console.log('Camera did not work.', e);
-	}
-
-	function snapshot() {
-		if (localMediaStream) {
-			var ctx = canvas.getContext('2d');
-			ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+		function onMediaStream(stream) {
+			window.URL = window.URL || window.webkitURL;
+			video.src = window.URL.createObjectURL(stream);
+			localMediaStream = stream;
+			video.onloadedmetadata = function(e) {
+				var h = video.height;
+				var w = h * video.videoWidth/video.videoHeight;
+				canvas.width = w;
+				canvas.height = h;
+			};
 		}
-	}
-</script>
+
+		function onMediaFail(e) {
+			console.log('Camera did not work.', e);
+		}
+
+		function snapshot() {
+			if (localMediaStream) {
+				var ctx = canvas.getContext('2d');
+				ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+			}
+		}
+	</script>
