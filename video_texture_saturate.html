@@ -36,7 +36,6 @@
 </style>
 
 <body> 
-	<div><h1>WOOF WOOF</h1>BLAH</div>
 	<div class='container' id='main'>
 		<video id='video' autoplay='true' style='display:none'></video>
 		<canvas id='c'></canvas>
@@ -113,20 +112,17 @@
 	</script>
 	
 	<script>
-		console.log('START');
 		var videoScale = .5;
 		var video, c, gl, shader;
 		var tLocation, rLocation, gLocation, bLocation;
 
 		document.addEventListener("DOMContentLoaded", function(event) {
-			console.log('LOADED');
 			video = document.getElementById('video');
 			c = document.getElementById('c');
 			gl = c.getContext('experimental-webgl') || c.getContext('webgl');
 			shader = new webglShader(gl);
 			
 			setupCamera(video, function(err, stream) { 
-				console.log('CAMERA');
 				if (err)
 					console.log('VIDEO INITIALIZATION FAILED: ' + err.name);
 				else {
