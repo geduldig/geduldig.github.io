@@ -114,4 +114,107 @@
 	
 	<script>
 		console.log('START');
+		var videoScale = .5;
+		var video, c, gl, shader;
+		var tLocation, rLocation, gLocation, bLocation;
+
+		document.addEventListener("DOMContentLoaded", function(event) {
+			console.log('LOADED');
+			video = document.getElementById('video');
+			c = document.getElementById('c');
+			gl = c.getContext('experimental-webgl') || c.getContext('webgl');
+			shader = new webglShader(gl);
+			
+			setupCamera(video, function(err, stream) { 
+				console.log('CAMERA');
+				if (err)
+					console.log('VIDEO INITIALIZATION FAILED: ' + err.name);
+				else {
+					video.style.display = '';
+					document.getElementById('controls').style.display = '';
+					video.width = video.videoWidth *= videoScale;
+					video.height = video.videoHeight *= videoScale;
+					c.width = video.width;
+					c.height = video.height;
+					render();
+				}
+			});
+		});
+
+		function render() {
+			// CREATE SHADER PROGRAM
+			var vs = document.getElementById('vshader').textContent;
+			var fs = document.getElementById('fshader').textContent;
+			var program = shader.createProgram(vs, fs);
+			gl.useProgram(program);
+
+			// SET SHADER VARIABLES
+			tLocation = gl.getUniformLocation(program, 'T');
+			rLocation = gl.getUniformLocation(program, 'R');
+			gLocation = gl.getUniformLocation(program, 'G');
+			bLocation = gl.getUniformLocation(program, 'B');
+			var widthLocation = gl.getUniformLocation(program, 'width');
+			var heightLocation = gl.getUniformLocation(program, 'height');
+			var samplerLocation = gl.getUniformLocation(program, 'sampler0');
+			var positionLocation = gl.getAttribLocation(program, 'position');
+			gl.uniform1f(tLocation, 5.);
+			gl.uniform1f(rLocation, .5);
+			gl.uniform1f(gLocation, .5);
+			gl.uniform1f(bLocation, .5);
+			gl.uniform1f(widthLocation, c.width);
+			gl.uniform1f(heightLocation, c.height);
+			gl.uniform1i(samplerLocation, 0);
+			var vertexPosBuffer = webglScreenQuad(gl);
+			gl.enableVertexAttribArray(positionLocation);
+			gl.vertexAttribPointer(positionLocation, vertexPosBuffer.itemSize, gl.FLOAT, false, 0, 0);
+		
+			// CREATE TEXTURE
+			var texture = gl.createTexture();
+			gl.activeTexture(gl.TEXTURE0);
+			gl.bindTexture(gl.TEXTURE_2D, texture);
+			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+			gl.bindTexture(gl.TEXTURE_2D, null);
+
+			// RENDER LOOP
+			gl.viewport(0, 0, c.width, c.height);
+			window.requestAnimationFrame(function loop() {
+				gl.activeTexture(gl.TEXTURE0);
+				gl.bindTexture(gl.TEXTURE_2D, texture);
+				gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, video);
+				gl.drawArrays(gl.TRIANGLE_STRIP, 0, vertexPosBuffer.numItems);
+				gl.bindTexture(gl.TEXTURE_2D, null);
+				window.requestAnimationFrame(loop);
+			});
+		}
+		
+		function snapshot() {
+			var dataURL = c.toDataURL();
+			document.getElementById('snapshot-img').src = dataURL;
+		}
+		
+		// -- Sliders --
+		
+		var slider_data = [ 
+			{ slider:'#slider1', label:'#amount1', options:{min:0., max:10., step:.05, value:5., slide:function(event,ui) {
+				$('#amount1').val(ui.value);
+				gl.uniform1f(tLocation, ui.value);}}},
+			{ slider:'#slider2', label:'#amount2', options:{min:0., max:2., step:.01, value:.5, slide:function(event,ui) {
+				$('#amount2').val(ui.value);
+				gl.uniform1f(rLocation, ui.value);}}},
+			{ slider:'#slider3', label:'#amount3', options:{min:0., max:2., step:.01, value:.5, slide:function(event,ui) {
+				$('#amount3').val(ui.value);
+				gl.uniform1f(gLocation, ui.value);}}},
+			{ slider:'#slider4', label:'#amount4', options:{min:0., max:2., step:.01, value:.5, slide:function(event,ui) {
+				$('#amount4').val(ui.value);
+				gl.uniform1f(bLocation, ui.value);}}}
+		];
+		
+		for (var i = 0; i < slider_data.length; i++) {
+			var data = slider_data[i];
+			$(data.slider).slider(data.options);
+			$(data.label).val(data.options.value);
+		}
 	</script>
