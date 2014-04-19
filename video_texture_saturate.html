@@ -87,3 +87,27 @@
 	<script src='js/video-utils.js'></script>
 	<script src='http://code.jquery.com/jquery-latest.min.js'></script>
 	<script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js'></script>
+	
+	<script id='vshader' type='text/plain'>
+		attribute vec2 position;
+		void main(void) {
+			gl_Position = vec4(position, 0, 1);
+		}
+	</script>
+
+	<script id='fshader' type='text/plain'>
+		precision mediump float;
+		uniform sampler2D sampler0;
+		uniform float width;
+		uniform float height;
+		uniform float T, R, G, B;
+		const vec3 W = vec3(0.2125, 0.7154, 0.0721);
+		void main() {
+			vec3 L = vec3(R, G, B);
+			vec2 st = vec2(gl_FragCoord.s/width, 1. - gl_FragCoord.t/height);
+			vec3 irgb = texture2D(sampler0, st).rgb; 
+			float luminance = dot(irgb, W);
+			vec3 target = L*vec3(luminance, luminance, luminance); 
+			gl_FragColor = vec4(mix(target, irgb, T), 1.);
+		}
+	</script>
