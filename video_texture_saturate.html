@@ -3,51 +3,42 @@
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
 
+<style>
+	#controls {
+		width: 100%;
+		position: relative;
+		overflow: hidden;
+			margin: 4px;
+		font-size: 50%;
+		float: right;
+	}
+	.slider {
+		width: 200px;
+		margin: 2px;
+	}
+	input {
+		width: 40px;
+		color: black;
+		border: 1px;
+		text-align: center;
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+	.left {
+		float: left;
+		position: relative;
+	}
+	.right { 
+		height: 100%;
+		position: relative;
+		overflow: hidden;
+	}
+</style>
+
 <body> 
 	<div class='container' id='main'>
 		<video id='video' autoplay='true' style='display:none'></video>
 		<canvas id='c'></canvas>
-	</div>
-	<div id='controls' style='display:none'>
-		<span style='float:right'>
-			<button id='snapshot-btn' onclick='snapshot()'>Snapshot</button>
-		</span>
-		
-		<div class='slider-panel'>
-			<div class='left slider' id='slider1'></div>
-			<div class='right'>
-				<label for='amount1' />
-				<input type='text' id='amount1' />
-				<string>T</string>
-			</div>
-		</div>
-		<div class='slider-panel'>
-			<div class='left slider' id='slider2'></div>
-			<div class='right'>
-				<label for='amount2' />
-				<input type='text' id='amount2' />
-				<string>R</string>
-			</div>
-		</div>
-		<div class='slider-panel'>
-			<div class='left slider' id='slider3'></div>
-			<div class='right'>
-				<label for='amount3' />
-				<input type='text' id='amount3' />
-				<string>G</string>
-			</div>
-		</div>
-		<div class='slider-panel'>
-			<div class='left slider' id='slider4'></div>
-			<div class='right'>
-				<label for='amount4' />
-				<input type='text' id='amount4' />
-				<string>B</string>
-			</div>
-		</div>
-		<div id='snapshot-section'>
-			<img id='snapshot-img'></img>
-		</div>
 	</div>
 
 	<script src='js/webgl-utils.js'></script>
