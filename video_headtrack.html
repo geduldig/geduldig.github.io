@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="css/style.css">
+
+<body> 
+	<div class='container' id='main'>
+		<video id='video' autoplay='true' style='display:none'></video>
+		<canvas id='c'></canvas>
+		<div style='position:relative'>
+			<canvas id='c1' style='position:absolute; z-index:0'></canvas>
+			<canvas id='c2' style='position:absolute; z-index:1'></canvas>
+	</div>
+
+	<script src='js/headtrackr.js'></script>
+
+	<script>
+		var setupComplete = false;
+		var videoScale = .5;
+		var context2d, video;
+
+		document.addEventListener("DOMContentLoaded", function(event) {
+			video = document.getElementById('video');
+			var canvas1 = document.getElementById('c1');
+			var ht = new headtrackr.Tracker({ui:true, headPosition:false, calcAngles:true});
+			ht.init(video, canvas1, false);
+			ht.start();
+		});
+		
+		document.addEventListener('headtrackrStatus', function (event) {
+			if (event.status == 'whitebalance') 
+				if (!setupComplete)
+					setup();
+		});
+
+		document.addEventListener('facetrackingEvent', function (event) {
+			drawBox(event.x, event.y, event.width, event.height, event.angle);
+		});
+
+		function setup() {
+			setupComplete = true;
+			var vidW = video.videoWidth*videoScale;;
+			var vidH = video.videoHeight*videoScale;
+			var canvas1 = document.getElementById('c1');
+			var canvas2 = document.getElementById('c2');
+			canvas1.width = vidW;
+			canvas1.height = vidH;
+			canvas2.width = vidW;
+			canvas2.height = vidH;
+			context2d = canvas2.getContext('2d');
+			context2d.strokeStyle = '#ffff00';
+		}
+				
+		function drawBox(cx, cy, w, h, a) {
+			context2d.clearRect(0, 0, context2d.canvas.width, context2d.canvas.height);
+			context2d.save();
+			context2d.translate(cx-w/2, cy-h/2);
+			context2d.rotate(a-Math.PI/2);
+			context2d.beginPath();
+			context2d.moveTo(0, 0);
+			context2d.lineTo(w, 0);
+			context2d.lineTo(w, h);
+			context2d.lineTo(0, h);
+			context2d.lineTo(0, 0);
+			context2d.stroke();
+			context2d.restore();
+		}
+  </script>
