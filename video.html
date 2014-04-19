@@ -17,10 +17,11 @@
 	var canvas = document.querySelector('canvas');
 	var localMediaStream = null;
 
-	navigator.getUserMedia = navigator.getUserMedia || 
-	                         navigator.webkitGetUserMedia || 
-	                         navigator.mozGetUserMedia || 
-	                         navigator.msGetUserMedia;
+	navigator.getUserMedia = 
+		navigator.getUserMedia || 
+		navigator.webkitGetUserMedia || 
+		navigator.mozGetUserMedia || 
+		navigator.msGetUserMedia;
 
 	navigator.getUserMedia({video:true}, onMediaStream, onMediaFail);
 
