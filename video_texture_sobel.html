@@ -4,15 +4,13 @@
 
 <body>
 	<div class='container' id='main'>
-			<video id='video' autoplay='true' style='display:none'></video>
-			<span>
-			<canvas id='c'></canvas>
-			<p>
-			<button id='snapshot-btn' onclick='snapshot()'>Snapshot</button>
-			</p>
-			</span>
+		<video id='video' autoplay='true' style='display:none'></video>
+		<canvas id='c'></canvas>
 	</div>
 	<div id='controls' style='display:none'>
+		<span style='float:right'>
+			<button id='snapshot-btn' onclick='snapshot()'>Snapshot</button>
+		</span>
 		<div id='snapshot-section'>
 			<img id='snapshot-img'></img>
 		</div>
