@@ -35,7 +35,7 @@
 			return vec2(st.x/width, 1. - st.y/height);
 		}
 		vec3 posterize(vec3 rgb) {
-			float gamma = .75;
+			float gamma = .5;
 			float ncolors = 8.;
 			rgb = pow(rgb, vec3(gamma, gamma, gamma));
 			rgb = rgb * ncolors;
