@@ -95,6 +95,7 @@
 	</script>
 
 	<script id='fshader' type='text/plain'>
+		/*
 		precision mediump float;
 		uniform sampler2D sampler0;
 		uniform float width;
@@ -108,6 +109,32 @@
 			float luminance = dot(irgb, W);
 			vec3 target = L*vec3(luminance, luminance, luminance); 
 			gl_FragColor = vec4(mix(target, irgb, T), 1.);
+		}
+		*/
+		precision mediump float;
+		uniform sampler2D sampler0;
+		uniform float width;
+		uniform float height;
+		void main() {
+			vec2 st = vec2(gl_FragCoord.s/width, 1. - gl_FragCoord.t/height);
+			float lum = length(texture2D(sampler0, st).rgb);
+			gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+			if (lum < 1.00) {
+				if (mod(gl_FragCoord.x + gl_FragCoord.y, 10.0) == 0.0)
+					gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+			}
+			if (lum < 0.75) {
+				if (mod(gl_FragCoord.x - gl_FragCoord.y, 10.0) == 0.0)
+					gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+			}
+			if (lum < 0.50) {
+				if (mod(gl_FragCoord.x + gl_FragCoord.y - 5.0, 10.0) == 0.0)
+					gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+			}
+			if (lum < 0.3) {
+				if (mod(gl_FragCoord.x - gl_FragCoord.y - 5.0, 10.0) == 0.0) 
+					gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+			}
 		}
 	</script>
 	
