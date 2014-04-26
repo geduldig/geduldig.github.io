@@ -97,8 +97,7 @@
 	<script id='fshader' type='text/plain'>
 		precision mediump float;
 		uniform sampler2D sampler0;
-		uniform float width;
-		uniform float height;
+		uniform float width, height;
 		void main() {
 			vec2 st = vec2(gl_FragCoord.s/width, 1. - gl_FragCoord.t/height);
 			float lum = length(texture2D(sampler0, st).rgb);
