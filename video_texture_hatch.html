@@ -171,7 +171,7 @@
 			gl.uniform1f(widthLocation, c.width);
 			gl.uniform1f(heightLocation, c.height);
 			gl.uniform1i(samplerLocation, 0);
-			var vertexPosBuffer = webglScreenQuad(gl);
+			var vertexPosBuffer = webglScreenQuad(gl);  
 			gl.enableVertexAttribArray(positionLocation);
 			gl.vertexAttribPointer(positionLocation, vertexPosBuffer.itemSize, gl.FLOAT, false, 0, 0);
 		
