@@ -102,7 +102,7 @@
 		void main() {
 			vec2 st = vec2(gl_FragCoord.s/width, 1. - gl_FragCoord.t/height);
 			float lum = length(texture2D(sampler0, st).rgb);
-			float F = 20.0;
+			float F = 4.0;
 			gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
 			if (lum < K1) {
 				if (mod(gl_FragCoord.x + gl_FragCoord.y - 0.0, F) == 0.0)
@@ -113,11 +113,11 @@
 					gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
 			}
 			if (lum < K3) {
-				if (mod(gl_FragCoord.x + gl_FragCoord.y - 10.0, F) == 0.0)
+				if (mod(gl_FragCoord.x + gl_FragCoord.y - F/2.0, F) == 0.0)
 					gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
 			}
 			if (lum < K4) {
-				if (mod(gl_FragCoord.x - gl_FragCoord.y - 10.0, F) == 0.0) 
+				if (mod(gl_FragCoord.x - gl_FragCoord.y - F/2.0, F) == 0.0) 
 					gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
 			}
 		}
