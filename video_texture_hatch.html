@@ -101,7 +101,7 @@
 		uniform float K1, K2, K3, K4;
 		void main() {
 			vec2 st = vec2(gl_FragCoord.s/width, 1. - gl_FragCoord.t/height);
-			float lum = length(texture2D(sampler0, st).rgb);
+			float lum = 2.*length(texture2D(sampler0, st).rgb);
 			gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
 			if (lum < K1) {
 				if (mod(gl_FragCoord.x + gl_FragCoord.y, 10.0) <= 1.0)
