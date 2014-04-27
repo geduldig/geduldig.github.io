@@ -98,11 +98,11 @@
 		precision mediump float;
 		uniform sampler2D sampler0;
 		uniform float width, height;
-		uniform float K1, K2, K3, K4;
+		uniform float K1, K2, K3, K4, K5;
 		void main() {
 			vec2 st = vec2(gl_FragCoord.s/width, 1. - gl_FragCoord.t/height);
 			float lum = length(texture2D(sampler0, st).rgb);
-			float F = 4.0;
+			float F = K5;
 			gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
 			if (lum < K1) {
 				if (mod(gl_FragCoord.x + gl_FragCoord.y - 0.0, F) == 0.0)
@@ -126,7 +126,7 @@
 	<script>
 		var videoScale = .75;
 		var video, c, gl, shader;
-		var k1Location, k2Location, k3Location, k4Location;
+		var k1Location, k2Location, k3Location, k4Location, k4Location;
 
 		document.addEventListener("DOMContentLoaded", function(event) {
 			video = document.getElementById('video');
@@ -161,6 +161,7 @@
 			k2Location = gl.getUniformLocation(program, 'K2');
 			k3Location = gl.getUniformLocation(program, 'K3');
 			k4Location = gl.getUniformLocation(program, 'K4');
+			k5Location = gl.getUniformLocation(program, 'K5');
 			var widthLocation = gl.getUniformLocation(program, 'width');
 			var heightLocation = gl.getUniformLocation(program, 'height');
 			var samplerLocation = gl.getUniformLocation(program, 'sampler0');
@@ -169,6 +170,7 @@
 			gl.uniform1f(k2Location, .75);
 			gl.uniform1f(k3Location, .5);
 			gl.uniform1f(k4Location, .25);
+			gl.uniform1f(k5Location, 10.0);
 			gl.uniform1f(widthLocation, c.width);
 			gl.uniform1f(heightLocation, c.height);
 			gl.uniform1i(samplerLocation, 0);
@@ -206,18 +208,21 @@
 		// -- Sliders --
 		
 		var slider_data = [ 
-			{ slider:'#slider1', label:'#amount1', options:{min:0., max:1., step:.05, value:1., slide:function(event,ui) {
+			{ slider:'#slider1', label:'#amount1', options:{min:0., max:1., step:.01, value:1., slide:function(event,ui) {
 				$('#amount1').val(ui.value);
 				gl.uniform1f(k1Location, ui.value);}}},
-			{ slider:'#slider2', label:'#amount2', options:{min:0., max:1., step:.05, value:.75, slide:function(event,ui) {
+			{ slider:'#slider2', label:'#amount2', options:{min:0., max:1., step:.01, value:.75, slide:function(event,ui) {
 				$('#amount2').val(ui.value);
 				gl.uniform1f(k2Location, ui.value);}}},
-			{ slider:'#slider3', label:'#amount3', options:{min:0., max:1., step:.05, value:.5, slide:function(event,ui) {
+			{ slider:'#slider3', label:'#amount3', options:{min:0., max:1., step:.01, value:.5, slide:function(event,ui) {
 				$('#amount3').val(ui.value);
 				gl.uniform1f(k3Location, ui.value);}}},
-			{ slider:'#slider4', label:'#amount4', options:{min:0., max:1., step:.05, value:.25, slide:function(event,ui) {
+			{ slider:'#slider4', label:'#amount4', options:{min:0., max:1., step:.01, value:.25, slide:function(event,ui) {
 				$('#amount4').val(ui.value);
-				gl.uniform1f(k4Location, ui.value);}}}
+				gl.uniform1f(k4Location, ui.value);}}},
+			{ slider:'#slider5', label:'#amount5', options:{min:0., max:20., step:.02, value:10., slide:function(event,ui) {
+				$('#amount5').val(ui.value);
+				gl.uniform1f(k5Location, ui.value);}}}
 		];
 		
 		for (var i = 0; i < slider_data.length; i++) {
