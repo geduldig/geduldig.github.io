@@ -17,6 +17,9 @@
 		</div>
 	</div>
 
+	<script src='http://code.jquery.com/jquery-latest.min.js'></script>
+	<script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js'></script>
+	<script src='js/JQueryUISlider.js'></script>
 	<script src='js/webgl-utils.js'></script>
 	<script src='js/video-utils.js'></script>
 	
@@ -30,14 +33,14 @@
 	<script id='fshader' type='text/plain'>
 		precision mediump float;
 		uniform sampler2D sampler0;
-		uniform float width;
-		uniform float height;
+		uniform float width, height;
+		uniform float K1, K2;
 		vec2 flip(vec2 st) {
 			return vec2(st.x/width, 1. - st.y/height);
 		}
 		vec3 posterize(vec3 rgb) {
-			float gamma = .9;
-			float ncolors = 8.;
+			float gamma = K1;
+			float ncolors = K2;
 			rgb = pow(rgb, vec3(gamma, gamma, gamma));
 			rgb = rgb * ncolors;
 			rgb = floor(rgb);
@@ -73,7 +76,7 @@
 	<script>
 		var videoScale = .75;
 		var video, c, gl, shader;
-		var tLocation, rLocation, gLocation, bLocation;
+		var k1Location, k2Location;
 
 		document.addEventListener("DOMContentLoaded", function(event) {
 			video = document.getElementById('video');
@@ -104,18 +107,14 @@
 			gl.useProgram(program);
 
 			// SET SHADER VARIABLES
-			tLocation = gl.getUniformLocation(program, 'T');
-			rLocation = gl.getUniformLocation(program, 'R');
-			gLocation = gl.getUniformLocation(program, 'G');
-			bLocation = gl.getUniformLocation(program, 'B');
+			k1Location = gl.getUniformLocation(program, 'K1');
+			k2Location = gl.getUniformLocation(program, 'K2');
 			var widthLocation = gl.getUniformLocation(program, 'width');
 			var heightLocation = gl.getUniformLocation(program, 'height');
 			var samplerLocation = gl.getUniformLocation(program, 'sampler0');
 			var positionLocation = gl.getAttribLocation(program, 'position');
-			gl.uniform1f(tLocation, 5.);
-			gl.uniform1f(rLocation, .5);
-			gl.uniform1f(gLocation, .5);
-			gl.uniform1f(bLocation, .5);
+			gl.uniform1f(k1Location, .6);
+			gl.uniform1f(k2Location, 8.);
 			gl.uniform1f(widthLocation, c.width);
 			gl.uniform1f(heightLocation, c.height);
 			gl.uniform1i(samplerLocation, 0);
@@ -149,4 +148,18 @@
 			var dataURL = c.toDataURL();
 			document.getElementById('snapshot-img').src = dataURL;
 		}
+		
+		// -- Sliders --
+		
+		var slider_data = [ 
+			{ label:'GAMMA', options:{min:0., max:1., step:.01, value:.6}, slide:function(value) {
+				gl.uniform1f(k1Location, value);}},
+			{ label:'NCOLORS', options:{min:2., max:20., step:1., value:8.}, slide:function(value) {
+				gl.uniform1f(k2Location, value);}},
+		];
+
+		for (var i = 0; i < slider_data.length; i++) 
+			JQueryUISlider.CreateSlider('#controls', slider_data[i]);
+		
+		JQueryUISlider.AddSliderStyle();
 	</script>
