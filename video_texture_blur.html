@@ -41,7 +41,8 @@
 		vec3 posterize(vec3 rgb) {
 			float gamma = K1;
 			float ncolors = K2;
-			rgb = pow(rgb, vec3(gamma, gamma, gamma));
+			//rgb = pow(rgb, vec3(gamma, gamma, gamma));
+			rgb = pow(rgb, gamma);
 			rgb = rgb * ncolors;
 			rgb = floor(rgb);
 			rgb = rgb / ncolors;
