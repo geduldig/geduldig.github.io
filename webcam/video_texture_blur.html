@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="../css/style.css">
 <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
 
 <body> 
@@ -34,22 +34,49 @@
 		precision mediump float;
 		uniform sampler2D sampler0;
 		uniform float width, height;
-		uniform float T, R, G, B;
-		const vec3 W = vec3(0.2125, 0.7154, 0.0721);
+		uniform float K1, K2;
+		vec2 flip(vec2 st) {
+			return vec2(st.x/width, 1. - st.y/height);
+		}
+		vec3 posterize(vec3 rgb) {
+			float gamma = K1;
+			float ncolors = K2;
+			rgb = pow(rgb, vec3(gamma, gamma, gamma));
+			rgb = rgb * ncolors;
+			rgb = floor(rgb);
+			rgb = rgb / ncolors;
+			return pow(rgb, vec3(1./gamma));
+		}
+		vec3 colorLookup(int i, vec2 neighbor, float kernel) {
+			vec2 onePixel = vec2(1.0, 1.0);
+			vec3 rgb = posterize((texture2D(sampler0, flip(gl_FragCoord.st + onePixel*neighbor)).rgb))*kernel;
+			return rgb;
+		}
 		void main() {
-			vec3 L = vec3(R, G, B);
-			vec2 st = vec2(gl_FragCoord.s/width, 1. - gl_FragCoord.t/height);
-			vec3 irgb = texture2D(sampler0, st).rgb; 
-			float luminance = dot(irgb, W);
-			vec3 target = L*vec3(luminance, luminance, luminance); 
-			gl_FragColor = vec4(mix(target, irgb, T), 1.);
+			float kernel[9];
+			kernel[0]=0.045, kernel[1]=0.122, kernel[2]=0.045,
+			kernel[3]=0.122, kernel[4]=0.332, kernel[5]=0.122,
+			kernel[6]=0.045, kernel[7]=0.122, kernel[8]=0.045;
+			vec2 neighbor[9];
+			neighbor[0]=vec2(-1,-1), neighbor[1]=vec2(0,-1), neighbor[2]=vec2(1,-1),
+			neighbor[3]=vec2(-1,0), neighbor[4]=vec2(0,0), neighbor[5]=vec2(1,0),
+			neighbor[6]=vec2(-1,1), neighbor[7]=vec2(0,1), neighbor[8]=vec2(1,1);
+			vec3 colorSum = vec3(0,0,0);
+			for (int i = 0; i < 9; i++)
+				colorSum += colorLookup(i, neighbor[i], kernel[i]);
+			float kernelWeight = .25;
+			gl_FragColor = vec4(posterize(colorSum)/kernelWeight, 1.0);
+			/*
+			vec3 rgb = posterize(texture2D(sampler0, flip(gl_FragCoord.st)).rgb);
+			gl_FragColor = vec4(rgb, 1.);
+			*/
 		}
 	</script>
 	
 	<script>
 		var videoScale = .75;
 		var video, c, gl, shader;
-		var tLocation, rLocation, gLocation, bLocation;
+		var k1Location, k2Location;
 
 		document.addEventListener("DOMContentLoaded", function(event) {
 			video = document.getElementById('video');
@@ -80,18 +107,14 @@
 			gl.useProgram(program);
 
 			// SET SHADER VARIABLES
-			tLocation = gl.getUniformLocation(program, 'T');
-			rLocation = gl.getUniformLocation(program, 'R');
-			gLocation = gl.getUniformLocation(program, 'G');
-			bLocation = gl.getUniformLocation(program, 'B');
+			k1Location = gl.getUniformLocation(program, 'K1');
+			k2Location = gl.getUniformLocation(program, 'K2');
 			var widthLocation = gl.getUniformLocation(program, 'width');
 			var heightLocation = gl.getUniformLocation(program, 'height');
 			var samplerLocation = gl.getUniformLocation(program, 'sampler0');
 			var positionLocation = gl.getAttribLocation(program, 'position');
-			gl.uniform1f(tLocation, 5.);
-			gl.uniform1f(rLocation, .5);
-			gl.uniform1f(gLocation, .5);
-			gl.uniform1f(bLocation, .5);
+			gl.uniform1f(k1Location, .6);
+			gl.uniform1f(k2Location, 8.);
 			gl.uniform1f(widthLocation, c.width);
 			gl.uniform1f(heightLocation, c.height);
 			gl.uniform1i(samplerLocation, 0);
@@ -129,14 +152,10 @@
 		// -- Sliders --
 		
 		var slider_data = [ 
-			{ label:'A', options:{min:0., max:10., step:.05, value:5.}, slide:function(value) {
-				gl.uniform1f(tLocation, value);}},
-			{ label:'B', options:{min:0., max:2., step:.01, value:.5}, slide:function(value) {
-				gl.uniform1f(rLocation, value);}},
-			{ label:'C', options:{min:0., max:2., step:.01, value:.5}, slide:function(value) {
-				gl.uniform1f(gLocation, value);}},
-			{ label:'D', options:{min:0., max:2., step:.01, value:.5}, slide:function(value) {
-				gl.uniform1f(bLocation, value);}}
+			{ label:'GAMMA', options:{min:0., max:1., step:.01, value:.6}, slide:function(value) {
+				gl.uniform1f(k1Location, value);}},
+			{ label:'NCOLORS', options:{min:2., max:20., step:1., value:8.}, slide:function(value) {
+				gl.uniform1f(k2Location, value);}},
 		];
 
 		for (var i = 0; i < slider_data.length; i++) 

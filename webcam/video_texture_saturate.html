@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="../css/style.css" />
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
 
 <body> 
 	<div class='container' id='main'>
@@ -10,13 +11,15 @@
 	<div id='controls' style='display:none'>
 		<span style='float:right'>
 			<button id='snapshot-btn' onclick='snapshot()'>Snapshot</button>
-			<button id='saturation-btn' onclick='saturation()'>Toggle Saturation</button>
 		</span>
 		<div id='snapshot-section'>
 			<img id='snapshot-img'></img>
 		</div>
 	</div>
 
+	<script src='http://code.jquery.com/jquery-latest.min.js'></script>
+	<script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js'></script>
+	<script src='js/JQueryUISlider.js'></script>
 	<script src='js/webgl-utils.js'></script>
 	<script src='js/video-utils.js'></script>
 	
@@ -28,75 +31,25 @@
 	</script>
 
 	<script id='fshader' type='text/plain'>
-		precision highp float;
+		precision mediump float;
 		uniform sampler2D sampler0;
 		uniform float width, height;
-		uniform float R, G, B;
-		const int radius = 3;
-		const float n = float((radius + 1) * (radius + 1));
+		uniform float T, R, G, B;
 		const vec3 W = vec3(0.2125, 0.7154, 0.0721);
-		const float T = 5.;
-
-		vec3 saturate(vec3 irgb) {
+		void main() {
 			vec3 L = vec3(R, G, B);
-			float luminance = dot(irgb, W);
 			vec2 st = vec2(gl_FragCoord.s/width, 1. - gl_FragCoord.t/height);
+			vec3 irgb = texture2D(sampler0, st).rgb; 
+			float luminance = dot(irgb, W);
 			vec3 target = L*vec3(luminance, luminance, luminance); 
-			return mix(target, irgb, T);
-		}
-
-		void main (void) {
-			vec2 src_size = vec2(width, height);
-			vec2 uv = vec2(gl_FragCoord.s/width, 1. - gl_FragCoord.t/height);
-			vec3 m[4];
-			vec3 s[4];
-			m[0] = m[1] = m[2] = m[3] = vec3(0.0); 
-			s[0] = s[1] = s[2] = s[3] = vec3(0.0); 
-			for (int j = -radius; j <= 0; ++j)  {
-				for (int i = -radius; i <= 0; ++i)  {
-					vec3 c = texture2D(sampler0, uv + vec2(i,j) / src_size).rgb;
-					m[0] += c;
-					s[0] += c * c;
-				}
-			}
-			for (int j = -radius; j <= 0; ++j)  {
-				for (int i = 0; i <= radius; ++i)  {
-					vec3 c = texture2D(sampler0, uv + vec2(i,j) / src_size).rgb;
-					m[1] += c;
-					s[1] += c * c;
-				}
-			}
-			for (int j = 0; j <= radius; ++j)  {
-				for (int i = 0; i <= radius; ++i)  {
-					vec3 c = texture2D(sampler0, uv + vec2(i,j) / src_size).rgb;
-					m[2] += c;
-					s[2] += c * c;
-				}
-			}
-			for (int j = 0; j <= radius; ++j)  {
-				for (int i = -radius; i <= 0; ++i)  {
-					vec3 c = texture2D(sampler0, uv + vec2(i,j) / src_size).rgb;
-					m[3] += c;
-					s[3] += c * c;
-				}
-			}
-			float min_sigma2 = 1e+2;
-			for (int k = 0; k < 4; ++k) {
-				m[k] /= n;
-				s[k] = abs(s[k] / n - m[k] * m[k]);
-				float sigma2 = s[k].r + s[k].g + s[k].b;
-				if (sigma2 < min_sigma2) {
-					min_sigma2 = sigma2;
-					gl_FragColor = vec4(saturate(m[k]), 1.0);
-				}
-			}
+			gl_FragColor = vec4(mix(target, irgb, T), 1.);
 		}
 	</script>
 	
 	<script>
 		var videoScale = .75;
 		var video, c, gl, shader;
-		var rLocation, gLocation, bLocation;
+		var tLocation, rLocation, gLocation, bLocation;
 
 		document.addEventListener("DOMContentLoaded", function(event) {
 			video = document.getElementById('video');
@@ -127,6 +80,7 @@
 			gl.useProgram(program);
 
 			// SET SHADER VARIABLES
+			tLocation = gl.getUniformLocation(program, 'T');
 			rLocation = gl.getUniformLocation(program, 'R');
 			gLocation = gl.getUniformLocation(program, 'G');
 			bLocation = gl.getUniformLocation(program, 'B');
@@ -134,6 +88,7 @@
 			var heightLocation = gl.getUniformLocation(program, 'height');
 			var samplerLocation = gl.getUniformLocation(program, 'sampler0');
 			var positionLocation = gl.getAttribLocation(program, 'position');
+			gl.uniform1f(tLocation, 5.);
 			gl.uniform1f(rLocation, .5);
 			gl.uniform1f(gLocation, .5);
 			gl.uniform1f(bLocation, .5);
@@ -170,20 +125,22 @@
 			var dataURL = c.toDataURL();
 			document.getElementById('snapshot-img').src = dataURL;
 		}
-
-		var rgb = [
-			[0.5, 0.5, 0.5],
-			[0.9, 1.1, 1.4],
-			[1.2, 1.1, 2.0],
-			[1.6, 0.8, 1.6],
-			[1.2, 1.1, 1.1]
-		];
-		var irgb = 0;
 		
-		function saturation() {
-			irgb = ++irgb % rgb.length;
-			gl.uniform1f(rLocation, rgb[irgb][0]);
-			gl.uniform1f(gLocation, rgb[irgb][1]);
-			gl.uniform1f(bLocation, rgb[irgb][2]);
-		}
+		// -- Sliders --
+		
+		var slider_data = [ 
+			{ label:'A', options:{min:0., max:10., step:.05, value:5.}, slide:function(value) {
+				gl.uniform1f(tLocation, value);}},
+			{ label:'B', options:{min:0., max:2., step:.01, value:.5}, slide:function(value) {
+				gl.uniform1f(rLocation, value);}},
+			{ label:'C', options:{min:0., max:2., step:.01, value:.5}, slide:function(value) {
+				gl.uniform1f(gLocation, value);}},
+			{ label:'D', options:{min:0., max:2., step:.01, value:.5}, slide:function(value) {
+				gl.uniform1f(bLocation, value);}}
+		];
+
+		for (var i = 0; i < slider_data.length; i++) 
+			JQueryUISlider.CreateSlider('#controls', slider_data[i]);
+		
+		JQueryUISlider.AddSliderStyle();
 	</script>
