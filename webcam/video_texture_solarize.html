@@ -48,9 +48,9 @@
 			vec2 st = vec2(gl_FragCoord.s/width, 1. - gl_FragCoord.t/height);
 			vec3 c = texture2D(sampler0, st).rgb; 
 			float lum = 0.21*c.r + 0.72*c.g + 0.07*c.b;
-			if (lum > 0.9)
+			if (lum > T)
 				lum = 1.0 - lum;
-			else if (lum < 0.1)
+			else if (lum < R)
 				lum = 0.5;
 			gl_FragColor = vec4(lum, lum, lum, 1.);
 		}
@@ -98,8 +98,8 @@
 			var heightLocation = gl.getUniformLocation(program, 'height');
 			var samplerLocation = gl.getUniformLocation(program, 'sampler0');
 			var positionLocation = gl.getAttribLocation(program, 'position');
-			gl.uniform1f(tLocation, 5.);
-			gl.uniform1f(rLocation, .5);
+			gl.uniform1f(tLocation, .9);
+			gl.uniform1f(rLocation, .1);
 			gl.uniform1f(gLocation, .5);
 			gl.uniform1f(bLocation, .5);
 			gl.uniform1f(widthLocation, c.width);
@@ -139,9 +139,9 @@
 		// -- Sliders --
 		
 		var slider_data = [ 
-			{ label:'A', options:{min:0., max:10., step:.05, value:5.}, slide:function(value) {
+			{ label:'A', options:{min:0., max:1., step:.01, value:.9}, slide:function(value) {
 				gl.uniform1f(tLocation, value);}},
-			{ label:'B', options:{min:0., max:2., step:.01, value:.5}, slide:function(value) {
+			{ label:'B', options:{min:0., max:1., step:.01, value:.1}, slide:function(value) {
 				gl.uniform1f(rLocation, value);}},
 			{ label:'C', options:{min:0., max:2., step:.01, value:.5}, slide:function(value) {
 				gl.uniform1f(gLocation, value);}},
