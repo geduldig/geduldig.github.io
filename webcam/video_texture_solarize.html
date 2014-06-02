@@ -47,7 +47,8 @@
 			*/
 			vec2 st = vec2(gl_FragCoord.s/width, 1. - gl_FragCoord.t/height);
 			vec3 c = texture2D(sampler0, st).rgb; 
-			gl_FragColor = vec4(0.21*c.r, 0.72*c.g, 0.07*c.b, 1.);
+			float lum = 0.21*c.r + 0.72*c.g + 0.07*c.b;
+			gl_FragColor = vec4(lum, lum, lum, 1.);
 		}
 	</script>
 	
