@@ -145,9 +145,9 @@
 		
 		var slider_data = [ 
 			{ label:'A', options:{min:0., max:1., step:.01, value:.2}, slide:function(value) {
-				gl.uniform1f(tLocation, value);}},
+				gl.uniform1f(aLocation, value);}},
 			{ label:'B', options:{min:0., max:4., step:.01, value:1.}, slide:function(value) {
-				gl.uniform1f(rLocation, value);}}
+				gl.uniform1f(bLocation, value);}}
 		];
 
 		for (var i = 0; i < slider_data.length; i++) 
