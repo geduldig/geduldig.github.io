@@ -3,4 +3,4 @@
 
 WebGL processing of webcam video.
 
-How to save tweets to couchdb.
+Mini-Tutorial How to save tweets to couchdb.
