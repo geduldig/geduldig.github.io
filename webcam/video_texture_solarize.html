@@ -53,6 +53,7 @@
 			else
 				lum = 2.0*lum - 1.0;
 			*/
+			lum = pow(lum, R);
 			if (lum < 0.5)
 				lum = (4.0 - 4.0*T)*(lum - 0.5)*(lum - 0.5) + T;
 				//lum = 2.0*(lum - 0.5)*(lum - 0.5) + 0.5;
@@ -105,8 +106,8 @@
 			var heightLocation = gl.getUniformLocation(program, 'height');
 			var samplerLocation = gl.getUniformLocation(program, 'sampler0');
 			var positionLocation = gl.getAttribLocation(program, 'position');
-			gl.uniform1f(tLocation, .9);
-			gl.uniform1f(rLocation, .1);
+			gl.uniform1f(tLocation, .2);
+			gl.uniform1f(rLocation, 1.);
 			gl.uniform1f(gLocation, .5);
 			gl.uniform1f(bLocation, .5);
 			gl.uniform1f(widthLocation, c.width);
@@ -146,9 +147,9 @@
 		// -- Sliders --
 		
 		var slider_data = [ 
-			{ label:'A', options:{min:0., max:1., step:.01, value:.9}, slide:function(value) {
+			{ label:'A', options:{min:0., max:1., step:.01, value:.2}, slide:function(value) {
 				gl.uniform1f(tLocation, value);}},
-			{ label:'B', options:{min:0., max:1., step:.01, value:.1}, slide:function(value) {
+			{ label:'B', options:{min:0., max:4., step:.01, value:1.}, slide:function(value) {
 				gl.uniform1f(rLocation, value);}},
 			{ label:'C', options:{min:0., max:2., step:.01, value:.5}, slide:function(value) {
 				gl.uniform1f(gLocation, value);}},
