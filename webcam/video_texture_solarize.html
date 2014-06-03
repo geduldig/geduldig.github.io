@@ -34,33 +34,33 @@
 		precision mediump float;
 		uniform sampler2D sampler0;
 		uniform float width, height;
-		uniform float T, R, G, B;
+		uniform float A, B;
 		void main() {
 			vec2 st = vec2(gl_FragCoord.s/width, 1. - gl_FragCoord.t/height);
 			vec3 c = texture2D(sampler0, st).rgb; 
 			/*
 			float lum = 0.21*c.r + 0.72*c.g + 0.07*c.b;
-			lum = pow(lum, R);
+			lum = pow(lum, B);
 			if (lum < 0.5)
-				lum = (4.0 - 4.0*T)*(lum - 0.5)*(lum - 0.5) + T;
+				lum = (4.0 - 4.0*A)*(lum - 0.5)*(lum - 0.5) + A;
 			else
-				lum = (2.0 - 2.0*T)*lum + 2.0*T - 1.0;
+				lum = (2.0 - 2.0*A)*lum + 2.0*A - 1.0;
 			*/
-			float r = pow(c.r, R);
-			float g = pow(c.g, R);
-			float b = pow(c.b, R);
+			float r = pow(c.r, B);
+			float g = pow(c.g, B);
+			float b = pow(c.b, B);
 			if (r < 0.5)
-				r = (4.0 - 4.0*T)*(r - 0.5)*(r - 0.5) + T;
+				r = (4.0 - 4.0*A)*(r - 0.5)*(r - 0.5) + A;
 			else
-				r = (2.0 - 2.0*T)*r + 2.0*T - 1.0;
+				r = (2.0 - 2.0*A)*r + 2.0*A - 1.0;
 			if (g < 0.5)
-				g = (4.0 - 4.0*T)*(g - 0.5)*(g - 0.5) + T;
+				g = (4.0 - 4.0*A)*(g - 0.5)*(g - 0.5) + A;
 			else
-				g = (2.0 - 2.0*T)*g + 2.0*T - 1.0;
+				g = (2.0 - 2.0*A)*g + 2.0*A - 1.0;
 			if (b < 0.5)
-				b = (4.0 - 4.0*T)*(b - 0.5)*(b - 0.5) + T;
+				b = (4.0 - 4.0*A)*(b - 0.5)*(b - 0.5) + A;
 			else
-				b = (2.0 - 2.0*T)*b + 2.0*T - 1.0;
+				b = (2.0 - 2.0*A)*b + 2.0*A - 1.0;
 			gl_FragColor = vec4(r, g, b, 1.);
 		}
 	</script>
@@ -68,7 +68,7 @@
 	<script>
 		var videoScale = .75;
 		var video, c, gl, shader;
-		var tLocation, rLocation, gLocation, bLocation;
+		var aLocation, bLocation;
 
 		document.addEventListener("DOMContentLoaded", function(event) {
 			video = document.getElementById('video');
@@ -99,18 +99,14 @@
 			gl.useProgram(program);
 
 			// SET SHADER VARIABLES
-			tLocation = gl.getUniformLocation(program, 'T');
-			rLocation = gl.getUniformLocation(program, 'R');
-			gLocation = gl.getUniformLocation(program, 'G');
+			aLocation = gl.getUniformLocation(program, 'A');
 			bLocation = gl.getUniformLocation(program, 'B');
 			var widthLocation = gl.getUniformLocation(program, 'width');
 			var heightLocation = gl.getUniformLocation(program, 'height');
 			var samplerLocation = gl.getUniformLocation(program, 'sampler0');
 			var positionLocation = gl.getAttribLocation(program, 'position');
-			gl.uniform1f(tLocation, .2);
-			gl.uniform1f(rLocation, 1.);
-			gl.uniform1f(gLocation, .5);
-			gl.uniform1f(bLocation, .5);
+			gl.uniform1f(aLocation, .2);
+			gl.uniform1f(bLocation, 1.);
 			gl.uniform1f(widthLocation, c.width);
 			gl.uniform1f(heightLocation, c.height);
 			gl.uniform1i(samplerLocation, 0);
@@ -151,11 +147,7 @@
 			{ label:'A', options:{min:0., max:1., step:.01, value:.2}, slide:function(value) {
 				gl.uniform1f(tLocation, value);}},
 			{ label:'B', options:{min:0., max:4., step:.01, value:1.}, slide:function(value) {
-				gl.uniform1f(rLocation, value);}},
-			{ label:'C', options:{min:0., max:2., step:.01, value:.5}, slide:function(value) {
-				gl.uniform1f(gLocation, value);}},
-			{ label:'D', options:{min:0., max:2., step:.01, value:.5}, slide:function(value) {
-				gl.uniform1f(bLocation, value);}}
+				gl.uniform1f(rLocation, value);}}
 		];
 
 		for (var i = 0; i < slider_data.length; i++) 
