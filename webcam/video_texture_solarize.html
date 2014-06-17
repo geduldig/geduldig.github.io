@@ -8,7 +8,7 @@
 		<video id='video' autoplay='true' style='display:none'></video>
 		<canvas id='c'></canvas>
 	</div>
-	<div id='controls'>
+	<div id='controls' style='display:none'>
 		<span style='float:right'>
 			<button id='snapshot-btn' onclick='snapshot()'>Snapshot</button>
 		</span>
@@ -120,6 +120,7 @@
 		}
 		
 		function snapshot() {
+			console.log('asdf')
 			var dataURL = c.toDataURL();
 			document.getElementById('snapshot-img').src = dataURL;
 		}
