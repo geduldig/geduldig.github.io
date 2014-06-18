@@ -67,7 +67,8 @@
 		document.addEventListener("DOMContentLoaded", function(event) {
 			video = document.getElementById('video');
 			c = document.getElementById('c');
-			gl = c.getContext('experimental-webgl') || c.getContext('webgl');
+			var opt = {preserveDrawingBuffer:true};
+			gl = c.getContext('experimental-webgl', opt) || c.getContext('webgl', opt);
 			shader = new webglShader(gl);
 			
 			setupCamera(video, function(err, stream) { 
