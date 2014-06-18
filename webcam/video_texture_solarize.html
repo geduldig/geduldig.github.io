@@ -56,7 +56,7 @@
 		document.addEventListener("DOMContentLoaded", function(event) {
 			video = document.getElementById('video');
 			c = document.getElementById('c');
-			var opt = {preseverDrawingBuffer:true};
+			var opt = {preserveDrawingBuffer:true};
 			gl = c.getContext('experimental-webgl', opt) || c.getContext('webgl', opt);
 			shader = new webglShader(gl);
 			
