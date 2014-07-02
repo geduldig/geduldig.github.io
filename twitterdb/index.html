@@ -19,7 +19,7 @@
         <h2>Accessing the Database</h2>
       </header>
       <p>
-Let's begin with a class <mark>TweetStore</mark> that encapsulates creating the database, writing records to the database, and reading records from the database.  All the real work interacting with the CouchDB server is done via <a href='https://code.google.com/p/couchdb-python/'>couchdb-python</a>. To keep things simple, the class initializer always creates a new database or opens an existing database if there already is one with the given name.
+Let's begin by creating a class <mark>TweetStore</mark> for the purpose of creating the database, writing records to the database, and reading records from the database.  All the real work interacting with the CouchDB server is done via <a href='https://code.google.com/p/couchdb-python/'>couchdb-python</a>. To keep things simple, the class initializer will either create a new database or open an existing database if there already is one with the given name.
       </p>
       <p>
         <pre>
@@ -191,9 +191,9 @@ That's it!  Try other Twitter endpoints that download tweets, such as <a href='h
     <section>
       <h4>Python Tutorial Source Code</h4>
       <ul>
-        <li><a href='code/TweetStore.py' target='_self'>TweetStore.py</a></li>
-        <li><a href='code/savetweets.py' target='_self'>savetweets.py</a></li>
-        <li><a href='code/gettweets.py' target='_top'>gettweets.py</a></li>
+        <li><a href='code/TweetStore.py'>TweetStore.py</a></li>
+        <li><a href='code/savetweets.py'>savetweets.py</a></li>
+        <li><a href='code/gettweets.py'>gettweets.py</a></li>
       </ul>
     </section>
   </aside>
