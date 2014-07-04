@@ -31,7 +31,7 @@ while True:
 		while True:
 			for item in r.get_iterator():
 				if 'text' in item:
-						process_tweet(item['text'])
+					process_tweet(item['text'])
 				elif 'limit' in item:
 					skip = item['limit'].get('track')
 					print('\n\n\n*** Skipped %d tweets\n\n\n' % (total_skip + skip))
