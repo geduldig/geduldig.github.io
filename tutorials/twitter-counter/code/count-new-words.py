@@ -25,7 +25,7 @@ def process_tweet(text):
 
 
 while True:
-  skip = 0
+	skip = 0
 	try:
 		r = api.request('statuses/filter', {'track':words})
 		while True:
