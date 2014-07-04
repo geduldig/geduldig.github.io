@@ -15,89 +15,53 @@
   <article>
     <section>
       <header>
-        <h2>Accessing the Database</h2>
+        <h2>The Challenge</h2>
       </header>
       <p>
-Let's begin by creating a class <mark>TweetStore</mark> for the purpose of creating the database, writing records to the database, and reading records from the database.  All the real work interacting with the CouchDB server is done via <a href='https://code.google.com/p/couchdb-python/'>couchdb-python</a>. To keep things simple, the class initializer will either create a new database or open an existing database if there already is one with the given name.
+Given a list of words, how do we count how many tweets contain each word? A word here is anything separated by whitespace. A word could be a hashtag. The tweet could be among those currently being tweeted, or the tweet could have happened in the past but not more than roughly a week in the past. Twitter does not retain older tweets.
+      </p>
+    </section>
+    
+    <section>
+      <header>
+        <h2>Twitter</h2>
+      </header>
+      <p>
+Twitter supports two types of API's to interact with their service.  The two API's differ in the type of connection being made.  The Streaming API uses a continuous connection that doesn't close until the client breaks the connection. The REST API always closes the connection to the client after returning a result. Each API has many URL endpoints for making various types of requests.
+      </p>
+      <p>
+We will the TwitterAPI package to simplify our Twitter requests.  The package supports all API endpoints and works with Python 2 and Python 3.  The endpoints we need are statuses/filter to get new tweets and search/tweets to get old tweets. But, before you can make requests, Twitter requires that you create an application and generate credentials on their website. You must provide these credentials when working with the API's.
       </p>
       <p>
         <pre>
           <code data-language='python'>
-            import couchdb
-            
-            class TweetStore(object):
-              def __init__(self, dbname, url='http://127.0.0.1:5984/'):
-                try:
-                  self.server = couchdb.Server(url=url)
-                  self.db = self.server.create(dbname)
-                  self._create_views()
-                except couchdb.http.PreconditionFailed:
-                  self.db = self.server[dbname]
-          </code>
-        </pre>
-      </p>
-      <p>
-CouchDB includes a <a href='http://en.wikipedia.org/wiki/Representational_state_transfer'>REST</a> API for all database requests.  The default port is 5984, so we use <mark>http://127.0.0.1:5984</mark> to specify the CouchDB server running on our local machine.  When instantiating <mark>TweetStore</mark> for a database that does not yet exist, <mark>__init__</mark> creates the database and calls method <mark>_create_views</mark>.  Here is what that looks like.
-      </p>
-      <p>
-        <pre>
-          <code data-language='python'>
-            def _create_views(self):
-              count_map = 'function(doc) { emit(doc.id, 1); }'
-              count_reduce = 'function(keys, values) { return sum(values); }'
-              view = couchdb.design.ViewDefinition('twitter', 
-                                                   'count_tweets', 
-                                                   count_map, 
-                                                   reduce_fun=count_reduce)
-              view.sync(self.db)
+            from TwitterAPI import TwitterAPI
 
-              get_tweets = 
-                'function(doc) { emit(("0000000000000000000"+doc.id).slice(-19), doc); }'
-              view = couchdb.design.ViewDefinition('twitter', 'get_tweets', get_tweets)
-              view.sync(self.db)
-          </code>
-        </pre>
-      </p>
-      <p>
-The <mark>_create_views</mark> method initializes the database with two views.  As the names imply, the <mark>count_tweets</mark> view returns a total count of tweets, and the <mark>get_tweets</mark> view returns all the stored tweet documents.  The views themselves are also stored as documents inside the database.  There is more to say about views that is beyond the scope here.  I will just point out that <mark>count_tweets</mark> is composed of two JavaScript functions that work together to perform <a href='http://en.wikipedia.org/wiki/MapReduce'>MapReduce</a>.  Also, views accept parameters which let you further refine a query, so <mark>get_tweets</mark> does not necessarily have to return <i>all</i> tweets.
-      </p>
-      <p>
-CouchDB requires that views <mark>emit</mark> a key along with each document.  The key can be anything.  Often, it is the document key <mark>doc._id</mark>.  Looking at the  <mark>get_tweets</mark> definition you will see that it instead returns <mark>doc.id</mark> (no hyphen), the long integer id that Twitter assigns to a tweet.  
-      </p>
-      <p>
-<i>So, why does <mark>get_tweets</mark> pad <mark>doc.id</mark> with 19 zeros, then slice off everything except the right-most 19 characters?</i>  
-      </p>
-      <p>
-The first problem is long integers max out at 2<sup>63</sup> (19 digits) and JavaScript numbers max out at only 2<sup>53</sup> (16 digits).  The solution to this is to represent the id as a string.  But, if we require that <mark>get_tweets</mark> outputs tweets that are sorted by id (i.e. in chronological order), a new problem arises: the id may have 1 to 19 digits, and as a string the id no longer sorts numerically but alpha-numerically.  ("77" incorrectly sorts after "1000".)  So, the zero-padding normalizes the id to 19 characters, and alpha-numeric sorting now works correctly like numeric sorting.
-        </i>
-      </p>
-      <p>
-The <mark>TweetStore</mark> class is almost completed.  All that is left is writing and reading.  CouchDB stores each record as a document.  A document is simply a <a href='http://en.wikipedia.org/wiki/JSON'>JSON</a> string with one required field, the document key, named <mark>_id</mark>.  Conveniently, Twitter returns each tweet as a JSON string, so that goes unchanged into the document.  For the document key we simply re-use the tweet's id.  Here is that.
-      </p>
-      <p>
-        <pre>
-          <code data-language='python'>
-            def save_tweet(self, tw):
-              tw['_id'] = tw['id_str']
-              self.db.save(tw)
-          </code>
-        </pre>
-      </p>
-      <p>
-The last thing to expose as methods are the views for counting and getting tweets.  
-        <pre>
-          <code data-language='python'>
-            def count_tweets(self):
-              for doc in self.db.view('twitter/count_tweets'):
-                return doc.value
-
-            def get_tweets(self):
-              return self.db.view('twitter/get_tweets')
+            api = TwitterAPI(API_KEY, API_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
           </code>
         </pre>
       </p>
     </section>
-  
+    
+    <section>
+      <header>
+        <h2>Counting New Tweets</h2>
+      </header>
+      <p>
+Requesting new tweets with statuses/filter uses a continuous connection. So, we can keep getting tweets until either we or Twitter breaks the connection.  If we are careful, we can receive tweets forever.  This is how we get tweets using TwitterAPI.
+      </p>
+      <p>
+        <pre>
+          <code data-language='python'>
+        		r = api.request('statuses/filter', {'track':'dog,cat,giraffe'})
+      			for item in r.get_iterator():
+    					print(item['text'])
+          </code>
+        </pre>
+      </p>
+    </section>
+    
+
     <section>
       <header>
         <h2>Mining for Tweets</h2>
