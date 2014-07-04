@@ -1,36 +1,38 @@
-import couchdb
-import couchdb.design
+from TwitterAPI import TwitterAPI, TwitterRestPager
 
 
-COUCH_SERVER = 'http://127.0.0.1:5984/'
+WORDS_TO_COUNT = ['pizza', 'hamburger', 'plywood']
 
 
-class TweetStore(object):
-	def __init__(self, dbname, url=COUCH_SERVER):
-		try:
-			self.server = couchdb.Server(url=url)
-			self.db = self.server.create(dbname)
-			self._create_views()
-		except couchdb.http.PreconditionFailed:
-			self.db = self.server[dbname]
+API_KEY = XXX
+API_SECRET = XXX
+ACCESS_TOKEN = XXX
+ACCESS_TOKEN_SECRET = XXX
 
-	def _create_views(self):
-		count_map = 'function(doc) { emit(doc.id, 1); }'
-		count_reduce = 'function(keys, values) { return sum(values); }'
-		view = couchdb.design.ViewDefinition('twitter', 'count_tweets', count_map, reduce_fun=count_reduce)
-		view.sync(self.db)
 
-		get_tweets = 'function(doc) { emit(("0000000000000000000"+doc.id).slice(-19), doc); }'
-		view = couchdb.design.ViewDefinition('twitter', 'get_tweets', get_tweets)
-		view.sync(self.db)
+api = TwitterAPI(API_KEY, API_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+words = ' OR '.join(WORDS_TO_COUNT)
+counts = dict((word,0) for word in WORDS_TO_COUNT)
 
-	def save_tweet(self, tw):
-		tw['_id'] = tw['id_str']
-		self.db.save(tw)
 
-	def count_tweets(self):
-		for doc in self.db.view('twitter/count_tweets'):
-			return doc.value
+def process_tweet(text):
+	text = text.lower()
+	for word in WORDS_TO_COUNT:
+		if word in text:
+			counts[word] += 1
+	print(counts)
 
-	def get_tweets(self):
-		return self.db.view('twitter/get_tweets')
+
+while True:
+	pager = TwitterRestPager(api, 'search/tweets', {'q':words, 'count':100})
+	for item in pager.get_iterator():
+		if 'text' in item:
+			process_tweet(item['text'])
+		elif 'message' in item:
+			if item['code'] == 131:
+				continue # ignore internal server error
+			elif item['code'] == 88:
+				print('Suspend search until %s' % search.get_quota()['reset'])
+			raise Exception('Message from twitter: %s' % item['message'])
+
+
