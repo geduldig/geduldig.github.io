@@ -59,6 +59,31 @@ Requesting new tweets with statuses/filter uses a continuous connection. So, we 
           </code>
         </pre>
       </p>
+      <p>
+The above code downloads tweets that any of the words 'dog', 'cat', or 'giraffe'.  It will not run forever.  The most common cause for the loop to exit is the absense of data for a period of 90 seconds or longer.  Also, Twitter sometimes sends messages other than tweets, so we should code for that too.  Here is our next attempt.
+      </p>
+      <p>
+        <pre>
+          <code data-language='python'>
+            total_skip = 0
+            while True:
+              skip = 0
+            	try:
+            		r = api.request('statuses/filter', {'track':'dog,cat,giraffe'})
+            		while True:
+            			for item in r.get_iterator():
+            				if 'text' in item:
+            					print(item['text'])
+            				elif 'limit' in item:
+            					skip = item['limit'].get('track')
+            					print('\n\n\n*** Skipped %d tweets\n\n\n' % (total_skip + skip))
+            				elif 'disconnect' in item:
+            					raise Exception('Disconnect: %s' % item['disconnect'].get('reason'))
+                except Exception as e:
+              		print('*** MUST RECONNECT %s\n' % e)
+          </code>
+        </pre>
+      </p>
     </section>
     
 
