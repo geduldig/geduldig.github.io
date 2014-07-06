@@ -53,9 +53,9 @@ Requesting new tweets with statuses/filter uses a continuous connection. So, we 
       <p>
         <pre>
           <code data-language='python'>
-        		r = api.request('statuses/filter', {'track':'dog,cat,giraffe'})
-      			for item in r.get_iterator():
-    					print(item['text'])
+        	  r = api.request('statuses/filter', {'track':'dog,cat,giraffe'})
+      		  for item in r.get_iterator():
+    			    print(item['text'])
           </code>
         </pre>
       </p>
