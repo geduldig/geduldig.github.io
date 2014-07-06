@@ -69,7 +69,7 @@ The above code downloads tweets that any of the words 'dog', 'cat', or 'giraffe'
             while True:
               skip = 0
               try:
-r = api.request('statuses/filter', {'track':'dog,cat,giraffe'})
+                r = api.request('statuses/filter', {'track':'dog,cat,giraffe'})
                 while True:
                   for item in r.get_iterator():
                     if 'text' in item:
