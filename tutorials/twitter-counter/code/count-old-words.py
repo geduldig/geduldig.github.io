@@ -1,13 +1,13 @@
 from TwitterAPI import TwitterAPI, TwitterRestPager
 
 
-WORDS_TO_COUNT = ['pizza', 'hamburger', 'plywood']
+WORDS_TO_COUNT = ['pizza', 'terror', 'plywood']
 
 
-API_KEY = XXX
-API_SECRET = XXX
-ACCESS_TOKEN = XXX
-ACCESS_TOKEN_SECRET = XXX
+API_KEY = '<use yours>'
+API_SECRET = '<use yours>'
+ACCESS_TOKEN = '<use yours>'
+ACCESS_TOKEN_SECRET = '<use yours>'
 
 
 api = TwitterAPI(API_KEY, API_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
@@ -23,16 +23,12 @@ def process_tweet(text):
 	print(counts)
 
 
-while True:
-	pager = TwitterRestPager(api, 'search/tweets', {'q':words, 'count':100})
-	for item in pager.get_iterator():
-		if 'text' in item:
-			process_tweet(item['text'])
-		elif 'message' in item:
-			if item['code'] == 131:
-				continue # ignore internal server error
-			elif item['code'] == 88:
-				print('Suspend search until %s' % search.get_quota()['reset'])
-			raise Exception('Message from twitter: %s' % item['message'])
+r = TwitterRestPager(api, 'search/tweets', {'q':words, 'count':100})
+for item in r.get_iterator(wait=6):
+	if 'text' in item:
+		process_tweet(item['text'])
+	elif 'message' in item and item['code'] == 88:
+		print('\n*** SUSPEND, RATE LIMIT EXCEEDED: %s\n' % item['message'])
+		break
 
 

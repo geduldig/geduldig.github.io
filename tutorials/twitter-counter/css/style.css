@@ -7,6 +7,9 @@ body {
 	font-weight: lighter;
 }
 
+a {
+}
+
 a:link, a:visited {
 	color: mediumblue;
 }
@@ -21,6 +24,7 @@ a:active {
 
 a:link, a:visited, a:hover, a:active {
 	text-decoration: none;
+	font-weight: thick;
 }
 
 mark {
