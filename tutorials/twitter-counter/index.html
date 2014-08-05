@@ -74,12 +74,11 @@ The above code downloads tweets containing the word "giraffe." The loop will exi
                 count += 1
               elif 'limit' in item:
                 skip = item['limit'].get('track')
-                count += skip
                 print('*** SKIPPED %d TWEETS' % skip)
               elif 'disconnect' in item:
                 print('[disconnect] %s' % item['disconnect'].get('reason'))
                 break
-              print(count);
+              print(count+skip);
           </code>
         </pre>
       </p>
