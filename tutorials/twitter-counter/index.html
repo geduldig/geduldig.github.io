@@ -67,7 +67,6 @@ The above code downloads tweets containing the word "giraffe." The loop will exi
         <pre>
           <code data-language='python'>
             count = 0
-            skip = 0
             r = api.request('statuses/filter', {'track':'giraffe'})
             for item in r:
               if 'text' in item:
