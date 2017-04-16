@@ -18,14 +18,19 @@
 		var canvas = document.querySelector('canvas');
 		var localMediaStream = null;
 
+		/*
 		navigator.getUserMedia = 
 			navigator.getUserMedia || 
 			navigator.webkitGetUserMedia || 
 			navigator.mozGetUserMedia || 
 			navigator.msGetUserMedia;
-		console.log('==navigator.getUserMedia:', navigator.getUserMedia)
-
 		navigator.getUserMedia({video:true}, onMediaStream, onMediaFail);
+		*/
+		navigator.mediaDevices.getUserMedia({video:true}).then(function(stream) {
+			onMediaStream(stream);
+		}).catch(function(err) {
+			onMediaFail(err);
+		});
 		console.log('==getUserMedia()')
 
 		function onMediaStream(stream) {
