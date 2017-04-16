@@ -26,11 +26,20 @@
 			navigator.msGetUserMedia;
 		navigator.getUserMedia({video:true}, onMediaStream, onMediaFail);
 		*/
-		navigator.mediaDevices.getUserMedia({video:true}).then(function(stream) {
-			onMediaStream(stream);
-		}).catch(function(err) {
-			onMediaFail(err);
-		});
+		var constraints = {
+			video: {
+				width: { exact: 1280 },
+				height: { exact: 720 }
+			}
+		};
+
+		navigator.mediaDevices.getUserMedia(constraints)
+			.then(function(stream) {
+				onMediaStream(stream);
+			})
+			.catch(function(err) {
+				onMediaFail(err);
+			});
 
 		function onMediaStream(stream) {
 			window.URL = window.URL || window.webkitURL;
