@@ -31,15 +31,12 @@
 		}).catch(function(err) {
 			onMediaFail(err);
 		});
-		console.log('==getUserMedia()')
 
 		function onMediaStream(stream) {
-			console.log('==onMediaStream...')
 			window.URL = window.URL || window.webkitURL;
-			console.log('==window.URL:', window.URL)
 			//video.src = window.URL.createObjectURL(stream);
 			video.srcObject = stream;
-			console.log('==video.src:', video.src)
+			console.log('==video.src:', video.srcObject)
 			localMediaStream = stream;
 			video.onloadedmetadata = function(e) {
 				console.log('==onloadedmetadata...')
@@ -51,7 +48,7 @@
 		}
 
 		function onMediaFail(e) {
-			console.log('Camera did not work.', e);
+			console.log('Camera did not work.', e.message);
 		}
 
 		function snapshot() {
