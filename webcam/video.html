@@ -36,7 +36,8 @@
 			window.URL = window.URL || window.webkitURL;
 			//video.src = window.URL.createObjectURL(stream);
 			video.srcObject = stream;
-			console.log('==video.src:', video.srcObject)
+			console.log('==video.srcObject:', video.srcObject)
+			console.log('==video.readyState:', video.readyState)
 			localMediaStream = stream;
 			video.onloadedmetadata = function(e) {
 				console.log('==onloadedmetadata...')
