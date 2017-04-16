@@ -3,14 +3,14 @@
 <link rel="stylesheet" href="../css/style.css">
 
 <body> 
-	<div>
+	<span>
 		<video height=200 autoplay style="border:1px solid blue;"></video>
-	</div> 
+	</span> 
+	<span>
+		<canvas height="200" style="border:1px solid red;"></canvas><br>
+	</span>
 	<div>
 		<button onclick="snapshot()">Take Picture</button>
-	</div>
-	<div>
-		<canvas height="200" style="border:1px solid red;"></canvas><br>
 	</div>
 
 	<script>
@@ -23,14 +23,20 @@
 			navigator.webkitGetUserMedia || 
 			navigator.mozGetUserMedia || 
 			navigator.msGetUserMedia;
+		console.log('==navigator.getUserMedia:', navigator.getUserMedia)
 
 		navigator.getUserMedia({video:true}, onMediaStream, onMediaFail);
+		console.log('==getUserMedia()')
 
 		function onMediaStream(stream) {
+			console.log('==onMediaStream...')
 			window.URL = window.URL || window.webkitURL;
+			console.log('==window.URL:', window.URL)
 			video.src = window.URL.createObjectURL(stream);
+			console.log('==video.src:', video.src)
 			localMediaStream = stream;
 			video.onloadedmetadata = function(e) {
+				console.log('==onloadedmetadata...')
 				var h = video.height;
 				var w = h * video.videoWidth/video.videoHeight;
 				canvas.width = w;
