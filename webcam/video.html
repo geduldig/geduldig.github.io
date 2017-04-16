@@ -37,7 +37,7 @@
 			console.log('==onMediaStream...')
 			window.URL = window.URL || window.webkitURL;
 			console.log('==window.URL:', window.URL)
-			video.src = window.URL.createObjectURL(stream);
+			video.srcObject = window.URL.createObjectURL(stream);
 			console.log('==video.src:', video.src)
 			localMediaStream = stream;
 			video.onloadedmetadata = function(e) {
