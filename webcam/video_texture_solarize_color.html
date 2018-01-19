@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="../css/style.css" />
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
 
-<body> 
+<body>
 	<div class='container' id='main'>
 		<video id='video' autoplay='true' style='display:none'></video>
 		<canvas id='c'></canvas>
@@ -22,7 +22,7 @@
 	<script src='js/JQueryUISlider.js'></script>
 	<script src='js/webgl-utils.js'></script>
 	<script src='js/video-utils.js'></script>
-	
+
 	<script id='vshader' type='text/plain'>
 		attribute vec2 position;
 		void main(void) {
@@ -37,7 +37,7 @@
 		uniform float A, B;
 		void main() {
 			vec2 st = vec2(gl_FragCoord.s/width, 1. - gl_FragCoord.t/height);
-			vec3 c = texture2D(sampler0, st).rgb; 
+			vec3 c = texture2D(sampler0, st).rgb;
 			float r = pow(c.r, B);
 			float g = pow(c.g, B);
 			float b = pow(c.b, B);
@@ -56,9 +56,9 @@
 			gl_FragColor = vec4(r, g, b, 1.);
 		}
 	</script>
-	
+
 	<script>
-		var videoScale = .75;
+		var videoScale = 2;
 		var video, c, gl, shader;
 		var aLocation, bLocation;
 
@@ -68,8 +68,8 @@
 			var opt = {preserveDrawingBuffer:true};
 			gl = c.getContext('experimental-webgl', opt) || c.getContext('webgl', opt);
 			shader = new webglShader(gl);
-			
-			setupCamera(video, function(err, stream) { 
+
+			setupCamera(video, function(err, stream) {
 				if (err)
 					console.log('VIDEO INITIALIZATION FAILED: ' + err.name);
 				else {
@@ -106,7 +106,7 @@
 			var vertexPosBuffer = webglScreenQuad(gl);
 			gl.enableVertexAttribArray(positionLocation);
 			gl.vertexAttribPointer(positionLocation, vertexPosBuffer.itemSize, gl.FLOAT, false, 0, 0);
-		
+
 			// CREATE TEXTURE
 			var texture = gl.createTexture();
 			gl.activeTexture(gl.TEXTURE0);
@@ -128,23 +128,23 @@
 				window.requestAnimationFrame(loop);
 			});
 		}
-		
+
 		function snapshot() {
 			var dataURL = c.toDataURL();
 			document.getElementById('snapshot-img').src = dataURL;
 		}
-		
+
 		// -- Sliders --
-		
-		var slider_data = [ 
+
+		var slider_data = [
 			{ label:'A', options:{min:0., max:1., step:.01, value:.2}, slide:function(value) {
 				gl.uniform1f(aLocation, value);}},
 			{ label:'B', options:{min:0., max:4., step:.01, value:1.}, slide:function(value) {
 				gl.uniform1f(bLocation, value);}}
 		];
 
-		for (var i = 0; i < slider_data.length; i++) 
+		for (var i = 0; i < slider_data.length; i++)
 			JQueryUISlider.CreateSlider('#controls', slider_data[i]);
-		
+
 		JQueryUISlider.AddSliderStyle();
 	</script>
