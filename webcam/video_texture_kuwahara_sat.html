@@ -2,7 +2,7 @@
 <meta charset="utf-8">
 <link rel="stylesheet" href="../css/style.css">
 
-<body> 
+<body>
 	<div class='container' id='main'>
 		<video id='video' autoplay='true' style='display:none'></video>
 		<canvas id='c'></canvas>
@@ -19,7 +19,7 @@
 
 	<script src='js/webgl-utils.js'></script>
 	<script src='js/video-utils.js'></script>
-	
+
 	<script id='vshader' type='text/plain'>
 		attribute vec2 position;
 		void main(void) {
@@ -41,7 +41,7 @@
 			vec3 L = vec3(R, G, B);
 			float luminance = dot(irgb, W);
 			vec2 st = vec2(gl_FragCoord.s/width, 1. - gl_FragCoord.t/height);
-			vec3 target = L*vec3(luminance, luminance, luminance); 
+			vec3 target = L*vec3(luminance, luminance, luminance);
 			return mix(target, irgb, T);
 		}
 
@@ -50,8 +50,8 @@
 			vec2 uv = vec2(gl_FragCoord.s/width, 1. - gl_FragCoord.t/height);
 			vec3 m[4];
 			vec3 s[4];
-			m[0] = m[1] = m[2] = m[3] = vec3(0.0); 
-			s[0] = s[1] = s[2] = s[3] = vec3(0.0); 
+			m[0] = m[1] = m[2] = m[3] = vec3(0.0);
+			s[0] = s[1] = s[2] = s[3] = vec3(0.0);
 			for (int j = -radius; j <= 0; ++j)  {
 				for (int i = -radius; i <= 0; ++i)  {
 					vec3 c = texture2D(sampler0, uv + vec2(i,j) / src_size).rgb;
@@ -92,9 +92,9 @@
 			}
 		}
 	</script>
-	
+
 	<script>
-		var videoScale = .75;
+		var videoScale = 1.5;
 		var video, c, gl, shader;
 		var rLocation, gLocation, bLocation;
 
@@ -104,8 +104,8 @@
 			var opt = {preserveDrawingBuffer:true};
 			gl = c.getContext('experimental-webgl', opt) || c.getContext('webgl', opt);
 			shader = new webglShader(gl);
-			
-			setupCamera(video, function(err, stream) { 
+
+			setupCamera(video, function(err, stream) {
 				if (err)
 					console.log('VIDEO INITIALIZATION FAILED: ' + err.name);
 				else {
@@ -144,7 +144,7 @@
 			var vertexPosBuffer = webglScreenQuad(gl);
 			gl.enableVertexAttribArray(positionLocation);
 			gl.vertexAttribPointer(positionLocation, vertexPosBuffer.itemSize, gl.FLOAT, false, 0, 0);
-		
+
 			// CREATE TEXTURE
 			var texture = gl.createTexture();
 			gl.activeTexture(gl.TEXTURE0);
@@ -166,7 +166,7 @@
 				window.requestAnimationFrame(loop);
 			});
 		}
-		
+
 		function snapshot() {
 			var dataURL = c.toDataURL();
 			document.getElementById('snapshot-img').src = dataURL;
@@ -180,7 +180,7 @@
 			[1.2, 1.1, 1.1]
 		];
 		var irgb = 0;
-		
+
 		function saturation() {
 			irgb = ++irgb % rgb.length;
 			gl.uniform1f(rLocation, rgb[irgb][0]);
