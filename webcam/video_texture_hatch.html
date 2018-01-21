@@ -77,10 +77,12 @@
 				else {
 					video.style.display = '';
 					document.getElementById('controls').style.display = '';
-					video.width = video.videoWidth *= videoScale;
-					video.height = video.videoHeight *= videoScale;
-					c.width = video.width;
-					c.height = video.height;
+					var w = video.videoWidth * videoScale;
+					var h = video.videoHeight * videoScale;
+					video.width = w/4;
+					video.height = h/4;
+					c.width = w;
+					c.height = h;
 					render();
 				}
 			});
