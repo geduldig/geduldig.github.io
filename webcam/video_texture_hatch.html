@@ -95,10 +95,10 @@
 
 		function resizeCanvas() {
 			//document.getElementById('controls').style.display = '';
-			var controls = document.getElementById('controls');
+			var controls = document.getElementsByClass('controls');
 			for (var i=0; i < controls.length; i++)
 				controls.item(i).style.display = '';
-				
+
 			if (video.videoWidth/video.videoHeight > screen.width/screen.height) {
 				canvas.width = screen.width*.8;
 				canvas.height = canvas.width*video.videoHeight/video.videoWidth;
