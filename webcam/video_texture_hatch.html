@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
 
 <body>
+	<div>
 		<!-- VIDEO AND CANVAS -->
 		<video id='video' autoplay='true' style='display:none'></video>
 		<canvas id='canvas'></canvas>
@@ -15,16 +16,17 @@
 				</div>
 			</div>
 		</div>
-	<!-- SNAPSHOT CONTROL -->
-	<div style='display:block'>
-	<div class='controls' style='display:none'>
-		<div style='margin-top:10px'>
-			<div>
-				<button id='snapshot-btn' onclick='snapshot()'>Snapshot</button>
-			</div>
-			<img id='snapshot-img' download></img>
-		</div>
 	</div>
+	<div>
+		<!-- SNAPSHOT CONTROL -->
+		<div class='controls' style='display:none'>
+			<div style='margin-top:10px'>
+				<div>
+					<button id='snapshot-btn' onclick='snapshot()'>Snapshot</button>
+				</div>
+				<img id='snapshot-img' download></img>
+			</div>
+		</div>
 	</div>
 
 	<script src='https://code.jquery.com/jquery-latest.min.js'></script>
