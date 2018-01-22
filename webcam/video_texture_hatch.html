@@ -78,11 +78,11 @@
 					video.style.display = '';
 					document.getElementById('controls').style.display = '';
 					if (video.videoWidth/video.videoHeight > screen.width/screen.height) {
-						c.width = screen.width;
+						c.width = screen.width*.9;
 						c.height = c.width*video.videoHeight/video.videoWidth;
 					}
 					else {
-						c.height = screen.height;
+						c.height = screen.height*.9;
 						c.width = c.height*video.videoWidth/video.videoHeight;
 					}
 					// var w = video.videoWidth * videoScale;
