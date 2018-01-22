@@ -9,6 +9,7 @@
 		<canvas id='c'></canvas>
 	</div>
 	<div id='controls' style='display:none'>
+		<div id='sliders'/>
 		<div>
 			<button id='snapshot-btn' onclick='snapshot()'>Snapshot</button>
 		</div>
@@ -60,7 +61,6 @@
 	</script>
 
 	<script>
-		var videoScale = 2;
 		var video, c, gl, shader;
 		var k1Location, k2Location, k3Location, k4Location, k4Location;
 
@@ -87,16 +87,9 @@
 						c.height = window.innerHeight;
 						c.width = c.height*video.videoWidth/video.videoHeight;
 					}
-					// var w = video.videoWidth * videoScale;
-					// var h = video.videoHeight * videoScale;
-					//video.style.visibility = 'hidden';
 					video.style.display = 'none';
-					video.width = 10;//w/4;
-					video.height = 10;//h/4;
-					// video.width = w/4;
-					// video.height = h/4;
-					// c.width = w;
-					// c.height = h;
+					video.width = 0;
+					video.height = 0;
 					render();
 				}
 			});
@@ -174,7 +167,7 @@
 		];
 
 		for (var i = 0; i < slider_data.length; i++)
-			JQueryUISlider.CreateSlider('#controls', slider_data[i]);
+			JQueryUISlider.CreateSlider('#sliders', slider_data[i]);
 
 		JQueryUISlider.AddSliderStyle();
 	</script>
