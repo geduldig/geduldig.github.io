@@ -9,10 +9,10 @@
 		<canvas id='c'></canvas>
 	</div>
 	<div id='controls' style='display:none'>
-		<div id='sliders'/>
 		<div>
 			<button id='snapshot-btn' onclick='snapshot()'>Snapshot</button>
 		</div>
+		<div id='sliders'/>
 		<div id='snapshot-section'>
 			<img id='snapshot-img'></img>
 		</div>
@@ -167,7 +167,7 @@
 		];
 
 		for (var i = 0; i < slider_data.length; i++)
-			JQueryUISlider.CreateSlider('#controls', slider_data[i]);
+			JQueryUISlider.CreateSlider('#sliders', slider_data[i]);
 
 		JQueryUISlider.AddSliderStyle();
 	</script>
