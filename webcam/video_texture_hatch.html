@@ -4,10 +4,10 @@
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
 
 <body>
-	<!-- VIDEO AND CANVAS -->
-	<div>
+		<!-- VIDEO AND CANVAS -->
 		<video id='video' autoplay='true' style='display:none'></video>
 		<canvas id='canvas'></canvas>
+		<!-- SLIDER CONTROL -->
 		<div style='display:inline-block'>
 			<div class='controls' style='display:none'>
 				<div style='margin-left:10px'>
@@ -15,8 +15,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	<!-- CONTROLS AND SNAPSHOT -->
+	<!-- SNAPSHOT CONTROL -->
 	<div class='controls' style='display:none'>
 		<div style='margin-top:10px'>
 			<div>
@@ -87,18 +86,20 @@
 				if (err)
 					console.log('VIDEO INITIALIZATION FAILED: ' + err.name);
 				else {
+					showControls();
 					resizeCanvas();
 					render();
 				}
 			});
 		});
 
-		function resizeCanvas() {
-			//document.getElementById('controls').style.display = '';
+		function showControls() {
 			var controls = document.getElementsByClassName('controls');
 			for (var i=0; i < controls.length; i++)
 				controls[i].style.display = '';
+		}
 
+		function resizeCanvas() {
 			if (video.videoWidth/video.videoHeight > screen.width/screen.height) {
 				canvas.width = screen.width*.8;
 				canvas.height = canvas.width*video.videoHeight/video.videoWidth;
@@ -172,7 +173,7 @@
 		// -- Sliders --
 
 		var slider_data = [
-			{ label:'Slant left 1', options:{min:0., max:1., step:.01, value:1.}, slide:function(value) {
+			{ label:'YYY Slant left 1', options:{min:0., max:1., step:.01, value:1.}, slide:function(value) {
 				gl.uniform1f(k1, value);}},
 			{ label:'Slant right 1', options:{min:0., max:1., step:.01, value:.75}, slide:function(value) {
 				gl.uniform1f(k2, value);}},
