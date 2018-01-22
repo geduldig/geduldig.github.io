@@ -9,7 +9,7 @@
 		<canvas id='c'></canvas>
 	</div>
 	<div id='sliders'/>
-	<div id='controls'>
+	<div id='controls' style='display:none'>
 		<div>
 			<button id='snapshot-btn' onclick='snapshot()'>Snapshot</button>
 		</div>
@@ -76,7 +76,7 @@
 					console.log('VIDEO INITIALIZATION FAILED: ' + err.name);
 				else {
 					video.style.display = '';
-					//document.getElementById('controls').style.display = '';
+					document.getElementById('controls').style.display = '';
 					if (video.videoWidth/video.videoHeight > screen.width/screen.height) {
 						c.width = screen.width*.9;
 						c.width = window.innerWidth;
