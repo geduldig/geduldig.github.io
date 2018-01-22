@@ -9,13 +9,15 @@
 		<video id='video' autoplay='true' style='display:none'></video>
 		<canvas id='canvas'></canvas>
 		<div style='display:inline-block'>
-			<div style='margin-top:10px'>
-				<div id='sliders' style='border-style:solid; border-width:1px; display:inline-block'/>
+			<div class='controls' style='display:none'>
+				<div style='margin-left:10px'>
+					<div id='sliders' style='border-style:solid; border-width:1px; display:inline-block'/>
+				</div>
 			</div>
 		</div>
 	</div>
 	<!-- CONTROLS AND SNAPSHOT -->
-	<div id='controls' style='display:none'>
+	<div class='controls' style='display:none'>
 		<div style='margin-top:10px'>
 			<div>
 				<button id='snapshot-btn' onclick='snapshot()'>Snapshot</button>
@@ -92,7 +94,7 @@
 		});
 
 		function resizeCanvas() {
-			document.getElementById('controls').style.display = '';
+			//document.getElementById('controls').style.display = '';
 			if (video.videoWidth/video.videoHeight > screen.width/screen.height) {
 				canvas.width = screen.width*.8;
 				canvas.height = canvas.width*video.videoHeight/video.videoWidth;
@@ -166,7 +168,7 @@
 		// -- Sliders --
 
 		var slider_data = [
-			{ label:'xxxSlant left 1', options:{min:0., max:1., step:.01, value:1.}, slide:function(value) {
+			{ label:'Slant left 1', options:{min:0., max:1., step:.01, value:1.}, slide:function(value) {
 				gl.uniform1f(k1, value);}},
 			{ label:'Slant right 1', options:{min:0., max:1., step:.01, value:.75}, slide:function(value) {
 				gl.uniform1f(k2, value);}},
