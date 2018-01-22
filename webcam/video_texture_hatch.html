@@ -77,13 +77,21 @@
 				else {
 					video.style.display = '';
 					document.getElementById('controls').style.display = '';
-					var w = video.videoWidth * videoScale;
-					var h = video.videoHeight * videoScale;
-					video.style.display = 'none';
-					video.width = w/4;
-					video.height = h/4;
-					c.width = w;
-					c.height = h;
+					if (video.videoWidth/video.videoHeight > screen.width/screen.height) {
+						c.width = screen.width;
+						c.height = c.width*video.videoHeight/video.videoWidth;
+					}
+					else {
+						c.height = screen.height;
+						c.width = c.height*video.videoWidth/video.videoHeight;
+					}
+					// var w = video.videoWidth * videoScale;
+					// var h = video.videoHeight * videoScale;
+					video.style.visibility = 'hidden';
+					// video.width = w/4;
+					// video.height = h/4;
+					// c.width = w;
+					// c.height = h;
 					render();
 				}
 			});
