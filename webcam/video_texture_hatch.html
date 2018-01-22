@@ -78,14 +78,12 @@
 	<script>
 		var video, canvas, gl, shader;
 		var k1, k2, k3, k4, k4;
+		video = document.getElementById('video');
+		canvas = document.getElementById('canvas');
+		gl = canvas.getContext('webgl', {preserveDrawingBuffer:true});
+		shader = new webglShader(gl);
 
 		document.addEventListener("DOMContentLoaded", function(event) {
-			video = document.getElementById('video');
-			canvas = document.getElementById('canvas');
-			var opt = {preserveDrawingBuffer:true};
-			//gl = canvas.getContext('experimental-webgl', opt) || canvas.getContext('webgl', opt);
-			gl = canvas.getContext('webgl', opt);
-			shader = new webglShader(gl);
 
 			setupCamera(video, function(err, stream) {
 				if (err)
@@ -186,7 +184,7 @@
 				gl.uniform1f(k3, value);}},
 			{ label:'Slant right 2', options:{min:0., max:1., step:.01, value:.25}, slide:function(value) {
 				gl.uniform1f(k4, value);}},
-			{ label:'Separation', options:{min:2., max:24., step:1., value:10.}, slide:function(value) {
+			{ label:'zzSeparation', options:{min:2., max:24., step:1., value:10.}, slide:function(value) {
 				gl.uniform1f(k5, value);}}
 		];
 		for (var i = 0; i < slider_data.length; i++)
