@@ -80,12 +80,12 @@
 					video.style.display = '';
 					document.getElementById('controls').style.display = '';
 					if (video.videoWidth/video.videoHeight > screen.width/screen.height) {
-						c.width = screen.width*.9;
+						c.width = screen.width*.8;
 						//c.width = window.innerWidth;
 						c.height = c.width*video.videoHeight/video.videoWidth;
 					}
 					else {
-						c.height = screen.height*.9;
+						c.height = screen.height*.8;
 						//c.height = window.innerHeight;
 						c.width = c.height*video.videoWidth/video.videoHeight;
 					}
