@@ -7,15 +7,15 @@
 	<div class='container' id='main'>
 		<video id='video' autoplay='true' style='display:none'></video>
 		<canvas id='c'></canvas>
-	</div>
-	<span id='controls' style='display:none'>
-		<span style='float:left'>
-			<button id='snapshot-btn' onclick='snapshot()'>Snapshot</button>
+		<span id='controls' style='display:none'>
+			<span style='float:right'>
+				<button id='snapshot-btn' onclick='snapshot()'>Snapshot</button>
+			</span>
+			<div id='snapshot-section'>
+				<img id='snapshot-img'></img>
+			</div>
 		</span>
-		<div id='snapshot-section'>
-			<img id='snapshot-img'></img>
-		</div>
-	</span>
+	</div>
 
 	<script src='https://code.jquery.com/jquery-latest.min.js'></script>
 	<script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js'></script>
