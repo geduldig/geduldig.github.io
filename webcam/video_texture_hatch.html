@@ -77,7 +77,7 @@
 				if (err)
 					console.log('VIDEO INITIALIZATION FAILED: ' + err.name);
 				else {
-					video.style.display = '';
+					//video.style.display = '';
 					document.getElementById('controls').style.display = '';
 					if (video.videoWidth/video.videoHeight > screen.width/screen.height) {
 						c.width = screen.width*.8;
@@ -89,7 +89,7 @@
 						//c.height = window.innerHeight;
 						c.width = c.height*video.videoWidth/video.videoHeight;
 					}
-					video.style.display = 'none';
+					// video.style.display = 'none';
 					video.width = 0;
 					video.height = 0;
 					render();
