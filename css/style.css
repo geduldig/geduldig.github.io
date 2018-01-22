@@ -1,5 +1,5 @@
 body {
-	padding: 50px;
+	padding: 0px;
 	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 	color: white;
 	background-color: #222222;
@@ -11,7 +11,7 @@ a:link, a:visited {
 
 a:hover {
 	color: lightgreen;
-} 
+}
 
 a:active {
 	color: green;
