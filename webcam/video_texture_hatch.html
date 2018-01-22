@@ -4,12 +4,12 @@
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
 
 <body>
-	//-- VIDEO AND CANVAS
+	//- VIDEO AND CANVAS
 	<div>
 		<video id='video' autoplay='true' style='display:none'></video>
 		<canvas id='canvas'></canvas>
 	</div>
-	//-- CONTROLS AND SNAPSHOT
+	//- CONTROLS AND SNAPSHOT
 	<div id='controls' style='display:none'>
 		<div style='margin-top:10px'>
 			<div id='sliders' style='border-style:solid; border-width:1px; display:inline-block'/>
@@ -28,7 +28,7 @@
 	<script src='js/webgl-utils.js'></script>
 	<script src='js/video-utils.js'></script>
 
-	//-- SHADERS
+	//- SHADERS
 
 	<script id='vshader' type='text/plain'>
 		attribute vec2 position;
@@ -66,7 +66,7 @@
 		}
 	</script>
 
-	//-- MAIN PROGRAM
+	//- MAIN PROGRAM
 
 	<script>
 		var video, canvas, gl, shader;
@@ -102,13 +102,15 @@
 		}
 
 		function render() {
-			// CREATE SHADER PROGRAM
+			// -- Create shader program --
+
 			var vs = document.getElementById('vshader').textContent;
 			var fs = document.getElementById('fshader').textContent;
 			var program = shader.createProgram(vs, fs);
 			gl.useProgram(program);
 
-			// SET SHADER VARIABLES
+			// -- Set shader variables --
+
 			k1 = gl.getUniformLocation(program, 'K1');
 			k2 = gl.getUniformLocation(program, 'K2');
 			k3 = gl.getUniformLocation(program, 'K3');
@@ -130,7 +132,8 @@
 			gl.enableVertexAttribArray(position);
 			gl.vertexAttribPointer(position, vertexPosBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-			// CREATE TEXTURE
+			// -- Create texture --
+
 			var texture = gl.createTexture();
 			gl.activeTexture(gl.TEXTURE0);
 			gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -140,7 +143,8 @@
 			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
 			gl.bindTexture(gl.TEXTURE_2D, null);
 
-			// RENDER LOOP
+			// -- Render loop --
+
 			gl.viewport(0, 0, canvas.width, canvas.height);
 			window.requestAnimationFrame(function loop() {
 				gl.activeTexture(gl.TEXTURE0);
@@ -160,7 +164,7 @@
 		// -- Sliders --
 
 		var slider_data = [
-			{ label:'XXSlant left 1', options:{min:0., max:1., step:.01, value:1.}, slide:function(value) {
+			{ label:'ZZSlant left 1', options:{min:0., max:1., step:.01, value:1.}, slide:function(value) {
 				gl.uniform1f(k1, value);}},
 			{ label:'Slant right 1', options:{min:0., max:1., step:.01, value:.75}, slide:function(value) {
 				gl.uniform1f(k2, value);}},
