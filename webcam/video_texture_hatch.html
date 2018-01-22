@@ -6,7 +6,7 @@
 <body>
 	<div class='container' id='main'>
 		<video id='video' autoplay='true' style='display:none'></video>
-		<canvas id='c'></canvas>
+		<canvas id='canvas'></canvas>
 	</div>
 	<div id='controls' style='display:none'>
 		<div id='sliders-section' style='margin-top:10px'>
@@ -27,6 +27,7 @@
 	<script src='js/video-utils.js'></script>
 
 	<script id='vshader' type='text/plain'>
+		// VERTEX SHADER
 		attribute vec2 position;
 		void main(void) {
 			gl_Position = vec4(position, 0, 1);
@@ -34,6 +35,7 @@
 	</script>
 
 	<script id='fshader' type='text/plain'>
+		// FRAGMENT SHADER
 		precision mediump float;
 		uniform sampler2D sampler0;
 		uniform float width, height;
@@ -63,33 +65,37 @@
 	</script>
 
 	<script>
-		var video, c, gl, shader;
+		var video, canvas, gl, shader;
 		var k1Location, k2Location, k3Location, k4Location, k4Location;
 
 		document.addEventListener("DOMContentLoaded", function(event) {
 			video = document.getElementById('video');
-			c = document.getElementById('c');
+			canvas = document.getElementById('canvas');
 			var opt = {preserveDrawingBuffer:true};
-			gl = c.getContext('experimental-webgl', opt) || c.getContext('webgl', opt);
+			gl = canvas.getContext('experimental-webgl', opt) || canvas.getContext('webgl', opt);
 			shader = new webglShader(gl);
 
 			setupCamera(video, function(err, stream) {
 				if (err)
 					console.log('VIDEO INITIALIZATION FAILED: ' + err.name);
 				else {
-					document.getElementById('controls').style.display = '';
-					if (video.videoWidth/video.videoHeight > screen.width/screen.height) {
-						c.width = screen.width*.8;
-						c.height = c.width*video.videoHeight/video.videoWidth;
-					}
-					else {
-						c.height = screen.height*.8;
-						c.width = c.height*video.videoWidth/video.videoHeight;
-					}
+					resizeCanvas();
 					render();
 				}
 			});
 		});
+
+		function resizeCanvas() {
+			document.getElementById('controls').style.display = '';
+			if (video.videoWidth/video.videoHeight > screen.width/screen.height) {
+				canvas.width = screen.width*.8;
+				canvas.height = canvas.width*video.videoHeight/video.videoWidth;
+			}
+			else {
+				canvas.height = screen.height*.8;
+				canvas.width = canvas.height*video.videoWidth/video.videoHeight;
+			}
+		}
 
 		function render() {
 			// CREATE SHADER PROGRAM
@@ -113,8 +119,8 @@
 			gl.uniform1f(k3Location, .5);
 			gl.uniform1f(k4Location, .25);
 			gl.uniform1f(k5Location, 10.0);
-			gl.uniform1f(widthLocation, c.width);
-			gl.uniform1f(heightLocation, c.height);
+			gl.uniform1f(widthLocation, canvas.width);
+			gl.uniform1f(heightLocation, canvas.height);
 			gl.uniform1i(samplerLocation, 0);
 			var vertexPosBuffer = webglScreenQuad(gl);
 			gl.enableVertexAttribArray(positionLocation);
@@ -131,7 +137,7 @@
 			gl.bindTexture(gl.TEXTURE_2D, null);
 
 			// RENDER LOOP
-			gl.viewport(0, 0, c.width, c.height);
+			gl.viewport(0, 0, canvas.width, canvas.height);
 			window.requestAnimationFrame(function loop() {
 				gl.activeTexture(gl.TEXTURE0);
 				gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -143,7 +149,7 @@
 		}
 
 		function snapshot() {
-			var dataURL = c.toDataURL();
+			var dataURL = canvas.toDataURL();
 			document.getElementById('snapshot-img').src = dataURL;
 		}
 
