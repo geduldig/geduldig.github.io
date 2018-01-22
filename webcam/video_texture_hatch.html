@@ -80,16 +80,12 @@
 					document.getElementById('controls').style.display = '';
 					if (video.videoWidth/video.videoHeight > screen.width/screen.height) {
 						c.width = screen.width*.8;
-						//c.width = window.innerWidth;
 						c.height = c.width*video.videoHeight/video.videoWidth;
 					}
 					else {
 						c.height = screen.height*.8;
-						//c.height = window.innerHeight;
 						c.width = c.height*video.videoWidth/video.videoHeight;
 					}
-					// video.width = 0;
-					// video.height = 0;
 					render();
 				}
 			});
@@ -154,15 +150,15 @@
 		// -- Sliders --
 
 		var slider_data = [
-			{ label:'A', options:{min:0., max:1., step:.01, value:1.}, slide:function(value) {
+			{ label:'Slant left 1', options:{min:0., max:1., step:.01, value:1.}, slide:function(value) {
 				gl.uniform1f(k1Location, value);}},
-			{ label:'B', options:{min:0., max:1., step:.01, value:.75}, slide:function(value) {
+			{ label:'Slant right 1', options:{min:0., max:1., step:.01, value:.75}, slide:function(value) {
 				gl.uniform1f(k2Location, value);}},
-			{ label:'C', options:{min:0., max:1., step:.01, value:.5}, slide:function(value) {
+			{ label:'Slant left 2', options:{min:0., max:1., step:.01, value:.5}, slide:function(value) {
 				gl.uniform1f(k3Location, value);}},
-			{ label:'D', options:{min:0., max:1., step:.01, value:.25}, slide:function(value) {
+			{ label:'Slant right 2', options:{min:0., max:1., step:.01, value:.25}, slide:function(value) {
 				gl.uniform1f(k4Location, value);}},
-			{ label:'E', options:{min:2., max:24., step:1., value:10.}, slide:function(value) {
+			{ label:'Closeness', options:{min:2., max:24., step:1., value:10.}, slide:function(value) {
 				gl.uniform1f(k5Location, value);}}
 		];
 
