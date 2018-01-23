@@ -164,8 +164,8 @@
 			gl.uniform1f(r, .5);
 			gl.uniform1f(g, .5);
 			gl.uniform1f(b, .5);
-			gl.uniform1f(width, c.width);
-			gl.uniform1f(height, c.height);
+			gl.uniform1f(width, canvas.width);
+			gl.uniform1f(height, canvas.height);
 			gl.uniform1i(sampler, 0);
 			var vertexPosBuffer = webglScreenQuad(gl);
 			gl.enableVertexAttribArray(position);
@@ -184,7 +184,7 @@
 
 			// -- Render loop --
 
-			gl.viewport(0, 0, c.width, c.height);
+			gl.viewport(0, 0, canvas.width, canvas.height);
 			window.requestAnimationFrame(function loop() {
 				gl.activeTexture(gl.TEXTURE0);
 				gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -196,7 +196,7 @@
 		}
 
 		function snapshot() {
-			var dataURL = c.toDataURL();
+			var dataURL = canvas.toDataURL();
 			document.getElementById('snapshot-img').src = dataURL;
 		}
 
