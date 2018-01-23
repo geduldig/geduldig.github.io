@@ -22,7 +22,7 @@
 		<div class='controls' style='display:none'>
 			<div style='margin-top:10px'>
 				<div>
-					<button id='snapshot-btn' onclick='snapshot()'>Snapshot</button>
+					<button id='snapshot-btn' onclick='snapshot()'>Take snapshot</button>
 					<a id='save-snapshot' onclick='save()' href="#" download='photo_hash.png'>Save snapshot</a>
 				</div>
 				<img id='snapshot-img' download></img>
@@ -174,7 +174,10 @@
 
 		function save() {
 			//var dataURL = canvas.toDataURL('image/png');
-	    document.getElementById('save-snapshot').href = document.getElementById('snapshot-img').src;
+			var link = document.getElementById('save-snapshot');
+			var time = 'BLAH';
+			link.download = 'photo_hash_' + time + '.png';
+	    link.href = document.getElementById('snapshot-img').src;
 		}
 
 		// -- Sliders --
