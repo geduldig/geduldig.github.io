@@ -176,7 +176,7 @@
 			//var dataURL = canvas.toDataURL('image/png');
 			var link = document.getElementById('save-snapshot');
 			var now = new Date();
-			var time = now.getFullYear() + now.getMonth() + now.getDate() + now.getHour() + now.getMinute() + now.getSecond();
+			var time = now.getFullYear() + now.getMonth() + now.getDate() + now.getHours() + now.getMinutes() + now.getSeconds();
 			link.download = 'photo_hash_' + time + '.png';
 	    link.href = document.getElementById('snapshot-img').src;
 		}
