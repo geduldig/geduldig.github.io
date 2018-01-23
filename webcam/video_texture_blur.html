@@ -4,18 +4,6 @@
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
 
 <body>
-	<!-- <div class='container' id='main'>
-		<video id='video' autoplay='true' style='display:none'></video>
-		<canvas id='c'></canvas>
-	</div>
-	<div id='controls' style='display:none'>
-		<span style='float:right'>
-			<button id='snapshot-btn' onclick='snapshot()'>Snapshot</button>
-		</span>
-		<div id='snapshot-section'>
-			<img id='snapshot-img'></img>
-		</div>
-	</div> -->
 	<div>
 		<!-- VIDEO AND CANVAS -->
 		<video id='video' autoplay='true' style='display:none'></video>
@@ -47,6 +35,8 @@
 	<script src='js/JQueryUISlider.js'></script>
 	<script src='js/webgl-utils.js'></script>
 	<script src='js/video-utils.js'></script>
+
+	<!-- SHADERS -->
 
 	<script id='vshader' type='text/plain'>
 		attribute vec2 position;
@@ -98,17 +88,24 @@
 		}
 	</script>
 
+	<!-- MAIN PROGRAM -->
+
 	<script>
 		var videoScale = 2;
-		var video, canvas, gl, shader;
+		// var video, canvas, gl, shader;
 		var k1Location, k2Location;
 
+		var video = document.getElementById('video');
+		var canvas = document.getElementById('canvas');
+		var gl = canvas.getContext('webgl', {preserveDrawingBuffer:true});
+		var shader = new webglShader(gl);
+
 		document.addEventListener("DOMContentLoaded", function(event) {
-			video = document.getElementById('video');
-			canvas = document.getElementById('canvas');
-			var opt = {preserveDrawingBuffer:true};
-			gl = canvas.getContext('experimental-webgl', opt) || canvas.getContext('webgl', opt);
-			shader = new webglShader(gl);
+			// video = document.getElementById('video');
+			// canvas = document.getElementById('canvas');
+			// var opt = {preserveDrawingBuffer:true};
+			// gl = canvas.getContext('experimental-webgl', opt) || canvas.getContext('webgl', opt);
+			// shader = new webglShader(gl);
 
 			setupCamera(video, function(err, stream) {
 				if (err)
@@ -117,10 +114,11 @@
 					//video.style.display = '';
 					//document.getElementById('controls').style.display = '';
 					showControls();
-					video.width = video.videoWidth *= videoScale;
-					video.height = video.videoHeight *= videoScale;
-					canvas.width = video.width;
-					canvas.height = video.height;
+					// video.width = video.videoWidth *= videoScale;
+					// video.height = video.videoHeight *= videoScale;
+					// canvas.width = video.width;
+					// canvas.height = video.height;
+					resizeCanvas();
 					render();
 				}
 			});
@@ -132,14 +130,27 @@
 				controls[i].style.display = '';
 		}
 
+		function resizeCanvas() {
+			if (video.videoWidth/video.videoHeight > screen.width/screen.height) {
+				canvas.width = screen.width*.8;
+				canvas.height = canvas.width*video.videoHeight/video.videoWidth;
+			}
+			else {
+				canvas.height = screen.height*.8;
+				canvas.width = canvas.height*video.videoWidth/video.videoHeight;
+			}
+		}
+
 		function render() {
-			// CREATE SHADER PROGRAM
+			// -- Create shader program --
+
 			var vs = document.getElementById('vshader').textContent;
 			var fs = document.getElementById('fshader').textContent;
 			var program = shader.createProgram(vs, fs);
 			gl.useProgram(program);
 
-			// SET SHADER VARIABLES
+			// -- Set shader variables --
+
 			k1Location = gl.getUniformLocation(program, 'K1');
 			k2Location = gl.getUniformLocation(program, 'K2');
 			var widthLocation = gl.getUniformLocation(program, 'width');
@@ -155,7 +166,8 @@
 			gl.enableVertexAttribArray(positionLocation);
 			gl.vertexAttribPointer(positionLocation, vertexPosBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-			// CREATE TEXTURE
+			// -- Create texture --
+
 			var texture = gl.createTexture();
 			gl.activeTexture(gl.TEXTURE0);
 			gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -165,7 +177,8 @@
 			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
 			gl.bindTexture(gl.TEXTURE_2D, null);
 
-			// RENDER LOOP
+			// -- Render loop --
+
 			gl.viewport(0, 0, canvas.width, canvas.height);
 			window.requestAnimationFrame(function loop() {
 				gl.activeTexture(gl.TEXTURE0);
@@ -182,6 +195,15 @@
 			document.getElementById('snapshot-img').src = dataURL;
 		}
 
+		function save() {
+			var link = document.getElementById('save-snapshot');
+			var now = new Date();
+			var stamp = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate() + '-' +
+			            now.getHours() + '-' + now.getMinutes() + '-' + now.getSeconds();
+			link.download = 'photo_blur_' + stamp + '.png';
+	    link.href = document.getElementById('snapshot-img').src;
+		}
+
 		// -- Sliders --
 
 		var slider_data = [
@@ -190,9 +212,7 @@
 			{ label:'NCOLORS', options:{min:2., max:20., step:1., value:8.}, slide:function(value) {
 				gl.uniform1f(k2Location, value);}},
 		];
-
 		for (var i = 0; i < slider_data.length; i++)
 			JQueryUISlider.CreateSlider('#sliders', slider_data[i]);
-
 		JQueryUISlider.AddSliderStyle();
 	</script>
