@@ -91,33 +91,18 @@
 	<!-- MAIN PROGRAM -->
 
 	<script>
-		var videoScale = 2;
-		// var video, canvas, gl, shader;
-		var k1Location, k2Location;
-
+		var k1, k2;
 		var video = document.getElementById('video');
 		var canvas = document.getElementById('canvas');
 		var gl = canvas.getContext('webgl', {preserveDrawingBuffer:true});
 		var shader = new webglShader(gl);
 
 		document.addEventListener("DOMContentLoaded", function(event) {
-			// video = document.getElementById('video');
-			// canvas = document.getElementById('canvas');
-			// var opt = {preserveDrawingBuffer:true};
-			// gl = canvas.getContext('experimental-webgl', opt) || canvas.getContext('webgl', opt);
-			// shader = new webglShader(gl);
-
 			setupCamera(video, function(err, stream) {
 				if (err)
 					console.log('VIDEO INITIALIZATION FAILED: ' + err.name);
 				else {
-					//video.style.display = '';
-					//document.getElementById('controls').style.display = '';
 					showControls();
-					// video.width = video.videoWidth *= videoScale;
-					// video.height = video.videoHeight *= videoScale;
-					// canvas.width = video.width;
-					// canvas.height = video.height;
 					resizeCanvas();
 					render();
 				}
@@ -151,20 +136,20 @@
 
 			// -- Set shader variables --
 
-			k1Location = gl.getUniformLocation(program, 'K1');
-			k2Location = gl.getUniformLocation(program, 'K2');
-			var widthLocation = gl.getUniformLocation(program, 'width');
-			var heightLocation = gl.getUniformLocation(program, 'height');
-			var samplerLocation = gl.getUniformLocation(program, 'sampler0');
-			var positionLocation = gl.getAttribLocation(program, 'position');
-			gl.uniform1f(k1Location, .6);
-			gl.uniform1f(k2Location, 8.);
-			gl.uniform1f(widthLocation, canvas.width);
-			gl.uniform1f(heightLocation, canvas.height);
-			gl.uniform1i(samplerLocation, 0);
+			k1 = gl.getUniformLocation(program, 'K1');
+			k2 = gl.getUniformLocation(program, 'K2');
+			var width = gl.getUniformLocation(program, 'width');
+			var height = gl.getUniformLocation(program, 'height');
+			var sampler = gl.getUniformLocation(program, 'sampler0');
+			var position = gl.getAttribLocation(program, 'position');
+			gl.uniform1f(k1, .6);
+			gl.uniform1f(k2, 8.);
+			gl.uniform1f(width, canvas.width);
+			gl.uniform1f(height, canvas.height);
+			gl.uniform1i(sampler, 0);
 			var vertexPosBuffer = webglScreenQuad(gl);
-			gl.enableVertexAttribArray(positionLocation);
-			gl.vertexAttribPointer(positionLocation, vertexPosBuffer.itemSize, gl.FLOAT, false, 0, 0);
+			gl.enableVertexAttribArray(position);
+			gl.vertexAttribPointer(position, vertexPosBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
 			// -- Create texture --
 
@@ -208,9 +193,9 @@
 
 		var slider_data = [
 			{ label:'GAMMA', options:{min:0., max:1., step:.01, value:.6}, slide:function(value) {
-				gl.uniform1f(k1Location, value);}},
-			{ label:'NCOLORS', options:{min:2., max:20., step:1., value:8.}, slide:function(value) {
-				gl.uniform1f(k2Location, value);}},
+				gl.uniform1f(k1, value);}},
+			{ label:'NUMBER OF COLORS', options:{min:2., max:20., step:1., value:8.}, slide:function(value) {
+				gl.uniform1f(k2, value);}},
 		];
 		for (var i = 0; i < slider_data.length; i++)
 			JQueryUISlider.CreateSlider('#sliders', slider_data[i]);
