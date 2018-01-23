@@ -3,17 +3,29 @@
 <link rel="stylesheet" href="../css/style.css">
 
 <body>
-	<div class='container' id='main'>
+	<div>
+		<!-- VIDEO AND CANVAS -->
 		<video id='video' autoplay='true' style='display:none'></video>
-		<canvas id='c'></canvas>
+		<canvas id='canvas'></canvas>
+		<!-- SLIDER CONTROL -->
+		<div style='display:inline-block'>
+			<div class='controls' style='display:none'>
+				<div style='margin-left:5px; padding:5px; font-size:.5em'>
+					<div id='sliders' style='border-style:solid; border-width:1px; display:inline-block'/>
+				</div>
+			</div>
+		</div>
 	</div>
-	<div id='controls' style='display:none'>
-		<span style='float:right'>
-			<button id='snapshot-btn' onclick='snapshot()'>Snapshot</button>
-			<button id='saturation-btn' onclick='saturation()'>Toggle Saturation</button>
-		</span>
-		<div id='snapshot-section'>
-			<img id='snapshot-img'></img>
+	<div>
+		<!-- SNAPSHOT CONTROL -->
+		<div class='controls' style='display:none'>
+			<div style='margin-top:10px'>
+				<div>
+					<button id='snapshot-btn' onclick='snapshot()'>Take snapshot</button>
+					<a id='save-snapshot' onclick='save()' href="#" download='photo_blur.png'>Save snapshot</a>
+				</div>
+				<img id='snapshot-img' download></img>
+			</div>
 		</div>
 	</div>
 
@@ -93,59 +105,74 @@
 		}
 	</script>
 
+	<!-- MAIN PROGRAM -->
+
 	<script>
-		var videoScale = 1;
-		var video, c, gl, shader;
-		var rLocation, gLocation, bLocation;
+		var r, g, b;
+		var video = document.getElementById('video');
+		var canvas = document.getElementById('canvas');
+		var gl = canvas.getContext('webgl', {preserveDrawingBuffer:true});
+		var shader = new webglShader(gl);
 
 		document.addEventListener("DOMContentLoaded", function(event) {
-			video = document.getElementById('video');
-			c = document.getElementById('c');
-			var opt = {preserveDrawingBuffer:true};
-			gl = c.getContext('experimental-webgl', opt) || c.getContext('webgl', opt);
-			shader = new webglShader(gl);
-
 			setupCamera(video, function(err, stream) {
 				if (err)
 					console.log('VIDEO INITIALIZATION FAILED: ' + err.name);
 				else {
-					video.style.display = '';
-					document.getElementById('controls').style.display = '';
-					video.width = video.videoWidth *= videoScale;
-					video.height = video.videoHeight *= videoScale;
-					c.width = video.width;
-					c.height = video.height;
+					showControls();
+					resizeCanvas();
+					render();
 					render();
 				}
 			});
 		});
 
+		function showControls() {
+			var controls = document.getElementsByClassName('controls');
+			for (var i=0; i < controls.length; i++)
+				controls[i].style.display = '';
+		}
+
+		function resizeCanvas() {
+			if (video.videoWidth/video.videoHeight > screen.width/screen.height) {
+				canvas.width = screen.width*.8;
+				canvas.height = canvas.width*video.videoHeight/video.videoWidth;
+			}
+			else {
+				canvas.height = screen.height*.8;
+				canvas.width = canvas.height*video.videoWidth/video.videoHeight;
+			}
+		}
+
 		function render() {
-			// CREATE SHADER PROGRAM
+			// -- Create shader program --
+
 			var vs = document.getElementById('vshader').textContent;
 			var fs = document.getElementById('fshader').textContent;
 			var program = shader.createProgram(vs, fs);
 			gl.useProgram(program);
 
-			// SET SHADER VARIABLES
-			rLocation = gl.getUniformLocation(program, 'R');
-			gLocation = gl.getUniformLocation(program, 'G');
-			bLocation = gl.getUniformLocation(program, 'B');
-			var widthLocation = gl.getUniformLocation(program, 'width');
-			var heightLocation = gl.getUniformLocation(program, 'height');
-			var samplerLocation = gl.getUniformLocation(program, 'sampler0');
-			var positionLocation = gl.getAttribLocation(program, 'position');
-			gl.uniform1f(rLocation, .5);
-			gl.uniform1f(gLocation, .5);
-			gl.uniform1f(bLocation, .5);
-			gl.uniform1f(widthLocation, c.width);
-			gl.uniform1f(heightLocation, c.height);
-			gl.uniform1i(samplerLocation, 0);
-			var vertexPosBuffer = webglScreenQuad(gl);
-			gl.enableVertexAttribArray(positionLocation);
-			gl.vertexAttribPointer(positionLocation, vertexPosBuffer.itemSize, gl.FLOAT, false, 0, 0);
+			// -- Set shader variables --
 
-			// CREATE TEXTURE
+			r = gl.getUniformLocation(program, 'R');
+			g = gl.getUniformLocation(program, 'G');
+			b = gl.getUniformLocation(program, 'B');
+			var width = gl.getUniformLocation(program, 'width');
+			var height = gl.getUniformLocation(program, 'height');
+			var sampler = gl.getUniformLocation(program, 'sampler0');
+			var position = gl.getAttribLocation(program, 'position');
+			gl.uniform1f(r, .5);
+			gl.uniform1f(g, .5);
+			gl.uniform1f(b, .5);
+			gl.uniform1f(width, c.width);
+			gl.uniform1f(height, c.height);
+			gl.uniform1i(sampler, 0);
+			var vertexPosBuffer = webglScreenQuad(gl);
+			gl.enableVertexAttribArray(position);
+			gl.vertexAttribPointer(position, vertexPosBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+			// -- Create texture --
+
 			var texture = gl.createTexture();
 			gl.activeTexture(gl.TEXTURE0);
 			gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -155,7 +182,8 @@
 			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
 			gl.bindTexture(gl.TEXTURE_2D, null);
 
-			// RENDER LOOP
+			// -- Render loop --
+
 			gl.viewport(0, 0, c.width, c.height);
 			window.requestAnimationFrame(function loop() {
 				gl.activeTexture(gl.TEXTURE0);
@@ -170,6 +198,15 @@
 		function snapshot() {
 			var dataURL = c.toDataURL();
 			document.getElementById('snapshot-img').src = dataURL;
+		}
+
+		function save() {
+			var link = document.getElementById('save-snapshot');
+			var now = new Date();
+			var stamp = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate() + '-' +
+			            now.getHours() + '-' + now.getMinutes() + '-' + now.getSeconds();
+			link.download = 'photo_kuwahara_' + stamp + '.png';
+	    link.href = document.getElementById('snapshot-img').src;
 		}
 
 		var rgb = [
