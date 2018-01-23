@@ -24,7 +24,7 @@
 				<div>
 					<button id='snapshot-btn' onclick='snapshot()'>Snapshot</button>
 					<button id='save-btn' onclick='save()'>Save</button>
-					<a id='save-snapshot' onclick='save()' download="photo_hash.png" href="#">Save snapshot</a>
+					<a id='save-snapshot' onclick='save()' href="#">Save snapshot</a>
 				</div>
 				<img id='snapshot-img' download></img>
 			</div>
@@ -174,11 +174,12 @@
 		}
 
 		function save() {
-			var dt = canvas.toDataURL('image/png');
-			document.getElementById('snapshot-img').src = dt;
-			dt = dt.replace(/^data:image\/[^;]*/, 'data:application/octet-stream');
-			dt = dt.replace(/^data:application\/octet-stream/, 'data:application/octet-stream;headers=Content-Disposition%3A%20attachment%3B%20filename=photo_hash.png');
-			this.href = dt;
+			// var dt = canvas.toDataURL('image/png');
+			// dt = dt.replace(/^data:image\/[^;]*/, 'data:application/octet-stream');
+			// dt = dt.replace(/^data:application\/octet-stream/, 'data:application/octet-stream;headers=Content-Disposition%3A%20attachment%3B%20filename=photo_hash.png');
+			// this.href = dt;
+			var dataURL = canvas.toDataURL('image/png');
+	    document.getElementById('save-snapshot').href = dataURL;
 		}
 
 		// -- Sliders --
