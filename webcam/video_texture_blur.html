@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
 
 <body>
-	<div class='container' id='main'>
+	<!-- <div class='container' id='main'>
 		<video id='video' autoplay='true' style='display:none'></video>
 		<canvas id='c'></canvas>
 	</div>
@@ -14,6 +14,31 @@
 		</span>
 		<div id='snapshot-section'>
 			<img id='snapshot-img'></img>
+		</div>
+	</div> -->
+	<div>
+		<!-- VIDEO AND CANVAS -->
+		<video id='video' autoplay='true' style='display:none'></video>
+		<canvas id='canvas'></canvas>
+		<!-- SLIDER CONTROL -->
+		<div style='display:inline-block'>
+			<div class='controls' style='display:none'>
+				<div style='margin-left:5px; padding:5px; font-size:.5em'>
+					<div id='sliders' style='border-style:solid; border-width:1px; display:inline-block'/>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div>
+		<!-- SNAPSHOT CONTROL -->
+		<div class='controls' style='display:none'>
+			<div style='margin-top:10px'>
+				<div>
+					<button id='snapshot-btn' onclick='snapshot()'>Take snapshot</button>
+					<a id='save-snapshot' onclick='save()' href="#" download='photo_hash.png'>Save snapshot</a>
+				</div>
+				<img id='snapshot-img' download></img>
+			</div>
 		</div>
 	</div>
 
@@ -75,30 +100,37 @@
 
 	<script>
 		var videoScale = 2;
-		var video, c, gl, shader;
+		var video, canvas, gl, shader;
 		var k1Location, k2Location;
 
 		document.addEventListener("DOMContentLoaded", function(event) {
 			video = document.getElementById('video');
-			c = document.getElementById('c');
+			canvas = document.getElementById('canvas');
 			var opt = {preserveDrawingBuffer:true};
-			gl = c.getContext('experimental-webgl', opt) || c.getContext('webgl', opt);
+			gl = canvas.getContext('experimental-webgl', opt) || canvas.getContext('webgl', opt);
 			shader = new webglShader(gl);
 
 			setupCamera(video, function(err, stream) {
 				if (err)
 					console.log('VIDEO INITIALIZATION FAILED: ' + err.name);
 				else {
-					video.style.display = '';
-					document.getElementById('controls').style.display = '';
+					//video.style.display = '';
+					//document.getElementById('controls').style.display = '';
+					showControls();
 					video.width = video.videoWidth *= videoScale;
 					video.height = video.videoHeight *= videoScale;
-					c.width = video.width;
-					c.height = video.height;
+					canvas.width = video.width;
+					canvas.height = video.height;
 					render();
 				}
 			});
 		});
+
+		function showControls() {
+			var controls = document.getElementsByClassName('controls');
+			for (var i=0; i < controls.length; i++)
+				controls[i].style.display = '';
+		}
 
 		function render() {
 			// CREATE SHADER PROGRAM
@@ -116,8 +148,8 @@
 			var positionLocation = gl.getAttribLocation(program, 'position');
 			gl.uniform1f(k1Location, .6);
 			gl.uniform1f(k2Location, 8.);
-			gl.uniform1f(widthLocation, c.width);
-			gl.uniform1f(heightLocation, c.height);
+			gl.uniform1f(widthLocation, canvas.width);
+			gl.uniform1f(heightLocation, canvas.height);
 			gl.uniform1i(samplerLocation, 0);
 			var vertexPosBuffer = webglScreenQuad(gl);
 			gl.enableVertexAttribArray(positionLocation);
@@ -134,7 +166,7 @@
 			gl.bindTexture(gl.TEXTURE_2D, null);
 
 			// RENDER LOOP
-			gl.viewport(0, 0, c.width, c.height);
+			gl.viewport(0, 0, canvas.width, canvas.height);
 			window.requestAnimationFrame(function loop() {
 				gl.activeTexture(gl.TEXTURE0);
 				gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -146,7 +178,7 @@
 		}
 
 		function snapshot() {
-			var dataURL = c.toDataURL();
+			var dataURL = canvas.toDataURL();
 			document.getElementById('snapshot-img').src = dataURL;
 		}
 
@@ -160,7 +192,7 @@
 		];
 
 		for (var i = 0; i < slider_data.length; i++)
-			JQueryUISlider.CreateSlider('#controls', slider_data[i]);
+			JQueryUISlider.CreateSlider('#sliders', slider_data[i]);
 
 		JQueryUISlider.AddSliderStyle();
 	</script>
