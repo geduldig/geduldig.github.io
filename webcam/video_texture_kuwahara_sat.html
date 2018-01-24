@@ -47,7 +47,7 @@
 		uniform sampler2D sampler0;
 		uniform float width, height;
 		uniform float R, G, B;
-		const int radius = 3;
+		const int radius = 10;//3;
 		const float n = float((radius + 1) * (radius + 1));
 		const vec3 W = vec3(0.2125, 0.7154, 0.0721);
 		const float T = 5.;
@@ -222,8 +222,8 @@
 
 		function saturation() {
 			irgb = ++irgb % rgb.length;
-			gl.uniform1f(rLocation, rgb[irgb][0]);
-			gl.uniform1f(gLocation, rgb[irgb][1]);
-			gl.uniform1f(bLocation, rgb[irgb][2]);
+			gl.uniform1f(r, rgb[irgb][0]);
+			gl.uniform1f(g, rgb[irgb][1]);
+			gl.uniform1f(b, rgb[irgb][2]);
 		}
 	</script>
