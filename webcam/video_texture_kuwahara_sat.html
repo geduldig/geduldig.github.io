@@ -229,22 +229,22 @@
 
 		function saturation() {
 			irgb = ++irgb % rgb.length;
-			gl.uniform1f(r, rgb[irgb][0]);
-			gl.uniform1f(g, rgb[irgb][1]);
-			gl.uniform1f(b, rgb[irgb][2]);
+			gl.uniform1f(Kr, rgb[irgb][0]);
+			gl.uniform1f(Kg, rgb[irgb][1]);
+			gl.uniform1f(Kb, rgb[irgb][2]);
 		}
 
 		// -- Sliders --
 
 		var slider_data = [
 			{ label:'R', options:{min:0., max:1., step:.01, value:.5}, slide:function(value) {
-				gl.uniform1f(r, value);}},
+				gl.uniform1f(Kr, value);}},
 			{ label:'G', options:{min:0., max:1., step:.01, value:.5}, slide:function(value) {
-				gl.uniform1f(g, value);}},
+				gl.uniform1f(Kg, value);}},
 			{ label:'B', options:{min:0., max:1., step:.01, value:.5}, slide:function(value) {
-				gl.uniform1f(b, value);}},
+				gl.uniform1f(Kb, value);}},
 			{ label:'T', options:{min:-50, max:50, step:.1, value:5.}, slide:function(value) {
-				gl.uniform1f(b, value);}}
+				gl.uniform1f(Kt, value);}}
 		];
 		for (var i = 0; i < slider_data.length; i++)
 			JQueryUISlider.CreateSlider('#sliders', slider_data[i]);
