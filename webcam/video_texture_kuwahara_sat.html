@@ -51,7 +51,8 @@
 		precision highp float;
 		uniform sampler2D sampler0;
 		uniform float width, height;
-		uniform float R, G, B, T, radius;
+		uniform float R, G, B, T;
+		uniform int radius;
 		/*const int radius = 3;*/
 		const float n = float((radius + 1) * (radius + 1));
 		const vec3 W = vec3(0.2125, 0.7154, 0.0721);
@@ -173,7 +174,7 @@
 			gl.uniform1f(Kg, .5);
 			gl.uniform1f(Kb, .5);
 			gl.uniform1f(Kt, 5);
-			gl.uniform1f(Kradius, 3);
+			gl.uniform1i(Kradius, 3);
 			gl.uniform1f(width, canvas.width);
 			gl.uniform1f(height, canvas.height);
 			gl.uniform1i(sampler, 0);
@@ -246,7 +247,7 @@
 				gl.uniform1f(Kb, value);}},
 			{ label:'T', options:{min:-10, max:10, step:.1, value:5}, slide:function(value) {
 				gl.uniform1f(Kt, value);}},
-			{ label:'RADIUS', options:{min:1, max:10, step:.1, value:3}, slide:function(value) {
+			{ label:'RADIUS', options:{min:1, max:10, step:1, value:3}, slide:function(value) {
 				gl.uniform1f(Kradius, value);}}
 		];
 		for (var i = 0; i < slider_data.length; i++)
