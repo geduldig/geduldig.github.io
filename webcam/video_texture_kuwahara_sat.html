@@ -11,6 +11,7 @@
 		<div style='display:inline-block'>
 			<div class='controls' style='display:none'>
 				<div style='margin-left:5px; padding:5px; font-size:.5em'>
+					<button id='saturation-btn' onclick='saturation()'>Toggle Saturation</button>
 					<div id='sliders' style='border-style:solid; border-width:1px; display:inline-block'/>
 				</div>
 			</div>
@@ -210,7 +211,6 @@
 	    link.href = document.getElementById('snapshot-img').src;
 		}
 
-		/*
 		var rgb = [
 			[0.5, 0.5, 0.5],
 			[0.9, 1.1, 1.4],
@@ -226,5 +226,4 @@
 			gl.uniform1f(gLocation, rgb[irgb][1]);
 			gl.uniform1f(bLocation, rgb[irgb][2]);
 		}
-		*/
 	</script>
