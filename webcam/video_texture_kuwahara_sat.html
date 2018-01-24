@@ -47,7 +47,7 @@
 		uniform sampler2D sampler0;
 		uniform float width, height;
 		uniform float R, G, B;
-		const int radius = 10;//3;
+		const int radius = 3;
 		const float n = float((radius + 1) * (radius + 1));
 		const vec3 W = vec3(0.2125, 0.7154, 0.0721);
 		const float T = 5.;
@@ -226,4 +226,16 @@
 			gl.uniform1f(g, rgb[irgb][1]);
 			gl.uniform1f(b, rgb[irgb][2]);
 		}
+
+		// -- Sliders --
+
+		var slider_data = [
+			{ label:'R', options:{min:0., max:2., step:.01, value:1.}, slide:function(value) {
+				gl.uniform1f(r, value);}},
+				{ label:'R', options:{min:0., max:2., step:.01, value:1.}, slide:function(value) {
+				gl.uniform1f(r, value);}},
+		];
+		for (var i = 0; i < slider_data.length; i++)
+			JQueryUISlider.CreateSlider('#sliders', slider_data[i]);
+		JQueryUISlider.AddSliderStyle();
 	</script>
