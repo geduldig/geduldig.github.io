@@ -232,8 +232,10 @@
 		var slider_data = [
 			{ label:'R', options:{min:0., max:2., step:.01, value:1.}, slide:function(value) {
 				gl.uniform1f(r, value);}},
-				{ label:'R', options:{min:0., max:2., step:.01, value:1.}, slide:function(value) {
-				gl.uniform1f(r, value);}},
+			{ label:'G', options:{min:0., max:2., step:.01, value:1.}, slide:function(value) {
+				gl.uniform1f(g, value);}},
+			{ label:'B', options:{min:0., max:2., step:.01, value:1.}, slide:function(value) {
+				gl.uniform1f(b, value);}}
 		];
 		for (var i = 0; i < slider_data.length; i++)
 			JQueryUISlider.CreateSlider('#sliders', slider_data[i]);
