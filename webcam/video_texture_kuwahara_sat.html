@@ -24,8 +24,8 @@
 		<div class='controls' style='display:none'>
 			<div style='margin-top:10px'>
 				<div>
-					<a id='take-snapshot' onclick='snapshot()' href="#" style='background-color:darkgray'>Take snapshot</a>
-					<a id='save-snapshot' onclick='save()' href="#" download='photo_blur.png'>Save snapshot</a>
+					<a id='take-snapshot' onclick='snapshot()' href="#" style='background-color:black'>Take snapshot</a>
+					<a id='save-snapshot' onclick='save()' href="#" style='background-color:black' download='photo_blur.png'>Save snapshot</a>
 				</div>
 				<img id='snapshot-img' download></img>
 			</div>
@@ -51,8 +51,8 @@
 		precision highp float;
 		uniform sampler2D sampler0;
 		uniform float width, height;
-		uniform float R, G, B, T;
-		const int radius = 5;//3;
+		uniform float R, G, B, T, radius;
+		/*const int radius = 3;*/
 		const float n = float((radius + 1) * (radius + 1));
 		const vec3 W = vec3(0.2125, 0.7154, 0.0721);
 
@@ -115,7 +115,7 @@
 	<!-- MAIN PROGRAM -->
 
 	<script>
-		var Kr, Kg, Kb, Kt;
+		var Kr, Kg, Kb, Kt, Kradius;
 		var video = document.getElementById('video');
 		var canvas = document.getElementById('canvas');
 		var gl = canvas.getContext('webgl', {preserveDrawingBuffer:true});
@@ -164,6 +164,7 @@
 			Kg = gl.getUniformLocation(program, 'G');
 			Kb = gl.getUniformLocation(program, 'B');
 			Kt = gl.getUniformLocation(program, 'T');
+			Kradius = gl.getUniformLocation(program, 'radius');
 			var width = gl.getUniformLocation(program, 'width');
 			var height = gl.getUniformLocation(program, 'height');
 			var sampler = gl.getUniformLocation(program, 'sampler0');
@@ -172,6 +173,7 @@
 			gl.uniform1f(Kg, .5);
 			gl.uniform1f(Kb, .5);
 			gl.uniform1f(Kt, 5);
+			gl.uniform1f(Kradius, 3);
 			gl.uniform1f(width, canvas.width);
 			gl.uniform1f(height, canvas.height);
 			gl.uniform1i(sampler, 0);
@@ -242,8 +244,10 @@
 				gl.uniform1f(Kg, value);}},
 			{ label:'B', options:{min:0., max:1., step:.01, value:.5}, slide:function(value) {
 				gl.uniform1f(Kb, value);}},
-			{ label:'T', options:{min:-10, max:10, step:.1, value:5.}, slide:function(value) {
+			{ label:'T', options:{min:-10, max:10, step:.1, value:5}, slide:function(value) {
 				gl.uniform1f(Kt, value);}}
+			{ label:'RADIUS', options:{min:1, max:10, step:.1, value:3}, slide:function(value) {
+				gl.uniform1f(Kradius, value);}}
 		];
 		for (var i = 0; i < slider_data.length; i++)
 			JQueryUISlider.CreateSlider('#sliders', slider_data[i]);
