@@ -46,7 +46,7 @@
 	</script>
 
 	<script id='fshader' type='text/plain'>
-		precision highp float;
+		precision mediump float;
 		uniform sampler2D sampler0;
 		uniform float width, height;
 		uniform float T, R, G, B;
@@ -60,6 +60,8 @@
 			gl_FragColor = vec4(mix(target, irgb, T), 1.);
 		}
 	</script>
+
+	<!-- MAIN PROGRAM -->
 
 	<script>
 		var Kr, Kg, Kb, Kt;
@@ -110,20 +112,20 @@
 			Kg = gl.getUniformLocation(program, 'G');
 			Kb = gl.getUniformLocation(program, 'B');
 			Kt = gl.getUniformLocation(program, 'T');
-			var widthLocation = gl.getUniformLocation(program, 'width');
-			var heightLocation = gl.getUniformLocation(program, 'height');
-			var samplerLocation = gl.getUniformLocation(program, 'sampler0');
-			var positionLocation = gl.getAttribLocation(program, 'position');
+			var width = gl.getUniformLocation(program, 'width');
+			var height = gl.getUniformLocation(program, 'height');
+			var sampler = gl.getUniformLocation(program, 'sampler0');
+			var position = gl.getAttribLocation(program, 'position');
 			gl.uniform1f(Kr, .5);
 			gl.uniform1f(Kg, .5);
 			gl.uniform1f(Kb, .5);
 			gl.uniform1f(Kt, 5);
-			gl.uniform1f(widthLocation, canvas.width);
-			gl.uniform1f(heightLocation, canvas.height);
-			gl.uniform1i(samplerLocation, 0);
+			gl.uniform1f(width, canvas.width);
+			gl.uniform1f(height, canvas.height);
+			gl.uniform1i(sampler, 0);
 			var vertexPosBuffer = webglScreenQuad(gl);
-			gl.enableVertexAttribArray(positionLocation);
-			gl.vertexAttribPointer(positionLocation, vertexPosBuffer.itemSize, gl.FLOAT, false, 0, 0);
+			gl.enableVertexAttribArray(position);
+			gl.vertexAttribPointer(position, vertexPosBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
 			// -- Create texture --
 

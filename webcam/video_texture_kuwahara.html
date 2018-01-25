@@ -134,16 +134,16 @@
 
 			// -- Set shader variables --
 
-			var widthLocation = gl.getUniformLocation(program, 'width');
-			var heightLocation = gl.getUniformLocation(program, 'height');
-			var samplerLocation = gl.getUniformLocation(program, 'sampler0');
-			var positionLocation = gl.getAttribLocation(program, 'position');
-			gl.uniform1f(widthLocation, canvas.width);
-			gl.uniform1f(heightLocation, canvas.height);
-			gl.uniform1i(samplerLocation, 0);
+			var width = gl.getUniformLocation(program, 'width');
+			var height = gl.getUniformLocation(program, 'height');
+			var sampler = gl.getUniformLocation(program, 'sampler0');
+			var position = gl.getAttribLocation(program, 'position');
+			gl.uniform1f(width, canvas.width);
+			gl.uniform1f(height, canvas.height);
+			gl.uniform1i(sampler, 0);
 			var vertexPosBuffer = webglScreenQuad(gl);
-			gl.enableVertexAttribArray(positionLocation);
-			gl.vertexAttribPointer(positionLocation, vertexPosBuffer.itemSize, gl.FLOAT, false, 0, 0);
+			gl.enableVertexAttribArray(position);
+			gl.vertexAttribPointer(position, vertexPosBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
 			// -- Create texture --
 
