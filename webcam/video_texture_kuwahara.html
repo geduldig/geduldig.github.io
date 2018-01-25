@@ -100,7 +100,6 @@
 	<!-- MAIN PROGRAM -->
 
 	<script>
-		var Kr, Kg, Kb, Kt;
 		var video = document.getElementById('video');
 		var canvas = document.getElementById('canvas');
 		var gl = canvas.getContext('webgl', {preserveDrawingBuffer:true});
@@ -149,8 +148,8 @@
 			var heightLocation = gl.getUniformLocation(program, 'height');
 			var samplerLocation = gl.getUniformLocation(program, 'sampler0');
 			var positionLocation = gl.getAttribLocation(program, 'position');
-			gl.uniform1f(widthLocation, c.width);
-			gl.uniform1f(heightLocation, c.height);
+			gl.uniform1f(widthLocation, canvas.width);
+			gl.uniform1f(heightLocation, canvas.height);
 			gl.uniform1i(samplerLocation, 0);
 			var vertexPosBuffer = webglScreenQuad(gl);
 			gl.enableVertexAttribArray(positionLocation);
@@ -169,7 +168,7 @@
 
 			// -- Render loop --
 
-			gl.viewport(0, 0, c.width, c.height);
+			gl.viewport(0, 0, canvas.width, canvas.height);
 			window.requestAnimationFrame(function loop() {
 				gl.activeTexture(gl.TEXTURE0);
 				gl.bindTexture(gl.TEXTURE_2D, texture);
