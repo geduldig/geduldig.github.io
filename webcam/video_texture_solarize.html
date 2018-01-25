@@ -4,16 +4,29 @@
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
 
 <body>
-	<div class='container' id='main'>
+	<div>
+		<!-- VIDEO AND CANVAS -->
 		<video id='video' autoplay='true' style='display:none'></video>
-		<canvas id='c'></canvas>
+		<canvas id='canvas'></canvas>
+		<!-- SLIDER CONTROL -->
+		<div style='display:inline-block'>
+			<div class='controls' style='display:none'>
+				<div style='margin-left:5px; padding:5px; font-size:.5em'>
+					<div id='sliders' style='border-style:solid; border-width:1px; display:inline-block'/>
+				</div>
+			</div>
+		</div>
 	</div>
-	<div id='controls' style='display:none'>
-		<span style='float:right'>
-			<button id='snapshot-btn' onclick='snapshot()'>Snapshot</button>
-		</span>
-		<div id='snapshot-section'>
-			<img id='snapshot-img'></img>
+	<div>
+		<!-- SNAPSHOT CONTROL -->
+		<div class='controls' style='display:none'>
+			<div style='margin-top:10px'>
+				<div>
+					<a id='take-snapshot' onclick='snapshot()' href="#" style='background-color:black'>Take snapshot</a>
+					<a id='save-snapshot' onclick='save()' href="#" style='background-color:black' download='photo_blur.png'>Save snapshot</a>
+				</div>
+				<img id='snapshot-img' download></img>
+			</div>
 		</div>
 	</div>
 
@@ -22,6 +35,8 @@
 	<script src='js/JQueryUISlider.js'></script>
 	<script src='js/webgl-utils.js'></script>
 	<script src='js/video-utils.js'></script>
+
+	<!-- SHADERS -->
 
 	<script id='vshader' type='text/plain'>
 		attribute vec2 position;
@@ -34,71 +49,85 @@
 		precision mediump float;
 		uniform sampler2D sampler0;
 		uniform float width, height;
-		uniform float A, B;
+		uniform float K1, K2;
 		void main() {
 			vec2 st = vec2(gl_FragCoord.s/width, 1. - gl_FragCoord.t/height);
 			vec3 c = texture2D(sampler0, st).rgb;
-			float lum = 0.21*c.r + 0.72*c.g + 0.07*c.b;
-			lum = pow(lum, B);
+			float lum = 0.21*canvas.r + 0.72*canvas.g + 0.07*canvas.b;
+			lum = pow(lum, K2);
 			if (lum < 0.5)
-				lum = (4.0 - 4.0*A)*(lum - 0.5)*(lum - 0.5) + A;
+				lum = (4.0 - 4.0*K1)*(lum - 0.5)*(lum - 0.5) + K1;
 			else
-				lum = (2.0 - 2.0*A)*lum + 2.0*A - 1.0;
+				lum = (2.0 - 2.0*K1)*lum + 2.0*K1 - 1.0;
 			gl_FragColor = vec4(lum, lum, lum, 1.);
 		}
 	</script>
 
+	<!-- MAIN PROGRAM -->
+
 	<script>
-		var videoScale = 2;
-		var video, c, gl, shader;
-		var aLocation, bLocation;
+		var k1, k2;
+		var video = document.getElementById('video');
+		var canvas = document.getElementById('canvas');
+		var gl = canvas.getContext('webgl', {preserveDrawingBuffer:true});
+		var shader = new webglShader(gl);
 
-		document.addEventListener("DOMContentLoaded", function(event) {
-			video = document.getElementById('video');
-			c = document.getElementById('c');
-			var opt = {preserveDrawingBuffer:true};
-			gl = c.getContext('experimental-webgl', opt) || c.getContext('webgl', opt);
-			shader = new webglShader(gl);
-
+		document.addEventListener('DOMContentLoaded', function(event) {
 			setupCamera(video, function(err, stream) {
 				if (err)
 					console.log('VIDEO INITIALIZATION FAILED: ' + err.name);
 				else {
-					video.style.display = '';
-					document.getElementById('controls').style.display = '';
-					video.width = video.videoWidth *= videoScale;
-					video.height = video.videoHeight *= videoScale;
-					c.width = video.width;
-					c.height = video.height;
+					showControls();
+					resizeCanvas();
 					render();
 				}
 			});
 		});
 
+		function showControls() {
+			var controls = document.getElementsByClassName('controls');
+			for (var i=0; i < controls.length; i++)
+				controls[i].style.display = '';
+		}
+
+		function resizeCanvas() {
+			if (video.videoWidth/video.videoHeight > screen.width/screen.height) {
+				canvas.width = screen.width*.8;
+				canvas.height = canvas.width*video.videoHeight/video.videoWidth;
+			}
+			else {
+				canvas.height = screen.height*.8;
+				canvas.width = canvas.height*video.videoWidth/video.videoHeight;
+			}
+		}
+
 		function render() {
-			// CREATE SHADER PROGRAM
+			// -- Create shader program --
+
 			var vs = document.getElementById('vshader').textContent;
 			var fs = document.getElementById('fshader').textContent;
 			var program = shader.createProgram(vs, fs);
 			gl.useProgram(program);
 
-			// SET SHADER VARIABLES
-			aLocation = gl.getUniformLocation(program, 'A');
-			bLocation = gl.getUniformLocation(program, 'B');
-			var widthLocation = gl.getUniformLocation(program, 'width');
-			var heightLocation = gl.getUniformLocation(program, 'height');
-			var samplerLocation = gl.getUniformLocation(program, 'sampler0');
-			var positionLocation = gl.getAttribLocation(program, 'position');
-			gl.uniform1f(aLocation, .2);
-			gl.uniform1f(bLocation, 1.);
-			gl.uniform1f(widthLocation, c.width);
-			gl.uniform1f(heightLocation, c.height);
-			gl.uniform1i(samplerLocation, 0);
-			var vertexPosBuffer = webglScreenQuad(gl);
-			gl.enableVertexAttribArray(positionLocation);
-			gl.vertexAttribPointer(positionLocation, vertexPosBuffer.itemSize, gl.FLOAT, false, 0, 0);
+			// -- Set shader variables --
 
-			// CREATE TEXTURE
+			k1 = gl.getUniformLocation(program, 'A');
+			k2 = gl.getUniformLocation(program, 'B');
+			var width = gl.getUniformLocation(program, 'width');
+			var height = gl.getUniformLocation(program, 'height');
+			var sampler = gl.getUniformLocation(program, 'sampler0');
+			var position = gl.getAttribLocation(program, 'position');
+			gl.uniform1f(k1, .2);
+			gl.uniform1f(k2, 1.);
+			gl.uniform1f(width, canvas.width);
+			gl.uniform1f(height, canvas.height);
+			gl.uniform1i(sampler, 0);
+			var vertexPosBuffer = webglScreenQuad(gl);
+			gl.enableVertexAttribArray(position);
+			gl.vertexAttribPointer(position, vertexPosBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+			// -- Create texture --
+
 			var texture = gl.createTexture();
 			gl.activeTexture(gl.TEXTURE0);
 			gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -108,8 +137,9 @@
 			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
 			gl.bindTexture(gl.TEXTURE_2D, null);
 
-			// RENDER LOOP
-			gl.viewport(0, 0, c.width, c.height);
+			// -- Render loop --
+
+			gl.viewport(0, 0, canvas.width, canvas.height);
 			window.requestAnimationFrame(function loop() {
 				gl.activeTexture(gl.TEXTURE0);
 				gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -121,21 +151,28 @@
 		}
 
 		function snapshot() {
-			var dataURL = c.toDataURL();
+			var dataURL = canvas.toDataURL();
 			document.getElementById('snapshot-img').src = dataURL;
+		}
+
+		function save() {
+			var link = document.getElementById('save-snapshot');
+			var now = new Date();
+			var stamp = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate() + '-' +
+			            now.getHours() + '-' + now.getMinutes() + '-' + now.getSeconds();
+			link.download = 'photo_hash_' + stamp + '.png';
+	    link.href = document.getElementById('snapshot-img').src;
 		}
 
 		// -- Sliders --
 
 		var slider_data = [
 			{ label:'A', options:{min:0., max:1., step:.01, value:.2}, slide:function(value) {
-				gl.uniform1f(aLocation, value);}},
+				gl.uniform1f(k1, value);}},
 			{ label:'B', options:{min:0., max:4., step:.01, value:1.}, slide:function(value) {
-				gl.uniform1f(bLocation, value);}}
+				gl.uniform1f(k2, value);}}
 		];
-
 		for (var i = 0; i < slider_data.length; i++)
-			JQueryUISlider.CreateSlider('#controls', slider_data[i]);
-
+			JQueryUISlider.CreateSlider('#sliders', slider_data[i]);
 		JQueryUISlider.AddSliderStyle();
 	</script>
