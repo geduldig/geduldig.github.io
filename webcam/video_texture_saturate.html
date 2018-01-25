@@ -88,11 +88,11 @@
 
 		function resizeCanvas() {
 			if (video.videoWidth/video.videoHeight > screen.width/screen.height) {
-				canvas.width = screen.width*.4;
+				canvas.width = screen.width*.8;
 				canvas.height = canvas.width*video.videoHeight/video.videoWidth;
 			}
 			else {
-				canvas.height = screen.height*.4;
+				canvas.height = screen.height*.8;
 				canvas.width = canvas.height*video.videoWidth/video.videoHeight;
 			}
 		}
