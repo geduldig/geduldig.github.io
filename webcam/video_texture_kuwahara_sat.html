@@ -236,11 +236,11 @@
 		// -- Sliders --
 
 		var slider_data = [
-			{ label:'R', options:{min:0., max:1., step:.01, value:.5}, slide:function(value) {
+			{ label:'R', options:{min:0., max:10., step:.01, value:.5}, slide:function(value) {
 				gl.uniform1f(Kr, value);}},
-			{ label:'G', options:{min:0., max:1., step:.01, value:.5}, slide:function(value) {
+			{ label:'G', options:{min:0., max:10., step:.01, value:.5}, slide:function(value) {
 				gl.uniform1f(Kg, value);}},
-			{ label:'B', options:{min:0., max:1., step:.01, value:.5}, slide:function(value) {
+			{ label:'B', options:{min:0., max:10., step:.01, value:.5}, slide:function(value) {
 				gl.uniform1f(Kb, value);}},
 			{ label:'T', options:{min:-10, max:10, step:.1, value:5}, slide:function(value) {
 				gl.uniform1f(Kt, value);}}
