@@ -53,7 +53,7 @@
 		void main() {
 			vec2 st = vec2(gl_FragCoord.s/width, 1. - gl_FragCoord.t/height);
 			vec3 c = texture2D(sampler0, st).rgb;
-			float lum = 0.21*canvas.r + 0.72*canvas.g + 0.07*canvas.b;
+			float lum = 0.21*c.r + 0.72*c.g + 0.07*c.b;
 			lum = pow(lum, K2);
 			if (lum < 0.5)
 				lum = (4.0 - 4.0*K1)*(lum - 0.5)*(lum - 0.5) + K1;

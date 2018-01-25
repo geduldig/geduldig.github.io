@@ -53,9 +53,9 @@
 		void main() {
 			vec2 st = vec2(gl_FragCoord.s/width, 1. - gl_FragCoord.t/height);
 			vec3 c = texture2D(sampler0, st).rgb;
-			float r = pow(canvas.r, K2);
-			float g = pow(canvas.g, K2);
-			float b = pow(canvas.b, K2);
+			float r = pow(c.r, K2);
+			float g = pow(c.g, K2);
+			float b = pow(c.b, K2);
 			if (r < 0.5)
 				r = (4.0 - 4.0*K1)*(r - 0.5)*(r - 0.5) + K1;
 			else
