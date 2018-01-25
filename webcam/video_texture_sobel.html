@@ -212,9 +212,9 @@
 		// -- Sliders --
 
 		var slider_data = [
-			{ label:'A', options:{min:.5, max:5., step:.1, value:2.}, slide:function(value) {
+			{ label:'LINE DENSITY', options:{min:.5, max:5., step:.1, value:2.}, slide:function(value) {
 				gl.uniform1f(k1, value);}},
-			{ label:'B', options:{min:0., max:1., step:.01, value:.25}, slide:function(value) {
+			{ label:'COLOR', options:{min:0., max:1., step:.01, value:.25}, slide:function(value) {
 				gl.uniform1f(k2, value);}}
 		];
 		for (var i = 0; i < slider_data.length; i++)
