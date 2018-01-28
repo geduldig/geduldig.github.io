@@ -49,7 +49,7 @@
 		precision mediump float;
 		uniform sampler2D sampler0;
 		uniform float width, height;
-		uniform float K1, K2;
+		uniform float K1, K2, K3;
 		vec2 flip(vec2 st) {
 			return vec2(st.x/width, 1. - st.y/height);
 		}
@@ -63,8 +63,8 @@
 			return pow(rgb, vec3(1./gamma));
 		}
 		vec3 colorLookup(int i, vec2 neighbor, float kernel) {
-			vec2 onePixel = vec2(1.0, 1.0);
-			vec3 rgb = posterize((texture2D(sampler0, flip(gl_FragCoord.st + onePixel*neighbor)).rgb))*kernel;
+			vec2 patchSize = vec2(K3, K3);
+			vec3 rgb = posterize((texture2D(sampler0, flip(gl_FragCoord.st + patchSize*neighbor)).rgb))*kernel;
 			return rgb;
 		}
 		void main() {
@@ -91,7 +91,7 @@
 	<!-- MAIN PROGRAM -->
 
 	<script>
-		var k1, k2;
+		var k1, k2, k3;
 		var video = document.getElementById('video');
 		var canvas = document.getElementById('canvas');
 		var gl = canvas.getContext('webgl', {preserveDrawingBuffer:true});
@@ -138,6 +138,7 @@
 
 			k1 = gl.getUniformLocation(program, 'K1');
 			k2 = gl.getUniformLocation(program, 'K2');
+			k3 = gl.getUniformLocation(program, 'K3');
 			var width = gl.getUniformLocation(program, 'width');
 			var height = gl.getUniformLocation(program, 'height');
 			var sampler = gl.getUniformLocation(program, 'sampler0');
@@ -194,8 +195,10 @@
 		var slider_data = [
 			{ label:'GAMMA', options:{min:0., max:1., step:.01, value:.6}, slide:function(value) {
 				gl.uniform1f(k1, value);}},
-			{ label:'NUMBER OF COLORS', options:{min:2., max:20., step:1., value:8.}, slide:function(value) {
+			{ label:'NUMBER OF COLORS', options:{min:2., max:40., step:1., value:8.}, slide:function(value) {
 				gl.uniform1f(k2, value);}},
+			{ label:'PATCH SIZE', options:{min:1., max:40., step:1., value:1.}, slide:function(value) {
+				gl.uniform1f(k3, value);}},
 		];
 		for (var i = 0; i < slider_data.length; i++)
 			JQueryUISlider.CreateSlider('#sliders', slider_data[i]);
