@@ -73,7 +73,7 @@
 		document.addEventListener("DOMContentLoaded", function(event) {
 			setupCamera(video, function(err, stream) {
 				if (err)
-					console.log('VIDEO INITIALIZATION FAILED: ' + err.name);
+					alert('VIDEO INITIALIZATION FAILED: ' + err.name);
 				else {
 					showControls();
 					resizeCanvas();

@@ -2,10 +2,10 @@
 <meta charset="utf-8">
 <link rel="stylesheet" href="../css/style.css">
 
-<body> 
+<body>
 	<span>
 		<video height=200 autoplay style="border:1px solid blue;"></video>
-	</span> 
+	</span>
 	<span>
 		<canvas height="200" style="border:1px solid red;"></canvas><br>
 	</span>
@@ -19,10 +19,10 @@
 		var localMediaStream = null;
 
 		/*
-		navigator.getUserMedia = 
-			navigator.getUserMedia || 
-			navigator.webkitGetUserMedia || 
-			navigator.mozGetUserMedia || 
+		navigator.getUserMedia =
+			navigator.getUserMedia ||
+			navigator.webkitGetUserMedia ||
+			navigator.mozGetUserMedia ||
 			navigator.msGetUserMedia;
 		navigator.getUserMedia({video:true}, onMediaStream, onMediaFail);
 		*/
@@ -58,7 +58,7 @@
 		}
 
 		function onMediaFail(e) {
-			console.log('Camera did not work.', e.message);
+			alert('Camera did not work.', e.message);
 		}
 
 		function snapshot() {
