@@ -11,6 +11,10 @@
 		<!-- SLIDER CONTROL -->
 		<div style='display:inline-block'>
 			<div class='controls' style='display:none'>
+				<div>
+					<a id='take-snapshot' onclick='snapshot()' href="#">Take snapshot</a>
+					<a id='save-snapshot' onclick='save()' href="#" download='photo_blur.png'>Save snapshot</a>
+				</div>
 				<div style='margin-left:5px; padding:5px; font-size:.5em'>
 					<button id='saturation-btn' onclick='saturation()'>Toggle Saturation</button>
 					<br>
@@ -23,10 +27,6 @@
 		<!-- SNAPSHOT CONTROL -->
 		<div class='controls' style='display:none'>
 			<div style='margin-top:10px'>
-				<div>
-					<a id='take-snapshot' onclick='snapshot()' href="#">Take snapshot</a>
-					<a id='save-snapshot' onclick='save()' href="#" download='photo_blur.png'>Save snapshot</a>
-				</div>
 				<img id='snapshot-img' download></img>
 			</div>
 		</div>
