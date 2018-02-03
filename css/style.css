@@ -1,23 +1,21 @@
 body {
 	padding: 0;
 	margin: 10px;
-	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+	font: 1em sans-serif;
 	color: white;
 	background-color: #222222;
 }
 
 a:link, a:visited {
-	color: gold;
+	color: white;
+	text-decoration: none;
 }
 
 a:hover {
-	color: lightgreen;
+	color: white;
+	text-decoration: underline;
 }
 
-a:active {
-	color: green;
-}
-
-a:link, a:visited, a:hover, a:active {
-	text-decoration: none;
+a {
+	margin: 1em;
 }

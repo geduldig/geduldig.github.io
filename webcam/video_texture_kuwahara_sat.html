@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 <body>
 	<div>
@@ -24,8 +24,8 @@
 		<div class='controls' style='display:none'>
 			<div style='margin-top:10px'>
 				<div>
-					<a id='take-snapshot' onclick='snapshot()' href="#" style='background-color:black'>Take snapshot</a>
-					<a id='save-snapshot' onclick='save()' href="#" style='background-color:black' download='photo_blur.png'>Save snapshot</a>
+					<a id='take-snapshot' onclick='snapshot()' href="#">Take snapshot</a>
+					<a id='save-snapshot' onclick='save()' href="#" download='photo_blur.png'>Save snapshot</a>
 				</div>
 				<img id='snapshot-img' download></img>
 			</div>
@@ -33,7 +33,7 @@
 	</div>
 
 	<script src='https://code.jquery.com/jquery-latest.min.js'></script>
-	<script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js'></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src='js/JQueryUISlider.js'></script>
 	<script src='js/webgl-utils.js'></script>
 	<script src='js/video-utils.js'></script>
