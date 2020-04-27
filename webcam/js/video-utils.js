@@ -4,16 +4,9 @@ function setupCamera(video, callback) {
 			         navigator.mozGetUserMedia || 
 			         navigator.msGetUserMedia;
 
-// 	function onMediaStream(stream) {
-// 	    window.URL = window.URL || window.webkitURL;
-// 		video.src = window.URL.createObjectURL(stream);
-// 		video.onloadedmetadata = function(e) { 
-// 			callback(null, stream);
-// 		};
-// 	}
-
 	function onMediaStream(stream) {
 	    window.URL = window.URL || window.webkitURL;
+ 		//video.src = window.URL.createObjectURL(stream);
 		video.srcObject = stream;
 		localMediaStream = stream;
 		video.onloadedmetadata = function(e) { 
