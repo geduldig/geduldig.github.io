@@ -19,43 +19,59 @@
 	</div>
 
 	<script>
-		var video = document.querySelector('video');
-		var canvas = document.querySelector('canvas');
-		var localMediaStream = null;
+		const videoSelect = document.querySelector('select#videoSource');
+		const video = document.querySelector('video');
+		const canvas = document.querySelector('canvas');
+		let localMediaStream = null;
+		
+		////////////////////////////////////////////////
 
-// 		navigator.getUserMedia =
-// 			navigator.getUserMedia ||
-// 			navigator.webkitGetUserMedia ||
-// 			navigator.mozGetUserMedia ||
-// 			navigator.msGetUserMedia;
-// 		navigator.getUserMedia({video:true}, onMediaStream, onMediaFail);
+		navigator.mediaDevices.enumerateDevices()
+			.then(gotDevices).then(getStream).catch(handleError);
+
+		videoSelect.onchange = getStream;
+
+		function gotDevices(deviceInfos) {
+			for (let i = 0; i !== deviceInfos.length; ++i) {
+				const deviceInfo = deviceInfos[i];
+				const option = document.createElement('option');
+				option.value = deviceInfo.deviceId;
+				if (deviceInfo.kind === 'videoinput') {
+					option.text = deviceInfo.label || 'camera ' + (videoSelect.length + 1);
+					videoSelect.appendChild(option);
+				} 
+			}
+		}
+
+		////////////////////////////////////////////////
 
 		var constraints = {
 			video: {
-				width: 1280,
-				height: 720
+// 				width: 1280,
+// 				height: 720
+				deviceId: { exact: videoSelect.value }
 			}
 		};
 		
 		navigator.mediaDevices.getUserMedia(constraints)
-			.then(function(stream) {
-				onMediaStream(stream);
-			})
-			.catch(function(err) {
-				onMediaFail(err);
-			});
+// 			.then(function(stream) {
+// 				onMediaStream(stream);
+// 			})
+// 			.catch(function(err) {
+// 				onMediaFail(err);
+// 			});
+			.then(onMediaStream).catch(onMediaFail);
 		
 		function onMediaStream(stream) {
 			window.URL = window.URL || window.webkitURL;
-			//video.src = window.URL.createObjectURL(stream);
 			video.srcObject = stream;
 			console.log('==video.srcObject:', video.srcObject)
 			console.log('==video.readyState:', video.readyState)
 			localMediaStream = stream;
 			video.onloadedmetadata = function(e) {
 				console.log('==onloadedmetadata...')
-				var h = video.height;
-				var w = h * video.videoWidth/video.videoHeight;
+				let h = video.height;
+				let w = h * video.videoWidth/video.videoHeight;
 				canvas.width = w;
 				canvas.height = h;
 			};
@@ -67,7 +83,7 @@
 
 		function snapshot() {
 			if (localMediaStream) {
-				var ctx = canvas.getContext('2d');
+				let ctx = canvas.getContext('2d');
 				ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 			}
 		}
