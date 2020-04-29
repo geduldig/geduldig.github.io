@@ -173,7 +173,8 @@ headtrackr.Tracker = function(params) {
 				if (video.mozCaptureStream) {
 				  video.mozSrcObject = stream;
 				} else {
-				  video.src = (window.URL && window.URL.createObjectURL(stream)) || stream;
+// 				  video.src = (window.URL && window.URL.createObjectURL(stream)) || stream;
+				  video.srcObject = stream;
 				}
 				video.play();
 			}, function() {
