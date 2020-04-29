@@ -43,8 +43,8 @@
 
 		function onMediaStream(stream) {
 			window.URL = window.URL || window.webkitURL;
-			//video.src = window.URL.createObjectURL(stream);
-			video.srcObject = stream;
+			video.src = window.URL.createObjectURL(stream);
+			//video.srcObject = stream;
 			console.log('==video.srcObject:', video.srcObject)
 			console.log('==video.readyState:', video.readyState)
 			localMediaStream = stream;
