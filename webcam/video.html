@@ -23,7 +23,7 @@
 			navigator.webkitGetUserMedia ||
 			navigator.mozGetUserMedia ||
 			navigator.msGetUserMedia;
-		//navigator.getUserMedia({video:true}, onMediaStream, onMediaFail);
+		navigator.getUserMedia({video:true}, onMediaStream, onMediaFail);
 
 		var constraints = {
 			video: {
@@ -31,7 +31,8 @@
 				height: 720
 			}
 		};
-
+		
+		/*
 		navigator.mediaDevices.getUserMedia(constraints)
 			.then(function(stream) {
 				onMediaStream(stream);
@@ -39,7 +40,8 @@
 			.catch(function(err) {
 				onMediaFail(err);
 			});
-
+		*/
+		
 		function onMediaStream(stream) {
 			window.URL = window.URL || window.webkitURL;
 			//video.src = window.URL.createObjectURL(stream);
