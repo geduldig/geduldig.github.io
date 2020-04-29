@@ -29,7 +29,7 @@
 		////////////////////////////////////////////////
 
 		navigator.mediaDevices.enumerateDevices()
-			.then(gotDevices).then(getStream).catch(handleError);
+			.then(gotDevices).then(getStream).catch(onMediaFail);
 
 		videoSelect.onchange = getStream;
 
