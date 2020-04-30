@@ -20,7 +20,7 @@
 	<script src='js/headtrackr.js'></script>
 
 	<script>
-		console.log("*** VIDEO_HEADTRACK: VERSION 3.6 ***");
+		console.log("*** VIDEO_HEADTRACK: VERSION 3.7 ***");
 		
 		const videoSelect = document.querySelector('select#videoSource');
 		const video = document.getElementById('video');
@@ -42,9 +42,9 @@
 					resizeCanvas();
 					if (ht != null)
 						ht.stop();
-// 					ht = new headtrackr.Tracker({ui:true, headPosition:false, calcAngles:true});
-// 					ht.init(video, canvas1, false);
-// 					ht.start();
+					ht = new headtrackr.Tracker({ui:true, headPosition:false, calcAngles:true});
+					ht.init(video, canvas1, false);
+					ht.start();
 				}
 			});
 		});
@@ -76,13 +76,6 @@
 			setupComplete = true;
 			var vidW = video.videoWidth*videoScale;;
 			var vidH = video.videoHeight*videoScale;
-			//var canvas1 = document.getElementById('c1');
-			//var canvas2 = document.getElementById('c2');
-// 			canvas1.width = vidW;
-// 			canvas1.height = vidH;
-// 			canvas2.width = vidW;
-// 			canvas2.height = vidH;
-// 			context2d = canvas2.getContext('2d');
 			context2d.strokeStyle = '#ffff00';
 		}
 				
