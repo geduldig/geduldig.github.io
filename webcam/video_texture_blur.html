@@ -100,11 +100,11 @@
 		console.log("*** VIDEO_TEXTURE_BLUR: VERSION 2.5 ***");
 		
 		var k1, k2, k3;
-		var video = document.getElementById('video');
+		const video = document.getElementById('video');
 		const videoSelect = document.querySelector('select#videoSource');
-		var canvas = document.getElementById('canvas');
-		var gl = canvas.getContext('webgl', {preserveDrawingBuffer:true});
-		var shader = new webglShader(gl);
+		const canvas = document.getElementById('canvas');
+		const gl = canvas.getContext('webgl', {preserveDrawingBuffer:true});
+		const shader = new webglShader(gl);
 
 		document.addEventListener("DOMContentLoaded", function(event) {
 			findCameras(videoSelect, video, function(err, stream) {
@@ -117,18 +117,6 @@
 				}
 			});
 		});
-
-// 		function startCamera() {
-// 			setupCamera(video, videoSelect.value, function(err, stream) {
-// 				if (err)
-// 					alert('VIDEO INITIALIZATION FAILED: ' + err.name);
-// 				else {
-// 					showControls();
-// 					resizeCanvas();
-// 					render();
-// 				}
-// 			});
-// 		}
 		
 		function showControls() {
 			var controls = document.getElementsByClassName('controls');
