@@ -52,6 +52,7 @@
 					console.log("*** NEW VIDEO SOURCE ***");
 					resizeCanvas();
 					setupComplete = false;
+					ht.stop();
 					ht.init(video, canvas1, false);
 					ht.start();
 				}
