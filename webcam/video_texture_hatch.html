@@ -91,8 +91,8 @@
 	<script>
 		console.log("*** VIDEO_TEXTURE HATCH: VERSION 2.5 ***");
 
-		var k1, k2, k3, k4;
-		const videoScaler = 0.8;
+		let k1, k2, k3, k4;
+		let videoScale = 0.8;
 		const videoSelect = document.querySelector('select#videoSource');
 		const video = document.getElementById('video');
 		const canvas = document.getElementById('canvas');
@@ -105,7 +105,7 @@
 					alert('VIDEO INITIALIZATION FAILED: ' + err.name);
 				else {
 					showControls();
-					resizeCanvas();
+					resizeCanvas(videoScale);
 					render();
 				}
 			});
@@ -117,13 +117,14 @@
 				controls[i].style.display = '';
 		}
 
-		function resizeCanvas() {
+		function resizeCanvas(scale) {
+			videoScale = scale;
 			if (video.videoWidth/video.videoHeight > screen.width/screen.height) {
-				canvas.width = screen.width * videoScaler;
+				canvas.width = screen.width * videoScale;
 				canvas.height = canvas.width*video.videoHeight/video.videoWidth;
 			}
 			else {
-				canvas.height = screen.height * videoScaler;
+				canvas.height = screen.height * videoScale;
 				canvas.width = canvas.height*video.videoWidth/video.videoHeight;
 			}
 		}
@@ -200,6 +201,8 @@
 		// -- Sliders --
 
 		var slider_data = [
+			{ label:'SIZE', options:{min:0.2, max:.8, step:.1, value:.8}, slide:function(value) {
+				resizeCanvas(value); render();}},
 			{ label:'SLANT LEFT 1', options:{min:0., max:1., step:.01, value:1.}, slide:function(value) {
 				gl.uniform1f(k1, value);}},
 			{ label:'SLANT RIGHT 1', options:{min:0., max:1., step:.01, value:.75}, slide:function(value) {
