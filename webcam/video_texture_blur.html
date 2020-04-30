@@ -4,15 +4,15 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 <body>
-	<div class="row">
-		<div class="lcolumn">
+	<div style="display:flex-box">
+		<div style="justify-content:flex-start">
 			<!-- VIDEO AND CANVAS -->
 			<div>
 				<video id='video' autoplay='true' style='display:none'></video>
 				<canvas id='canvas'></canvas>
 			</div>
 		</div>
-		<div class="rcolumn">
+		<div style="justify-content:flex-start">
 			<!-- VIDEO SOURCE CHOOSER -->
 			<div class="select">
 				<label for="videoSource">Video source: </label>
@@ -32,7 +32,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="row">
+	<div>
 		<!-- SNAPSHOT CONTROL -->
 		<div class='controls' style='display:none'>
 			<div style='margin-top:10px'>
