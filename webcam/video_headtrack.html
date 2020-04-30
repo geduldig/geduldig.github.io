@@ -36,19 +36,16 @@
 		const videoScale = 1.0;
 		let ht = null;
 		let setupComplete = false;
+		let videoScale = 0.8;
 		
 		document.addEventListener("DOMContentLoaded", function(event) {
 			findCameras(videoSelect, video, function(err, stream) {
-				console.log("*** FIND CAMERAS ***");
 				if (err)
 					alert('VIDEO INITIALIZATION FAILED: ' + err.name);
-				else {
-					if (setupComplete == true) return;
-					console.log("*** NEW VIDEO SOURCE ***");
-					resizeCanvas();
+				else (setupComplete != true) {
+					resizeCanvas(videoScale);
 					if (ht != null)
 						ht.stop();
-					//setupComplete = false;
 					ht = new headtrackr.Tracker({ui:true, headPosition:false, calcAngles:true});
 					ht.init(video, canvas1, false);
 					ht.start();
@@ -56,13 +53,14 @@
 			});
 		});
 
-		function resizeCanvas() {
+		function resizeCanvas(scale) {
+			videoScale = scale
 			if (video.videoWidth/video.videoHeight > screen.width/screen.height) {
-				canvas1.width = screen.width*.8;
+				canvas1.width = screen.width * videoScale;
 				canvas1.height = canvas1.width*video.videoHeight/video.videoWidth;
 			}
 			else {
-				canvas1.height = screen.height*.8;
+				canvas1.height = screen.height * videoScale;
 				canvas1.width = canvas1.height*video.videoWidth/video.videoHeight;
 			}
 			canvas2.width = canvas1.width;
