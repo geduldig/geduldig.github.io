@@ -1,5 +1,5 @@
-function setupCamera(video, callback) {
-	console.log("*** SETUPCAMERA: VERSION 2.0 ***");
+function setupCamera(video, deviceID, callback) {
+	console.log("*** SETUPCAMERA: VERSION 2.1 ***");
 	/*
 	navigator.getUserMedia = navigator.getUserMedia || 
 			         navigator.webkitGetUserMedia || 
@@ -24,12 +24,11 @@ function setupCamera(video, callback) {
 	*/
 
 	var constraints = {
-// 		video: {
-// 			deviceId: { 
-// 				exact: videoSelect.value 
-// 			}
-// 		}
-		video: true
+		video: {
+			deviceId: { 
+				exact: deviceID 
+			}
+		}
 	};
 	
 	navigator.mediaDevices.getUserMedia(constraints)
