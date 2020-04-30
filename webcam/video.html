@@ -7,7 +7,7 @@
 		<div style='justify-content:flex-start'>
 			<!-- VIDEO AND CANVAS -->
 			<div>
-				<video id='video' autoplay='true' style='display:inline'></video>
+				<video id='video' autoplay='true' style='display:block'></video>
 				<canvas id='canvas'></canvas>
 			</div>
 		</div>
@@ -24,7 +24,7 @@
 	<script src='js/video-utils.js'></script>
 
 	<script>
-		console.log('==VERSION 3.6');
+		console.log('==VERSION 3.0');
 
 		const videoSelect = document.querySelector('select#videoSource');
 		const video = document.getElementById('video');
@@ -36,7 +36,6 @@
 					alert('VIDEO INITIALIZATION FAILED: ' + err.name);
 				else {
 					resizeCanvas();
-					//render();
 				}
 			});
 		});
@@ -51,75 +50,4 @@
 				canvas.width = canvas.height*video.videoWidth/video.videoHeight;
 			}
 		}
-
-		function render() {
-			console.log('==RENDER')
- 			let h = video.height;
- 			let w = h * video.videoWidth/video.videoHeight;
- 			canvas.width = w;
- 			canvas.height = h;
-		}	
-		
-		/*
-		const videoSelect = document.querySelector('select#videoSource');
-		const video = document.querySelector('video');
-		const canvas = document.querySelector('canvas');
-		let localMediaStream = null;
-
-		navigator.mediaDevices.enumerateDevices()
-			.then(gotDevices).then(getStream).catch(onMediaFail);
-
-		videoSelect.onchange = getStream;
-
-		function gotDevices(deviceInfos) {
-			for (let i = 0; i !== deviceInfos.length; ++i) {
-				const deviceInfo = deviceInfos[i];
-				const option = document.createElement('option');
-				option.value = deviceInfo.deviceId;
-				if (deviceInfo.kind === 'videoinput') {
-					option.text = deviceInfo.label || 'camera ' + (videoSelect.length + 1);
-					videoSelect.appendChild(option);
-				} 
-			}
-		}
-
-		function getStream() {
-			var constraints = {
-				video: {
-	 				//width: 1280,
-	 				//height: 720
-					deviceId: { exact: videoSelect.value }
-				}
-			};
-
-			navigator.mediaDevices.getUserMedia(constraints)
-				.then(onMediaStream).catch(onMediaFail);
-		}
-		
-		function onMediaStream(stream) {
-			window.URL = window.URL || window.webkitURL;
-			video.srcObject = stream;
-			console.log('==video.srcObject:', video.srcObject)
-			console.log('==video.readyState:', video.readyState)
-			localMediaStream = stream;
-			video.onloadedmetadata = function(e) {
-				console.log('==onloadedmetadata...')
-				let h = video.height;
-				let w = h * video.videoWidth/video.videoHeight;
-				canvas.width = w;
-				canvas.height = h;
-			};
-		}
-
-		function onMediaFail(e) {
-			alert('Camera did not work.', e.message);
-		}
-
-		function snapshot() {
-			if (localMediaStream) {
-				let ctx = canvas.getContext('2d');
-				ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-			}
-		}
-		*/
 	</script>
