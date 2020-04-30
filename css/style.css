@@ -16,8 +16,12 @@ a:hover {
 a {
 	margin: 1em;
 }
-.column {
+.lcolumn {
 	float: left;
+	//width: 50%;
+}
+.rcolumn {
+	float: right;
 	//width: 50%;
 }
 .row:after {
