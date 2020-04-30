@@ -20,7 +20,7 @@
 	<script src='js/headtrackr.js'></script>
 
 	<script>
-		console.log("*** VIDEO_HEADTRACK: VERSION 3.8 ***");
+		console.log("*** VIDEO_HEADTRACK: VERSION 3.0 ***");
 		
 		const videoSelect = document.querySelector('select#videoSource');
 		const video = document.getElementById('video');
@@ -35,7 +35,6 @@
 		document.addEventListener("DOMContentLoaded", function(event) {
 			findCameras(videoSelect, video, function(err, stream) {
 				console.log("*** FIND CAMERAS ***");
-				setupComplete = true;
 				if (err)
 					alert('VIDEO INITIALIZATION FAILED: ' + err.name);
 				else {
@@ -43,6 +42,7 @@
 					resizeCanvas();
 					if (ht != null)
 						ht.stop();
+					//setupComplete = false;
 					ht = new headtrackr.Tracker({ui:true, headPosition:false, calcAngles:true});
 					ht.init(video, canvas1, false);
 					ht.start();
@@ -64,6 +64,7 @@
 		}
 		
 		document.addEventListener('headtrackrStatus', function (event) {
+			console.log("*** STATUS: " + event.status);
 			if (event.status == 'whitebalance') 
 				if (!setupComplete)
 					setup();
