@@ -1,28 +1,71 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 <body>
-	<div class="select">
-		<label for="videoSource">Video source: </label>
-		<select id="videoSource"></select>
-	</div>
-	
-	<br>
-	
-	<span>
-		<video height=200 autoplay style="border:1px solid blue;"></video>
-	</span>
-	<span>
-		<canvas height="200" style="border:1px solid red;"></canvas><br>
-	</span>
-	<div>
-		<button onclick="snapshot()">Take Picture</button>
+	<div style='display:flex'>
+		<div style='justify-content:flex-start'>
+			<!-- VIDEO AND CANVAS -->
+			<div>
+				<video id='video' autoplay='true' style='display:none'></video>
+				<canvas id='canvas'></canvas>
+			</div>
+		</div>
+		<div style='justify-content:flex-start'>
+			<!-- VIDEO SOURCE CHOOSER -->
+			<div class="select" style='margin-left:5px; padding:5px;'>
+				<label for="videoSource">Video source: </label>
+				<select id="videoSource"></select>
+			</div>
+		</div>
 	</div>
 
+	<script src='https://code.jquery.com/jquery-latest.min.js'></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src='js/JQueryUISlider.js'></script>
+	<script src='js/webgl-utils.js'></script>
+	<script src='js/video-utils.js'></script>
+
 	<script>
-		console.log('==VERSION 2.0');
+		console.log('==VERSION 3.0');
+
+		const videoSelect = document.querySelector('select#videoSource');
+		const video = document.getElementById('video');
+		const canvas = document.getElementById('canvas');
+		const gl = canvas.getContext('webgl', {preserveDrawingBuffer:true});
+		const shader = new webglShader(gl);
+
+		document.addEventListener("DOMContentLoaded", function(event) {
+			findCameras(videoSelect, video, function(err, stream) {
+				if (err)
+					alert('VIDEO INITIALIZATION FAILED: ' + err.name);
+				else {
+					showControls();
+					resizeCanvas();
+					render();
+				}
+			});
+		});
+
+		function showControls() {
+		}
+
+		function resizeCanvas() {
+			if (video.videoWidth/video.videoHeight > screen.width/screen.height) {
+				canvas.width = screen.width*.8;
+				canvas.height = canvas.width*video.videoHeight/video.videoWidth;
+			}
+			else {
+				canvas.height = screen.height*.8;
+				canvas.width = canvas.height*video.videoWidth/video.videoHeight;
+			}
+		}
+
+		function render() {
+		}	
 		
+		/*
 		const videoSelect = document.querySelector('select#videoSource');
 		const video = document.querySelector('video');
 		const canvas = document.querySelector('canvas');
@@ -83,4 +126,5 @@
 				ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 			}
 		}
+		*/
 	</script>
