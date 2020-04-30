@@ -20,7 +20,7 @@
 	<script src='js/headtrackr.js'></script>
 
 	<script>
-		console.log("*** VIDEO_HEADTRACK: VERSION 3.9 ***");
+		console.log("*** VIDEO_HEADTRACK: VERSION 3.0 ***");
 		
 // 		var setupComplete = false;
 // 		var videoScale = .5;
@@ -33,7 +33,7 @@
 		const context2d = canvas2.getContext('2d');
 		const videoScale = 1.0;
 		let ht = null;//new headtrackr.Tracker({ui:true, headPosition:false, calcAngles:true});
-		let setupComplete;
+		let setupComplete = true;
 		//let context2d;
 		
 
@@ -45,7 +45,7 @@
 // 			ht.start();
 // 		});
 		document.addEventListener("DOMContentLoaded", function(event) {
-			if (ht == null)
+			if (setupComplete == true)
 			findCameras(videoSelect, video, function(err, stream) {
 				if (err)
 					alert('VIDEO INITIALIZATION FAILED: ' + err.name);
