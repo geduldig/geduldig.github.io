@@ -1,6 +1,4 @@
 function findCameras(videoSelect, video, callback) {
-	console.log("*** FINDCAMERAS VERSION 2.5");
-	
 	videoSelect.onchange = getStream;
 	navigator.mediaDevices.enumerateDevices()
 		.then(gotDevices).then(getStream).catch(onMediaFail);
@@ -15,7 +13,6 @@ function findCameras(videoSelect, video, callback) {
 				videoSelect.appendChild(option);
 			} 
 		}
-		//getStream();
 	}
 	
 	function getStream() {
@@ -48,28 +45,3 @@ function findCameras(videoSelect, video, callback) {
 		callback(e, null);
 	}
 }
-
-/*
-function setupCamera(video, deviceID, callback) {
-	navigator.getUserMedia = navigator.getUserMedia || 
-			         navigator.webkitGetUserMedia || 
-			         navigator.mozGetUserMedia || 
-			         navigator.msGetUserMedia;
-
-	function onMediaStream(stream) {
-	    window.URL = window.URL || window.webkitURL;
- 		//video.src = window.URL.createObjectURL(stream);
-		video.srcObject = stream;
-		localMediaStream = stream;
-		video.onloadedmetadata = function(e) { 
-			callback(null, stream);
-		};
-	}
-
-	function onMediaFail(e) {
-		callback(e, null);
-	}
-
-	navigator.getUserMedia({video:true}, onMediaStream, onMediaFail);
-}
-*/
