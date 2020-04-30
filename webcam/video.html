@@ -23,7 +23,7 @@
 	<script src='js/video-utils.js'></script>
 
 	<script>
-		console.log('==VERSION 3.3');
+		console.log('==VERSION 3.4');
 
 		const videoSelect = document.querySelector('select#videoSource');
 		const video = document.getElementById('video');
@@ -32,9 +32,8 @@
 			findCameras(videoSelect, video, function(err, stream) {
 				if (err)
 					alert('VIDEO INITIALIZATION FAILED: ' + err.name);
-				else {
+				else 
 					resizeVideo();
-				}
 			});
 		});
 
@@ -48,12 +47,12 @@
 // 				canvas.width = canvas.height*video.videoWidth/video.videoHeight;
 // 			}
 			if (video.videoWidth/video.videoHeight > screen.width/screen.height) {
-				video.videoWidth = screen.width*.8;
-				//video.videoHeight = canvas.width*video.videoHeight/video.videoWidth;
+				video.width = screen.width*.8;
+				video.height = video.width*video.videoHeight/video.videoWidth;
 			}
 			else {
-				video.videoHeight = screen.height*.8;
-				//canvas.width = canvas.height*video.videoWidth/video.videoHeight;
+				video.height = screen.height*.8;
+				video.width = video.height*video.videoWidth/video.videoHeight;
 			}
 		}
 	</script>
