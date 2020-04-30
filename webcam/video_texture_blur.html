@@ -97,7 +97,8 @@
 	<!-- MAIN PROGRAM -->
 
 	<script>
-		console.log("*** VIDEO_TEXTURE_BLUE: VERSION 2.0 ***");
+		console.log("*** VIDEO_TEXTURE_BLUR: VERSION 2.3 ***");
+		
 		var k1, k2, k3;
 		var video = document.getElementById('video');
 		const videoSelect = document.querySelector('select#videoSource');
@@ -106,7 +107,7 @@
 		var shader = new webglShader(gl);
 
 		document.addEventListener("DOMContentLoaded", function(event) {
-			setupCamera(video, videoSelect.value, function(err, stream) {
+			findCameras(videoSelect, video, function() {
 				if (err)
 					alert('VIDEO INITIALIZATION FAILED: ' + err.name);
 				else {
@@ -117,6 +118,18 @@
 			});
 		});
 
+// 		function startCamera() {
+// 			setupCamera(video, videoSelect.value, function(err, stream) {
+// 				if (err)
+// 					alert('VIDEO INITIALIZATION FAILED: ' + err.name);
+// 				else {
+// 					showControls();
+// 					resizeCanvas();
+// 					render();
+// 				}
+// 			});
+// 		}
+		
 		function showControls() {
 			var controls = document.getElementsByClassName('controls');
 			for (var i=0; i < controls.length; i++)
