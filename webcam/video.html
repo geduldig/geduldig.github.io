@@ -46,16 +46,16 @@
 		}
 
 		function getStream() {
-		var constraints = {
-			video: {
-// 				width: 1280,
-// 				height: 720
-				deviceId: { exact: videoSelect.value }
-			}
-		};
-		
-		navigator.mediaDevices.getUserMedia(constraints)
-			.then(onMediaStream).catch(onMediaFail);
+			var constraints = {
+				video: {
+	 				//width: 1280,
+	 				//height: 720
+					deviceId: { exact: videoSelect.value }
+				}
+			};
+
+			navigator.mediaDevices.getUserMedia(constraints)
+				.then(onMediaStream).catch(onMediaFail);
 		}
 		
 		function onMediaStream(stream) {
