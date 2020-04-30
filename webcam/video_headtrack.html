@@ -20,7 +20,7 @@
 	<script src='js/headtrackr.js'></script>
 
 	<script>
-		console.log("*** VIDEO_TEXTURE_BLUR: VERSION 3.1 ***");
+		console.log("*** VIDEO_HEADTRACK: VERSION 3.2 ***");
 		
 // 		var setupComplete = false;
 // 		var videoScale = .5;
@@ -32,7 +32,7 @@
 		const canvas2 = document.getElementById('c2');
 		const ht = new headtrackr.Tracker({ui:true, headPosition:false, calcAngles:true});
 		let setupComplete = false;
-		let videoScale = .5;
+		let videoScale = 1.0;
 		let context2d;
 		
 
@@ -48,23 +48,25 @@
 				if (err)
 					alert('VIDEO INITIALIZATION FAILED: ' + err.name);
 				else {
-					//resizeCanvas();
+					resizeCanvas();
 					ht.init(video, canvas1, false);
 					ht.start();
 				}
 			});
 		});
 
-// 		function resizeCanvas() {
-// 			if (video.videoWidth/video.videoHeight > screen.width/screen.height) {
-// 				canvas.width = screen.width*.8;
-// 				canvas.height = canvas.width*video.videoHeight/video.videoWidth;
-// 			}
-// 			else {
-// 				canvas.height = screen.height*.8;
-// 				canvas.width = canvas.height*video.videoWidth/video.videoHeight;
-// 			}
-// 		}
+		function resizeCanvas() {
+			if (video.videoWidth/video.videoHeight > screen.width/screen.height) {
+				canvas1.width = screen.width*.8;
+				canvas1.height = canvas1.width*video.videoHeight/video.videoWidth;
+			}
+			else {
+				canvas1.height = screen.height*.8;
+				canvas1.width = canvas1.height*video.videoWidth/video.videoHeight;
+			}
+			canvas2.width = canvas1.width;
+			canvas2.height = canvas1.height;
+		}
 		
 		document.addEventListener('headtrackrStatus', function (event) {
 			if (event.status == 'whitebalance') 
@@ -82,10 +84,10 @@
 			var vidH = video.videoHeight*videoScale;
 			//var canvas1 = document.getElementById('c1');
 			//var canvas2 = document.getElementById('c2');
-			canvas1.width = vidW;
-			canvas1.height = vidH;
-			canvas2.width = vidW;
-			canvas2.height = vidH;
+// 			canvas1.width = vidW;
+// 			canvas1.height = vidH;
+// 			canvas2.width = vidW;
+// 			canvas2.height = vidH;
 			context2d = canvas2.getContext('2d');
 			context2d.strokeStyle = '#ffff00';
 		}
