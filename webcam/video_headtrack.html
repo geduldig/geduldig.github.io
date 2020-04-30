@@ -20,7 +20,7 @@
 	<script src='js/headtrackr.js'></script>
 
 	<script>
-		console.log("*** VIDEO_HEADTRACK: VERSION 3.8 ***");
+		console.log("*** VIDEO_HEADTRACK: VERSION 3.9 ***");
 		
 // 		var setupComplete = false;
 // 		var videoScale = .5;
@@ -45,7 +45,7 @@
 // 			ht.start();
 // 		});
 		document.addEventListener("DOMContentLoaded", function(event) {
-			if (ht != null)
+			if (ht == null)
 			findCameras(videoSelect, video, function(err, stream) {
 				if (err)
 					alert('VIDEO INITIALIZATION FAILED: ' + err.name);
