@@ -33,10 +33,9 @@
 		const canvas1 = document.getElementById('c1');
 		const canvas2 = document.getElementById('c2');
 		const context2d = canvas2.getContext('2d');
-		const videoScale = 1.0;
+		let videoScale = 0.8;
 		let ht = null;
 		let setupComplete = false;
-		let videoScale = 0.8;
 		
 		document.addEventListener("DOMContentLoaded", function(event) {
 			findCameras(videoSelect, video, function(err, stream) {
