@@ -1,5 +1,5 @@
 function findCameras(videoSelect, video, callback) {
-	console.log("*** FINDCAMERAS VERSION 2.3");
+	console.log("*** FINDCAMERAS VERSION 2.4");
 	
 	navigator.mediaDevices.enumerateDevices()
 		.then(gotDevices).then(getStream).catch(onMediaFail);
