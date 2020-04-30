@@ -1,4 +1,5 @@
 function setupCamera(video, callback) {
+	console.log("*** SETUPCAMERA: VERSION 2.0 ***");
 	/*
 	navigator.getUserMedia = navigator.getUserMedia || 
 			         navigator.webkitGetUserMedia || 
