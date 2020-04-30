@@ -5,17 +5,23 @@ body {
 	color: white;
 	background-color: #222222;
 }
-
 a:link, a:visited {
 	color: white;
 	text-decoration: none;
 }
-
 a:hover {
 	color: white;
 	text-decoration: underline;
 }
-
 a {
 	margin: 1em;
+}
+.column {
+  float: left;
+  width: 50%;
+}
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
 }
