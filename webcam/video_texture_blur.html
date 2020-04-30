@@ -4,6 +4,12 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 <body>
+	<div class="select">
+		<label for="videoSource">Video source: </label>
+		<select id="videoSource"></select>
+	</div>
+	<br>
+	
 	<div>
 		<!-- VIDEO AND CANVAS -->
 		<video id='video' autoplay='true' style='display:none'></video>
@@ -91,14 +97,16 @@
 	<!-- MAIN PROGRAM -->
 
 	<script>
+		console.log("*** VIDEO_TEXTURE_BLUE: VERSION 2.0 ***");
 		var k1, k2, k3;
 		var video = document.getElementById('video');
+		const videoSelect = document.querySelector('select#videoSource');
 		var canvas = document.getElementById('canvas');
 		var gl = canvas.getContext('webgl', {preserveDrawingBuffer:true});
 		var shader = new webglShader(gl);
 
 		document.addEventListener("DOMContentLoaded", function(event) {
-			setupCamera(video, function(err, stream) {
+			setupCamera(video, videoSelect.value, function(err, stream) {
 				if (err)
 					alert('VIDEO INITIALIZATION FAILED: ' + err.name);
 				else {
