@@ -4,25 +4,31 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 <body>
-	<div class="select">
-		<label for="videoSource">Video source: </label>
-		<select id="videoSource"></select>
-	</div>
-	<br>
-	
-	<div>
-		<!-- VIDEO AND CANVAS -->
-		<video id='video' autoplay='true' style='display:none'></video>
-		<canvas id='canvas'></canvas>
-		<!-- SLIDER CONTROL -->
-		<div style='display:inline-block'>
-			<div class='controls' style='display:none'>
-				<div>
-					<a id='take-snapshot' onclick='snapshot()' href="#">Take snapshot</a>
-					<a id='save-snapshot' onclick='save()' href="#" download='photo_blur.png'>Save snapshot</a>
-				</div>
-				<div style='margin-left:5px; padding:5px; font-size:.5em'>
-					<div id='sliders' style='border-style:solid; border-width:1px; display:inline-block'/>
+	<div style='display:flex'>
+		<div style='justify-content:flex-start'>
+			<!-- VIDEO AND CANVAS -->
+			<div>
+				<video id='video' autoplay='true' style='display:none'></video>
+				<canvas id='canvas'></canvas>
+			</div>
+		</div>
+		<div style='justify-content:flex-start'>
+			<!-- VIDEO SOURCE CHOOSER -->
+			<div class="select" style='margin-left:5px; padding:5px;'>
+				<label for="videoSource">Video source: </label>
+				<select id="videoSource"></select>
+			</div>
+			<br>
+			<!-- SLIDER CONTROL -->
+			<div style='display:inline-block'>
+				<div class='controls' style='display:none'>
+					<div style='margin-left:5px; padding:5px; font-size:.5em'>
+						<div id='sliders' style='border-style:solid; border-width:1px; display:inline-block'/>
+					</div>					
+					<br>
+					<div style='margin-left:5px; padding:5px; font-size:2em'>
+						<a id='save-snapshot' onclick='save()' href="#" download='photo_blur.png'>Save snapshot</a>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -34,7 +40,7 @@
 				<img id='snapshot-img' download></img>
 			</div>
 		</div>
-	</div>
+	</div>	
 
 	<script src='https://code.jquery.com/jquery-latest.min.js'></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
