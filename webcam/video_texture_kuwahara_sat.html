@@ -130,8 +130,8 @@
 	<script>
 		console.log("*** VIDEO_TEXTURE_KUWAHAAR: VERSION 2.5 ***");
 
-		var Kr, Kg, Kb, Kt;
-		const videoScaler = 0.4;
+		let Kr, Kg, Kb, Kt;
+		let videoScale = 0.4;
 		const videoSelect = document.querySelector('select#videoSource');
 		const video = document.getElementById('video');
 		const canvas = document.getElementById('canvas');
@@ -144,7 +144,7 @@
 					alert('VIDEO INITIALIZATION FAILED: ' + err.name);
 				else {
 					showControls();
-					resizeCanvas();
+					resizeCanvas(videoScale);
 					render();
 				}
 			});
@@ -156,13 +156,14 @@
 				controls[i].style.display = '';
 		}
 
-		function resizeCanvas() {
+		function resizeCanvas(scale) {
+			videoScale = scale;
 			if (video.videoWidth/video.videoHeight > screen.width/screen.height) {
-				canvas.width = screen.width * videoScaler;
+				canvas.width = screen.width * videoScale;
 				canvas.height = canvas.width*video.videoHeight/video.videoWidth;
 			}
 			else {
-				canvas.height = screen.height * videoScaler;
+				canvas.height = screen.height * videoScale;
 				canvas.width = canvas.height*video.videoWidth/video.videoHeight;
 			}
 		}
@@ -253,6 +254,8 @@
 		// -- Sliders --
 
 		var slider_data = [
+			{ label:'SIZE', options:{min:0.2, max:.8, step:.1, value:.8}, slide:function(value) {
+				resizeCanvas(value); render();}},
 			{ label:'R', options:{min:0, max:2, step:.01, value:.5}, slide:function(value) {
 				gl.uniform1f(Kr, value);}},
 			{ label:'G', options:{min:0, max:2, step:.01, value:.5}, slide:function(value) {
