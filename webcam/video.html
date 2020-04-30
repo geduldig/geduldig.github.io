@@ -27,8 +27,6 @@
 		const video = document.querySelector('video');
 		const canvas = document.querySelector('canvas');
 		let localMediaStream = null;
-		
-		////////////////////////////////////////////////
 
 		navigator.mediaDevices.enumerateDevices()
 			.then(gotDevices).then(getStream).catch(onMediaFail);
@@ -47,8 +45,6 @@
 			}
 		}
 
-		////////////////////////////////////////////////
-
 		function getStream() {
 		var constraints = {
 			video: {
@@ -59,14 +55,8 @@
 		};
 		
 		navigator.mediaDevices.getUserMedia(constraints)
-// 			.then(function(stream) {
-// 				onMediaStream(stream);
-// 			})
-// 			.catch(function(err) {
-// 				onMediaFail(err);
-// 			});
 			.then(onMediaStream).catch(onMediaFail);
-		}// getStream()
+		}
 		
 		function onMediaStream(stream) {
 			window.URL = window.URL || window.webkitURL;
