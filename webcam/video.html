@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 <body>
 	<div style='display:flex'>
@@ -22,19 +21,14 @@
 	</div>
 
 	<script src='https://code.jquery.com/jquery-latest.min.js'></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<script src='js/JQueryUISlider.js'></script>
-	<script src='js/webgl-utils.js'></script>
 	<script src='js/video-utils.js'></script>
 
 	<script>
-		console.log('==VERSION 3.1');
+		console.log('==VERSION 3.3');
 
 		const videoSelect = document.querySelector('select#videoSource');
 		const video = document.getElementById('video');
 		const canvas = document.getElementById('canvas');
-		const gl = canvas.getContext('webgl', {preserveDrawingBuffer:true});
-		const shader = new webglShader(gl);
 
 		document.addEventListener("DOMContentLoaded", function(event) {
 			findCameras(videoSelect, video, function(err, stream) {
