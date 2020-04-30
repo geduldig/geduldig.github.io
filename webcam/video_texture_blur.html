@@ -14,7 +14,7 @@
 		</div>
 		<div style="justify-content:flex-start">
 			<!-- VIDEO SOURCE CHOOSER -->
-			<div class="select">
+			<div class="select" style='margin-left:5px; padding:5px; font-size:.5em'>
 				<label for="videoSource">Video source: </label>
 				<select id="videoSource"></select>
 			</div>
@@ -22,11 +22,12 @@
 			<!-- SLIDER CONTROL -->
 			<div style='display:inline-block'>
 				<div class='controls' style='display:none'>
-					<div>
-						<a id='save-snapshot' onclick='save()' href="#" download='photo_blur.png'>Save snapshot</a>
-					</div>
 					<div style='margin-left:5px; padding:5px; font-size:.5em'>
 						<div id='sliders' style='border-style:solid; border-width:1px; display:inline-block'/>
+					</div>
+					<br>
+					<div>
+						<a id='save-snapshot' onclick='save()' href="#" download='photo_blur.png'>Save snapshot</a>
 					</div>
 				</div>
 			</div>
