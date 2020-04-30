@@ -20,7 +20,6 @@
 		<div style='display:inline-block'>
 			<div class='controls' style='display:none'>
 				<div>
-					<a id='take-snapshot' onclick='snapshot()' href="#">Take snapshot</a>
 					<a id='save-snapshot' onclick='save()' href="#" download='photo_blur.png'>Save snapshot</a>
 				</div>
 				<div style='margin-left:5px; padding:5px; font-size:.5em'>
@@ -29,6 +28,7 @@
 			</div>
 		</div>
 	</span>
+	<br>
 	<div>
 		<!-- SNAPSHOT CONTROL -->
 		<div class='controls' style='display:none'>
@@ -198,7 +198,7 @@
 			var stamp = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate() + '-' +
 			            now.getHours() + '-' + now.getMinutes() + '-' + now.getSeconds();
 			link.download = 'photo_blur_' + stamp + '.png';
-	    link.href = document.getElementById('snapshot-img').src;
+	    		link.href = document.getElementById('snapshot-img').src;
 		}
 
 		// -- Sliders --
