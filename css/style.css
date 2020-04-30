@@ -18,11 +18,11 @@ a {
 }
 .lcolumn {
 	float: left;
-	//width: 50%;
+	width: 50%;
 }
 .rcolumn {
 	float: right;
-	//width: 50%;
+	width: 50%;
 }
 .row:after {
 	content: "";
