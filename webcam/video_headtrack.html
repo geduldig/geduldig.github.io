@@ -20,7 +20,7 @@
 	<script src='js/headtrackr.js'></script>
 
 	<script>
-		console.log("*** VIDEO_HEADTRACK: VERSION 3.3 ***");
+		console.log("*** VIDEO_HEADTRACK: VERSION 3.4 ***");
 		
 // 		var setupComplete = false;
 // 		var videoScale = .5;
@@ -49,6 +49,7 @@
 				if (err)
 					alert('VIDEO INITIALIZATION FAILED: ' + err.name);
 				else {
+					console.log("*** NEW VIDEO SOURCE ***");
 					resizeCanvas();
 					ht.init(video, canvas1, false);
 					ht.start();
