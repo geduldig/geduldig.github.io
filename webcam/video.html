@@ -8,7 +8,7 @@
 			<!-- VIDEO AND CANVAS -->
 			<div>
 				<video id='video' autoplay='true' style='display:block'></video>
-\]			</div>
+			</div>
 		</div>
 		<div style='justify-content:flex-start'>
 			<!-- VIDEO SOURCE CHOOSER -->
@@ -38,14 +38,6 @@
 		});
 
 		function resizeVideo() {
-// 			if (video.videoWidth/video.videoHeight > screen.width/screen.height) {
-// 				canvas.width = screen.width*.8;
-// 				canvas.height = canvas.width*video.videoHeight/video.videoWidth;
-// 			}
-// 			else {
-// 				canvas.height = screen.height*.8;
-// 				canvas.width = canvas.height*video.videoWidth/video.videoHeight;
-// 			}
 			if (video.videoWidth/video.videoHeight > screen.width/screen.height) {
 				video.width = screen.width*.8;
 				video.height = video.width*video.videoHeight/video.videoWidth;
