@@ -4,18 +4,18 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 <body>
-	<div class="select">
-		<label for="videoSource">Video source: </label>
-		<select id="videoSource"></select>
-	</div>
-	<br>
-	
 	<span>
 		<!-- VIDEO AND CANVAS -->
 		<video id='video' autoplay='true' style='display:none'></video>
 		<canvas id='canvas'></canvas>
 	</span>
 	<span>
+		<!-- VIDEO SOURCE CHOOSER -->
+		<div class="select">
+			<label for="videoSource">Video source: </label>
+			<select id="videoSource"></select>
+		</div>
+		<br>
 		<!-- SLIDER CONTROL -->
 		<div style='display:inline-block'>
 			<div class='controls' style='display:none'>
@@ -99,7 +99,7 @@
 	<!-- MAIN PROGRAM -->
 
 	<script>
-		console.log("*** VIDEO_TEXTURE_BLUR: VERSION 2.5 ***");
+		console.log("*** VIDEO_TEXTURE_BLUR: VERSION 2.6 ***");
 		
 		var k1, k2, k3;
 		const videoSelect = document.querySelector('select#videoSource');
