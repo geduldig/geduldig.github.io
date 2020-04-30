@@ -3,25 +3,35 @@
 <link rel="stylesheet" href="../css/style.css">
 
 <body>
-	<div class="select">
-		<label for="videoSource">Video source: </label>
-		<select id="videoSource"></select>
-	</div>
-	<br>
-	
-	<div>
-		<!-- VIDEO AND CANVAS -->
-		<video id='video' autoplay='true' style='display:none'></video>
-		<canvas id='canvas'></canvas>
+	<div style='display:flex'>
+		<div style='justify-content:flex-start'>
+			<!-- VIDEO AND CANVAS -->
+			<div>
+				<video id='video' autoplay='true' style='display:none'></video>
+				<canvas id='canvas'></canvas>
+			</div>
+		</div>
+		<div style='justify-content:flex-start'>
+			<!-- VIDEO SOURCE CHOOSER -->
+			<div class="select" style='margin-left:5px; padding:5px;'>
+				<label for="videoSource">Video source: </label>
+				<select id="videoSource"></select>
+			</div>
+			<br>
+			<!-- SLIDER CONTROL -->
+			<div style='display:inline-block'>
+				<div class='controls' style='display:none'>
+					<div style='margin-left:5px; padding:5px; font-size:2em'>
+						<a id='save-snapshot' onclick='save()' href="#" download='photo_blur.png'>Save snapshot</a>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 	<div>
 		<!-- SNAPSHOT CONTROL -->
 		<div class='controls' style='display:none'>
 			<div style='margin-top:10px'>
-				<div>
-					<a id='take-snapshot' onclick='snapshot()' href="#">Take snapshot</a>
-					<a id='save-snapshot' onclick='save()' href="#" download='photo_blur.png'>Save snapshot</a>
-				</div>
 				<img id='snapshot-img' download></img>
 			</div>
 		</div>
