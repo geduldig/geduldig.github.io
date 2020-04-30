@@ -23,7 +23,7 @@
 	<script src='js/video-utils.js'></script>
 
 	<script>
-		console.log('==VERSION 3.2');
+		console.log('==VERSION 3.3');
 
 		const videoSelect = document.querySelector('select#videoSource');
 		const video = document.getElementById('video');
@@ -52,7 +52,7 @@
 				//video.videoHeight = canvas.width*video.videoHeight/video.videoWidth;
 			}
 			else {
-				canvas.height = screen.height*.8;
+				video.videoHeight = screen.height*.8;
 				//canvas.width = canvas.height*video.videoWidth/video.videoHeight;
 			}
 		}
