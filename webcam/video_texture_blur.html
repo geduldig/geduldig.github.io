@@ -100,8 +100,8 @@
 		console.log("*** VIDEO_TEXTURE_BLUR: VERSION 2.5 ***");
 		
 		var k1, k2, k3;
-		const video = document.getElementById('video');
 		const videoSelect = document.querySelector('select#videoSource');
+		const video = document.getElementById('video');
 		const canvas = document.getElementById('canvas');
 		const gl = canvas.getContext('webgl', {preserveDrawingBuffer:true});
 		const shader = new webglShader(gl);
