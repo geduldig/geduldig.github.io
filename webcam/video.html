@@ -25,6 +25,7 @@
 	<script>
 		console.log('==VERSION 3.4');
 
+		const videoScaler = 0.8;
 		const videoSelect = document.querySelector('select#videoSource');
 		const video = document.getElementById('video');
 
@@ -39,11 +40,11 @@
 
 		function resizeVideo() {
 			if (video.videoWidth/video.videoHeight > screen.width/screen.height) {
-				video.width = screen.width*.8;
+				video.width = screen.width * videoScaler;
 				video.height = video.width*video.videoHeight/video.videoWidth;
 			}
 			else {
-				video.height = screen.height*.8;
+				video.height = screen.height * videoScaler;
 				video.width = video.height*video.videoWidth/video.videoHeight;
 			}
 		}
