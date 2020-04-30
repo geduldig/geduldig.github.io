@@ -52,7 +52,7 @@
 					console.log("*** NEW VIDEO SOURCE ***");
 					resizeCanvas();
 					setupComplete = false;
-					if (ht != null
+					if (ht != null)
 						ht.stop();
 					ht = new headtrackr.Tracker({ui:true, headPosition:false, calcAngles:true});
 					ht.init(video, canvas1, false);
