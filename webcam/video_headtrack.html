@@ -20,7 +20,7 @@
 	<script src='js/headtrackr.js'></script>
 
 	<script>
-		console.log("*** VIDEO_HEADTRACK: VERSION 3.2 ***");
+		console.log("*** VIDEO_HEADTRACK: VERSION 3.3 ***");
 		
 // 		var setupComplete = false;
 // 		var videoScale = .5;
@@ -44,9 +44,9 @@
 // 			ht.init(video, canvas1, false);
 // 			ht.start();
 // 		});
-		document.addEventListener("DOMContentLoaded", function(event) {
-			//setupComplete = false;
-			console.log("*** ADD LISTENER ***");
+		document.addEventListener("DOMContentLoaded", contentLoaded):
+		function contentLoaded(event) {
+			console.log("*** ADD CONTENT LOADED ***");
 			findCameras(videoSelect, video, function(err, stream) {
 				console.log("*** FIND CAMERAS ***");
 				if (err)
@@ -61,7 +61,8 @@
 					ht.start();
 				}
 			});
-		});
+			document.removeEventListener("DOMContentLoaded", contentLoaded):
+		}
 
 		function resizeCanvas() {
 			if (video.videoWidth/video.videoHeight > screen.width/screen.height) {
