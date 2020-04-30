@@ -24,7 +24,7 @@
 	<script src='js/video-utils.js'></script>
 
 	<script>
-		console.log('==VERSION 3.3');
+		console.log('==VERSION 3.4');
 
 		const videoSelect = document.querySelector('select#videoSource');
 		const video = document.getElementById('video');
@@ -35,15 +35,11 @@
 				if (err)
 					alert('VIDEO INITIALIZATION FAILED: ' + err.name);
 				else {
-					showControls();
-					resizeCanvas();
+					//resizeCanvas();
 					render();
 				}
 			});
 		});
-
-		function showControls() {
-		}
 
 		function resizeCanvas() {
 			if (video.videoWidth/video.videoHeight > screen.width/screen.height) {
@@ -58,10 +54,10 @@
 
 		function render() {
 			console.log('==RENDER')
-// 			let h = video.height;
-// 			let w = h * video.videoWidth/video.videoHeight;
-// 			canvas.width = w;
-// 			canvas.height = h;
+ 			let h = video.height;
+ 			let w = h * video.videoWidth/video.videoHeight;
+ 			canvas.width = w;
+ 			canvas.height = h;
 		}	
 		
 		/*
