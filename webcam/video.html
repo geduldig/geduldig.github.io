@@ -7,7 +7,7 @@
 		<div style='justify-content:flex-start'>
 			<!-- VIDEO AND CANVAS -->
 			<div>
-				<video id='video' autoplay='true' style='display:none'></video>
+				<video id='video' autoplay='true' style='display:inline'></video>
 				<canvas id='canvas'></canvas>
 			</div>
 		</div>
@@ -24,7 +24,7 @@
 	<script src='js/video-utils.js'></script>
 
 	<script>
-		console.log('==VERSION 3.4');
+		console.log('==VERSION 3.6');
 
 		const videoSelect = document.querySelector('select#videoSource');
 		const video = document.getElementById('video');
@@ -35,8 +35,8 @@
 				if (err)
 					alert('VIDEO INITIALIZATION FAILED: ' + err.name);
 				else {
-					//resizeCanvas();
-					render();
+					resizeCanvas();
+					//render();
 				}
 			});
 		});
