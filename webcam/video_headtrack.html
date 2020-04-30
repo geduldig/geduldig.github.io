@@ -3,19 +3,25 @@
 <link rel="stylesheet" href="../css/style.css">
 
 <body> 
-	<!-- VIDEO SOURCE CHOOSER -->
-	<div class="select" style='margin-left:5px; padding:5px;'>
-		<label for="videoSource">Video source: </label>
-		<select id="videoSource"></select>
+	<div style='display:flex'>
+		<div style='justify-content:flex-start'>
+			<div class='container' id='main'>
+				<video id='video' autoplay='true' style='display:none'></video>
+				<canvas id='c'></canvas>
+				<div style='position:relative'>
+					<canvas id='c1' style='position:absolute; z-index:0'></canvas>
+					<canvas id='c2' style='position:absolute; z-index:1'></canvas>
+			</div>
+		</div>
+		<div style='justify-content:flex-start'>
+			<!-- VIDEO SOURCE CHOOSER -->
+			<div class="select" style='margin-left:5px; padding:5px;'>
+				<label for="videoSource">Video source: </label>
+				<select id="videoSource"></select>
+			</div>
+		</div>
 	</div>
-	<div class='container' id='main'>
-		<video id='video' autoplay='true' style='display:none'></video>
-		<canvas id='c'></canvas>
-		<div style='position:relative'>
-			<canvas id='c1' style='position:absolute; z-index:0'></canvas>
-			<canvas id='c2' style='position:absolute; z-index:1'></canvas>
-	</div>
-
+		
 	<script src='js/video-utils.js'></script>
 	<script src='js/headtrackr.js'></script>
 
