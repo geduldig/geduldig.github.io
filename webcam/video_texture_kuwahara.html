@@ -108,6 +108,7 @@
 	<script>
 		console.log("*** VIDEO_TEXTURE HATCH: VERSION 2.5 ***");
 		
+		const videoScaler = 0.8;
 		const videoSelect = document.querySelector('select#videoSource');
 		const video = document.getElementById('video');
 		const canvas = document.getElementById('canvas');
@@ -134,11 +135,11 @@
 
 		function resizeCanvas() {
 			if (video.videoWidth/video.videoHeight > screen.width/screen.height) {
-				canvas.width = screen.width*.6;
+				canvas.width = screen.width * videoScaler;
 				canvas.height = canvas.width*video.videoHeight/video.videoWidth;
 			}
 			else {
-				canvas.height = screen.height*.6;
+				canvas.height = screen.height * videoScaler;
 				canvas.width = canvas.height*video.videoWidth/video.videoHeight;
 			}
 		}
