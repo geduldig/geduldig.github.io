@@ -20,7 +20,7 @@
 	<script src='js/headtrackr.js'></script>
 
 	<script>
-		console.log("*** VIDEO_HEADTRACK: VERSION 3.5 ***");
+		console.log("*** VIDEO_HEADTRACK: VERSION 3.6 ***");
 		
 		const videoSelect = document.querySelector('select#videoSource');
 		const video = document.getElementById('video');
@@ -29,7 +29,7 @@
 		const canvas2 = document.getElementById('c2');
 		const context2d = canvas2.getContext('2d');
 		const videoScale = 1.0;
-		let ht = null;//new headtrackr.Tracker({ui:true, headPosition:false, calcAngles:true});
+		let ht = null;
 		let setupComplete = false;
 		
 		document.addEventListener("DOMContentLoaded", function(event) {
@@ -62,11 +62,11 @@
 			canvas2.height = canvas1.height;
 		}
 		
-		document.addEventListener('headtrackrStatus', function (event) {
-			if (event.status == 'whitebalance') 
-				if (!setupComplete)
-					setup();
-		});
+// 		document.addEventListener('headtrackrStatus', function (event) {
+// 			if (event.status == 'whitebalance') 
+// 				if (!setupComplete)
+// 					setup();
+// 		});
 
 		document.addEventListener('facetrackingEvent', function (event) {
 			drawBox(event.x, event.y, event.width, event.height, event.angle);
