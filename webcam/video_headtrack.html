@@ -20,7 +20,7 @@
 	<script src='js/headtrackr.js'></script>
 
 	<script>
-		console.log("*** VIDEO_HEADTRACK: VERSION 3.0 ***");
+		console.log("*** VIDEO_HEADTRACK: VERSION 3.1 ***");
 		
 		const videoSelect = document.querySelector('select#videoSource');
 		const video = document.getElementById('video');
@@ -38,6 +38,7 @@
 				if (err)
 					alert('VIDEO INITIALIZATION FAILED: ' + err.name);
 				else {
+					if (setupComplete == true) return;
 					console.log("*** NEW VIDEO SOURCE ***");
 					resizeCanvas();
 					if (ht != null)
@@ -64,7 +65,7 @@
 		}
 		
 		document.addEventListener('headtrackrStatus', function (event) {
-			console.log("*** STATUS: " + event.status);
+			//console.log("*** STATUS: " + event.status);
 			if (event.status == 'whitebalance') 
 				if (!setupComplete)
 					setup();
