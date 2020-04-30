@@ -4,15 +4,15 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 <body>
-	<div>
-		<div>
+	<div style='display:flex'>
+		<div style='justify-content:flex-start'>
 			<!-- VIDEO AND CANVAS -->
 			<div>
 				<video id='video' autoplay='true' style='display:none'></video>
 				<canvas id='canvas'></canvas>
 			</div>
 		</div>
-		<div>
+		<div style='justify-content:flex-start'>
 			<!-- VIDEO SOURCE CHOOSER -->
 			<div class="select" style='margin-left:5px; padding:5px;'>
 				<label for="videoSource">Video source: </label>
@@ -103,7 +103,7 @@
 	<!-- MAIN PROGRAM -->
 
 	<script>
-		console.log("*** VIDEO_TEXTURE_BLUR: VERSION 3.0 ***");
+		console.log("*** VIDEO_TEXTURE_BLUR: VERSION 3.1 ***");
 		
 		var k1, k2, k3;
 		const videoSelect = document.querySelector('select#videoSource');
