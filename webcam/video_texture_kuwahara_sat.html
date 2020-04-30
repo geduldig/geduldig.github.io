@@ -125,10 +125,10 @@
 		console.log("*** VIDEO_TEXTURE_KUWAHAAR: VERSION 2.5 ***");
 
 		var Kr, Kg, Kb, Kt;
-		var video = document.getElementById('video');
-		var canvas = document.getElementById('canvas');
-		var gl = canvas.getContext('webgl', {preserveDrawingBuffer:true});
-		var shader = new webglShader(gl);
+		const video = document.getElementById('video');
+		const canvas = document.getElementById('canvas');
+		const gl = canvas.getContext('webgl', {preserveDrawingBuffer:true});
+		const shader = new webglShader(gl);
 
 		document.addEventListener('DOMContentLoaded', function(event) {
 			findCameras(videoSelect, video, function(err, stream) {
