@@ -20,11 +20,8 @@
 	<script src='js/headtrackr.js'></script>
 
 	<script>
-		console.log("*** VIDEO_HEADTRACK: VERSION 3.4 ***");
+		console.log("*** VIDEO_HEADTRACK: VERSION 3.5 ***");
 		
-// 		var setupComplete = false;
-// 		var videoScale = .5;
-// 		var context2d, video;
 		const videoSelect = document.querySelector('select#videoSource');
 		const video = document.getElementById('video');
 		const canvas = document.getElementById('c');
@@ -34,20 +31,8 @@
 		const videoScale = 1.0;
 		let ht = null;//new headtrackr.Tracker({ui:true, headPosition:false, calcAngles:true});
 		let setupComplete = false;
-		//let context2d;
 		
-
-// 		document.addEventListener("DOMContentLoaded", function(event) {
-// 			video = document.getElementById('video');
-// 			var canvas1 = document.getElementById('c1');
-// 			var ht = new headtrackr.Tracker({ui:true, headPosition:false, calcAngles:true});
-// 			ht.init(video, canvas1, false);
-// 			ht.start();
-// 		});
-		document.addEventListener("DOMContentLoaded", contentLoaded);
-		function contentLoaded(event) {
-			console.log("*** ADD CONTENT LOADED ***");
-			document.removeEventListener("DOMContentLoaded", contentLoaded);
+		document.addEventListener("DOMContentLoaded", function(event) {
 			findCameras(videoSelect, video, function(err, stream) {
 				console.log("*** FIND CAMERAS ***");
 				if (err)
@@ -57,12 +42,12 @@
 					resizeCanvas();
 					if (ht != null)
 						ht.stop();
-					ht = new headtrackr.Tracker({ui:true, headPosition:false, calcAngles:true});
-					ht.init(video, canvas1, false);
-					ht.start();
+// 					ht = new headtrackr.Tracker({ui:true, headPosition:false, calcAngles:true});
+// 					ht.init(video, canvas1, false);
+// 					ht.start();
 				}
 			});
-		}
+		});
 
 		function resizeCanvas() {
 			if (video.videoWidth/video.videoHeight > screen.width/screen.height) {
