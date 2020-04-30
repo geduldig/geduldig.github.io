@@ -90,13 +90,16 @@
 	<!-- MAIN PROGRAM -->
 
 	<script>
-		var video = document.getElementById('video');
-		var canvas = document.getElementById('canvas');
-		var gl = canvas.getContext('webgl', {preserveDrawingBuffer:true});
-		var shader = new webglShader(gl);
+		console.log("*** VIDEO_TEXTURE HATCH: VERSION 2.5 ***");
+		
+		const videoSelect = document.querySelector('select#videoSource');
+		const video = document.getElementById('video');
+		const canvas = document.getElementById('canvas');
+		const gl = canvas.getContext('webgl', {preserveDrawingBuffer:true});
+		const shader = new webglShader(gl);
 
-		document.addEventListener("DOMContentLoaded", function(event) {
-			setupCamera(video, function(err, stream) {
+		document.addEventListener('DOMContentLoaded', function(event) {
+			findCameras(videoSelect, video, function(err, stream) {
 				if (err)
 					alert('VIDEO INITIALIZATION FAILED: ' + err.name);
 				else {
