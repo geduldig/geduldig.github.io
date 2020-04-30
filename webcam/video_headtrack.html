@@ -3,6 +3,11 @@
 <link rel="stylesheet" href="../css/style.css">
 
 <body> 
+	<!-- VIDEO SOURCE CHOOSER -->
+	<div class="select" style='margin-left:5px; padding:5px;'>
+		<label for="videoSource">Video source: </label>
+		<select id="videoSource"></select>
+	</div>
 	<div class='container' id='main'>
 		<video id='video' autoplay='true' style='display:none'></video>
 		<canvas id='c'></canvas>
@@ -14,17 +19,51 @@
 	<script src='js/headtrackr.js'></script>
 
 	<script>
-		var setupComplete = false;
-		var videoScale = .5;
-		var context2d, video;
+		console.log("*** VIDEO_TEXTURE_BLUR: VERSION 3.0 ***");
+		
+// 		var setupComplete = false;
+// 		var videoScale = .5;
+// 		var context2d, video;
+		const videoSelect = document.querySelector('select#videoSource');
+		const video = document.getElementById('video');
+		const canvas = document.getElementById('c');
+		const canvas1 = document.getElementById('c1');
+		const canvas2 = document.getElementById('c2');
+		const ht = new headtrackr.Tracker({ui:true, headPosition:false, calcAngles:true});
+		let setupComplete = false;
+		let videoScale = .5;
+		let context2d;
+		
 
+// 		document.addEventListener("DOMContentLoaded", function(event) {
+// 			video = document.getElementById('video');
+// 			var canvas1 = document.getElementById('c1');
+// 			var ht = new headtrackr.Tracker({ui:true, headPosition:false, calcAngles:true});
+// 			ht.init(video, canvas1, false);
+// 			ht.start();
+// 		});
 		document.addEventListener("DOMContentLoaded", function(event) {
-			video = document.getElementById('video');
-			var canvas1 = document.getElementById('c1');
-			var ht = new headtrackr.Tracker({ui:true, headPosition:false, calcAngles:true});
-			ht.init(video, canvas1, false);
-			ht.start();
+			findCameras(videoSelect, video, function(err, stream) {
+				if (err)
+					alert('VIDEO INITIALIZATION FAILED: ' + err.name);
+				else {
+					//resizeCanvas();
+					ht.init(video, canvas1, false);
+					ht.start();
+				}
+			});
 		});
+
+// 		function resizeCanvas() {
+// 			if (video.videoWidth/video.videoHeight > screen.width/screen.height) {
+// 				canvas.width = screen.width*.8;
+// 				canvas.height = canvas.width*video.videoHeight/video.videoWidth;
+// 			}
+// 			else {
+// 				canvas.height = screen.height*.8;
+// 				canvas.width = canvas.height*video.videoWidth/video.videoHeight;
+// 			}
+// 		}
 		
 		document.addEventListener('headtrackrStatus', function (event) {
 			if (event.status == 'whitebalance') 
@@ -40,8 +79,8 @@
 			setupComplete = true;
 			var vidW = video.videoWidth*videoScale;;
 			var vidH = video.videoHeight*videoScale;
-			var canvas1 = document.getElementById('c1');
-			var canvas2 = document.getElementById('c2');
+			//var canvas1 = document.getElementById('c1');
+			//var canvas2 = document.getElementById('c2');
 			canvas1.width = vidW;
 			canvas1.height = vidH;
 			canvas2.width = vidW;
