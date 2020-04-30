@@ -211,7 +211,7 @@
 
 		var slider_data = [
 			{ label:'SIZE', options:{min:0.2, max:.8, step:.1, value:.8}, slide:function(value) {
-				resizeCanvas(value);}},
+				resizeCanvas(value); render();}},
 			{ label:'GAMMA', options:{min:0., max:1., step:.01, value:.6}, slide:function(value) {
 				gl.uniform1f(k1, value);}},
 			{ label:'NUMBER OF COLORS', options:{min:2., max:40., step:1., value:8.}, slide:function(value) {
