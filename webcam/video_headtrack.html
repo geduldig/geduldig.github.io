@@ -20,7 +20,7 @@
 	<script src='js/headtrackr.js'></script>
 
 	<script>
-		console.log("*** VIDEO_HEADTRACK: VERSION 3.2 ***");
+		console.log("*** VIDEO_HEADTRACK: VERSION 3.3 ***");
 		
 // 		var setupComplete = false;
 // 		var videoScale = .5;
@@ -30,10 +30,11 @@
 		const canvas = document.getElementById('c');
 		const canvas1 = document.getElementById('c1');
 		const canvas2 = document.getElementById('c2');
+		const context2d = canvas2.getContext('2d');
 		const ht = new headtrackr.Tracker({ui:true, headPosition:false, calcAngles:true});
+		const videoScale = 1.0;
 		let setupComplete = false;
-		let videoScale = 1.0;
-		let context2d;
+		//let context2d;
 		
 
 // 		document.addEventListener("DOMContentLoaded", function(event) {
@@ -88,7 +89,7 @@
 // 			canvas1.height = vidH;
 // 			canvas2.width = vidW;
 // 			canvas2.height = vidH;
-			context2d = canvas2.getContext('2d');
+// 			context2d = canvas2.getContext('2d');
 			context2d.strokeStyle = '#ffff00';
 		}
 				
