@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 <body> 
 	<div style='display:flex'>
@@ -18,9 +19,25 @@
 				<label for="videoSource">Video source: </label>
 				<select id="videoSource"></select>
 			</div>
+			<br>
+			<!-- SLIDER CONTROL -->
+			<div style='display:inline-block'>
+				<div class='controls' style='display:none'>
+					<div style='margin-left:5px; padding:5px; font-size:.5em'>
+						<div id='sliders' style='border-style:solid; border-width:1px; display:inline-block'/>
+					</div>
+					<br>
+					<div style='margin-left:5px; padding:5px; font-size:2em'>
+						<a id='save-snapshot' onclick='save()' href="#" download='photo_blur.png'>Save snapshot</a>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 		
+	<script src='https://code.jquery.com/jquery-latest.min.js'></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src='js/JQueryUISlider.js'></script>
 	<script src='js/video-utils.js'></script>
 	<script src='js/headtrackr.js'></script>
 
@@ -42,6 +59,7 @@
 				if (err)
 					alert('VIDEO INITIALIZATION FAILED: ' + err.name);
 				else if (setupComplete != true) {
+					showControls();
 					resizeCanvas(videoScale);
 					if (ht != null)
 						ht.stop();
@@ -51,6 +69,12 @@
 				}
 			});
 		});
+		
+		function showControls() {
+			var controls = document.getElementsByClassName('controls');
+			for (var i=0; i < controls.length; i++)
+				controls[i].style.display = '';
+		}
 
 		function resizeCanvas(scale) {
 			videoScale = scale
@@ -98,4 +122,14 @@
 			context2d.stroke();
 			context2d.restore();
 		}
-  </script>
+
+		// -- Sliders --
+
+		var slider_data = [
+			{ label:'SIZE', options:{min:0.2, max:.8, step:.1, value:.8}, slide:function(value) {
+				resizeCanvas(value); render();}},
+		];
+		for (var i = 0; i < slider_data.length; i++)
+			JQueryUISlider.CreateSlider('#sliders', slider_data[i]);
+		JQueryUISlider.AddSliderStyle();
+	</script>
