@@ -41,7 +41,7 @@
 			findCameras(videoSelect, video, function(err, stream) {
 				if (err)
 					alert('VIDEO INITIALIZATION FAILED: ' + err.name);
-				else (setupComplete != true) {
+				else if (setupComplete != true) {
 					resizeCanvas(videoScale);
 					if (ht != null)
 						ht.stop();
