@@ -5,7 +5,7 @@
 
 <body> 
 	<div style='display:flex'>
-		<div class='container' id='main' style='justify-content:flex-start'>
+		<div style='justify-content:flex-start'>
 			<video id='video' autoplay='true' style='display:none'></video>
 			<canvas id='c'></canvas>
 			<div style='position:relative'>
@@ -126,7 +126,7 @@
 		// -- Sliders --
 
 		var slider_data = [
-			{ label:'SIZE', options:{min:0.2, max:.8, step:.1, value:.8}, slide:function(value) {
+			{ label:'SIZE', options:{min:0.2, max:.8, step:.1, value:videoScale}, slide:function(value) {
 				resizeCanvas(value); render();}},
 		];
 		for (var i = 0; i < slider_data.length; i++)
