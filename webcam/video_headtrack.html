@@ -39,7 +39,7 @@
 	<script src='js/headtrackr.js'></script>
 
 	<script>
-		console.log("*** VIDEO_HEADTRACK: VERSION 5.4 ***");
+		console.log("*** VIDEO_HEADTRACK: VERSION 5.5 ***");
 		
 		const videoSelect = document.querySelector('select#videoSource');
 		const video = document.getElementById('video');
@@ -56,13 +56,14 @@
 				if (err)
 					alert('VIDEO INITIALIZATION FAILED: ' + err.name);
 				else if (setupComplete != true) {
-					showControls();
+					//showControls();
 					//resizeCanvas(videoScale);
 					if (ht != null)
 						ht.stop();
 					ht = new headtrackr.Tracker({ui:true, headPosition:false, calcAngles:true});
 					ht.init(video, canvas1, false);
 					ht.start();
+					showControls();
 					resizeCanvas(videoScale);
 				}
 			});
