@@ -23,7 +23,7 @@
 	<script src='js/video-utils.js'></script>
 
 	<script>
-		console.log('==VERSION 5.0');
+		console.log('==VERSION 5.1');
 
 		const videoScaler = 0.8;
 		const videoSelect = document.querySelector('select#videoSource');
@@ -32,7 +32,7 @@
 		document.addEventListener("DOMContentLoaded", function(event) {
 			findCameras(videoSelect, video, function(err, stream) {
 				if (err)
-					alert('VIDEO INITIALIZATION FAILED: ' + err.name);
+					alert('VIDEO INITIALIZATION FAILED: ' + err.name + ' ' + JSON.stringify(err));
 				else 
 					resizeVideo();
 			});
