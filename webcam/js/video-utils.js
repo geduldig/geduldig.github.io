@@ -1,6 +1,4 @@
 function findCameras(videoSelect, video, callback) {
-	console.log('TEST ' + 1);
-	alert('TEST ' + 1);
 	videoSelect.onchange = getStream;
 	navigator.mediaDevices.enumerateDevices()
 		.then(gotDevices).then(getStream).catch(onMediaFail);
