@@ -160,12 +160,9 @@
 			});
 		}
 
-		function snapshot() {
+		function save() {
 			var dataURL = canvas.toDataURL();
 			document.getElementById('snapshot-img').src = dataURL;
-		}
-
-		function save() {
 			var link = document.getElementById('save-snapshot');
 			var now = new Date();
 			var stamp = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate() + '-' +
