@@ -27,10 +27,6 @@
 					<div style='margin-left:5px; padding:5px; font-size:.5em'>
 						<div id='sliders' style='border-style:solid; border-width:1px; display:inline-block'/>
 					</div>
-					<br>
-					<div style='margin-left:5px; padding:5px; font-size:2em'>
-						<a id='save-snapshot' onclick='save()' href="#" download='photo_blur.png'>Save snapshot</a>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -122,15 +118,6 @@
 			context2d.lineTo(0, 0);
 			context2d.stroke();
 			context2d.restore();
-		}
-
-		function save() {
-			var link = document.getElementById('save-snapshot');
-			var now = new Date();
-			var stamp = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate() + '-' +
-			            now.getHours() + '-' + now.getMinutes() + '-' + now.getSeconds();
-			link.download = 'photo_blur_' + stamp + '.png';
-	    		link.href = document.getElementById('snapshot-img').src;
 		}
 
 		// -- Sliders --
