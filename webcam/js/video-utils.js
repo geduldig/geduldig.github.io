@@ -22,8 +22,7 @@ function findCameras(videoSelect, video, callback) {
 	function setupCamera(video, deviceID, callback) {
 		let constraints = {
 			video: {
-				deviceId: { exact: deviceID },
-				width: 320
+				deviceId: { exact: deviceID }
 			}
 		};
 
