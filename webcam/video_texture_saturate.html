@@ -33,14 +33,6 @@
 			</div>
 		</div>
 	</div>
-	<div>
-		<!-- SNAPSHOT CONTROL -->
-		<div class='controls' style='display:none'>
-			<div style='margin-top:10px'>
-				<img id='snapshot-img' download></img>
-			</div>
-		</div>
-	</div>
 
 	<script src='https://code.jquery.com/jquery-latest.min.js'></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -179,7 +171,7 @@
 			var stamp = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate() + '-' +
 			            now.getHours() + '-' + now.getMinutes() + '-' + now.getSeconds();
 			link.download = 'photo_kuwahara_sat_' + stamp + '.png';
-	    link.href = document.getElementById('snapshot-img').src;
+	    		link.href = document.getElementById('snapshot-img').src;
 		}
 
 		// -- Sliders --
