@@ -103,7 +103,7 @@
 	<!-- MAIN PROGRAM -->
 
 	<script>
-		console.log("*** VIDEO_TEXTURE_BLUR: VERSION 4.0 ***");
+		console.log("*** VIDEO_TEXTURE_BLUR: VERSION 5.0 ***");
 		
 		let k1, k2, k3;
 		let videoScale = 0.8;
@@ -199,6 +199,8 @@
 		}
 
 		function save() {
+			var dataURL = canvas.toDataURL();
+			document.getElementById('snapshot-img').src = dataURL;
 			var link = document.getElementById('save-snapshot');
 			var now = new Date();
 			var stamp = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate() + '-' +
