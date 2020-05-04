@@ -32,7 +32,7 @@
 		document.addEventListener("DOMContentLoaded", function(event) {
 			findCameras(videoSelect, video, function(err, stream) {
 				if (err)
-					alert('VIDEO INITIALIZATION FAILED: ' + err);
+					alert('VIDEO INITIALIZATION FAILED: ' + err.name + ' for ' + err.constraint);
 				else 
 					resizeVideo();
 			});
