@@ -38,7 +38,7 @@
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src='js/JQueryUISlider.js'></script>
 	<script src='js/webgl-utils.js'></script>
-	<script src='js/video-utils.js'></script>
+	<script src='js/webcam.js'></script>
 
 	<!-- SHADERS -->
 
@@ -68,25 +68,36 @@
 	<!-- MAIN PROGRAM -->
 
 	<script>
-		console.log("*** VIDEO_TEXTURE_SATURATE: VERSION 2.5 ***");
+		console.log("*** VIDEO_TEXTURE_SATURATE: VERSION 1.0 ***");
 
 		let Kr, Kg, Kb, Kt;
 		let videoScale = 0.5;
 		const videoSelect = document.querySelector('select#videoSource');
-		const video = document.getElementById('video');
-		const canvas = document.getElementById('canvas');
+		const video = document.querySelector('#video');
+		const canvas = document.querySelector('#canvas');
 		const gl = canvas.getContext('webgl', {preserveDrawingBuffer:true});
 		const shader = new webglShader(gl);
 
 		document.addEventListener('DOMContentLoaded', function(event) {
-			findCameras(videoSelect, video, function(err, stream) {
-				if (err)
-					alert('VIDEO INITIALIZATION FAILED: ' + err.name);
-				else {
-					showControls();
-					resizeCanvas(videoScale);
-					render();
-				}
+			videoSelect.onchange = () => {
+				setupCamera(video, videoSelect.value, (err, stream) => {
+					if (err)
+						alert('WEBCAM INITIALIZATION FAILED: ' + JSON.stringify(err));
+					else {
+						showControls();
+						resizeCanvas(videoScale);
+						render();
+					}
+				});
+			};
+
+			discoverCameras((err, {label, id}) => {
+				const option = document.createElement('option');
+				option.value = id;
+				option.text = label;
+				videoSelect.appendChild(option);
+				if (videoSelect.length === 1) 
+					videoSelect.dispatchEvent(new Event('change'));
 			});
 		});
 
