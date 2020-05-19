@@ -35,7 +35,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('==VERSION 1.1');
+		console.log('==VERSION 1.2');
 
 		let videoScale = 0.5;
 		const videoSelect = document.querySelector('select#videoSource');
@@ -60,7 +60,7 @@
 				videoSelect.appendChild(option);
 				if (videoSelect.length === 1) {
 					option.setAttribute('selected', 'selected');
-					//videoSelect.dispatchEvent(new Event('change'))
+					videoSelect.dispatchEvent(new Event('change'))
 				}
 			});
 		});
