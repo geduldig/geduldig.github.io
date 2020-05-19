@@ -3,8 +3,11 @@ function setupCamera(video, callback) {
 	  	video: { width: 1280 }
 	};
 
-	navigator.mediaDevices.getUserMedia(constraints)
-	  	.then(onMediaStream).catch(onMediaFail);
+	if (navigator.mediaDevices.getUserMedia === undefined)
+		onMediaFail('Camera may not be accesible from your browser. If using an iPhone, try Safari.');
+	else
+		navigator.mediaDevices.getUserMedia(constraints)
+			.then(onMediaStream).catch(onMediaFail);
 
 	function onMediaStream(stream) {
 	  	window.URL = window.URL || window.webkitURL;
