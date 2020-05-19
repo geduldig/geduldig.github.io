@@ -10,7 +10,8 @@ function setupCamera(video, deviceID, callback) {
 	}
 	else
 		navigator.mediaDevices.getUserMedia(constraints)
-			.then(onMediaStream).catch(onMediaFail);
+			.then(onMediaStream)
+			.catch(onMediaFail);
 
 	function onMediaStream(stream) {
 	  	window.URL = window.URL || window.webkitURL;
@@ -24,18 +25,17 @@ function setupCamera(video, deviceID, callback) {
 }
 
 function discoverCameras(callback) {
-	alert('discoverCameras')
 	if (navigator.mediaDevices === undefined || navigator.mediaDevices.enumerateDevices === undefined) {
 		alert('no enumerateDevices')
 		callback(null, { 'label':'default camera', 'id':null });
 	}
 	else 
 		navigator.mediaDevices.enumerateDevices()
-			.then(gotDevices)
+			.then(onMediaDevices)
 			//.then(getStream)
 			.catch(onMediaFail);
 
-	function gotDevices(deviceInfos) {
+	function onMediaDevices(deviceInfos) {
 		for (let i = 0; i !== deviceInfos.length; ++i) {
 			let deviceInfo = deviceInfos[i];
 			if (deviceInfo.kind === 'videoinput') 

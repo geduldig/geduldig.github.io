@@ -35,7 +35,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('==VERSION 1.5');
+		console.log('==VERSION 1.6');
 
 		let videoScale = 0.5;
 		const videoSelect = document.querySelector('select#videoSource');
@@ -60,10 +60,10 @@
 				setupCamera(video, videoSelect.value, (err, stream) => {
 					if (err)
 						alert('WEBCAM INITIALIZATION FAILED: ' + JSON.stringify(err));
-				else {
-					showControls();
-					resizeVideo(videoScale);
-				}
+					else {
+						showControls();
+						resizeVideo(videoScale);
+					}
 				});
 			};
 
