@@ -35,7 +35,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('==VERSION 1.5');
+		console.log('==VERSION 1.6');
 
 		let videoScale = 0.5;
 		const videoSelect = document.querySelector('select#videoSource');
@@ -58,7 +58,7 @@
 				option.value = id;
 				option.text = label;
 				videoSelect.appendChild(option);
-				if (videoSelect.length === 2) {
+				if (videoSelect.length === 3) {
 					alert('select',option.text)
 					option.setAttribute('selected', 'selected');
 					videoSelect.dispatchEvent(new Event('change'))
