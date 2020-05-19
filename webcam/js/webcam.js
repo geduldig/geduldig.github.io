@@ -24,6 +24,7 @@ function setupCamera(video, deviceID, callback) {
 }
 
 function discoverCameras(callback) {
+	alert('discoverCameras')
 	if (navigator.mediaDevices === undefined || navigator.mediaDevices.enumerateDevices === undefined) {
 		alert('no enumerateDevices')
 		callback(null, { 'label':'default camera', 'id':null });
