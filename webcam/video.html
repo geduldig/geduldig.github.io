@@ -35,27 +35,13 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('==VERSION 1.8');
+		console.log('==VERSION 1.9');
 
 		let videoScale = 0.5;
 		const videoSelect = document.querySelector('select#videoSource');
 		const video = document.querySelector('#video');
 
 		document.addEventListener("DOMContentLoaded", function(event) {
-			// findCameras(videoSelect, video, function(err, stream) {
-			// 	if (err)
-			// 		alert('VIDEO INITIALIZATION FAILED: ' + err.name + ' for ' + err.constraint);
-			// 	else {
-			// 		showControls();
-			// 		resizeVideo(videoScale);
-			// 	}
-			// });
-			discoverCameras((err, {label, id}) => {
-				const option = document.createElement('option');
-				option.value = id;
-				option.text = label;
-				videoSelect.appendChild(option);
-			});
 			videoSelect.onchange = () => {
 				setupCamera(video, videoSelect.value, (err, stream) => {
 					if (err)
@@ -67,6 +53,12 @@
 				});
 			};
 
+			discoverCameras((err, {label, id}) => {
+				const option = document.createElement('option');
+				option.value = id;
+				option.text = label;
+				videoSelect.appendChild(option);
+			});
 		});
 		
 		function showControls() {
