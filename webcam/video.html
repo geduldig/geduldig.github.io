@@ -50,7 +50,7 @@
 			// 		resizeVideo(videoScale);
 			// 	}
 			// });
-			discoverCameras(video, (err, {label, id}) => {
+			discoverCameras((err, {label, id}) => {
 				const option = document.createElement('option');
 				option.value = id;
 				option.text = label;
