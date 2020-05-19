@@ -215,7 +215,7 @@
 
       setupCamera(video, null, function(err, stream) {
           if (err) {
-            //console.log('WEBCAM INITIALIZATION FAILED: ' + err.name + ' for ' + err.constraint);
+            console.log('WEBCAM INITIALIZATION FAILED: ' + JSON.stringify(err));
             content = image;
             contentWidth = image.naturalWidth;
             contentHeight = image.naturalHeight;
