@@ -1,7 +1,9 @@
 function setupCamera(video, deviceID, callback) {
 	let constraints = {
-		deviceId: { exact: deviceID },
-		video: { width: 1280 }
+		video: {
+			deviceId: { exact: deviceID },
+			width: 1280
+		}
 	};
 
 	if (navigator.mediaDevices === undefined || navigator.mediaDevices.getUserMedia === undefined) {
@@ -10,7 +12,8 @@ function setupCamera(video, deviceID, callback) {
 	}
 	else
 		navigator.mediaDevices.getUserMedia(constraints)
-			.then(onMediaStream).catch(onMediaFail);
+			.then(onMediaStream)
+			.catch(onMediaFail);
 
 	function onMediaStream(stream) {
 	  	window.URL = window.URL || window.webkitURL;
@@ -25,16 +28,17 @@ function setupCamera(video, deviceID, callback) {
 
 function discoverCameras(callback) {
 	if (navigator.mediaDevices === undefined || navigator.mediaDevices.enumerateDevices === undefined) 
-		navigator.mediaDevices.enumerateDevices()
-			.then(gotDevices).then(getStream).catch(onMediaFail);
+		callback(null, { 'label':'Camera', 'id':null });
 	else 
-		callback(null, { 'label':'default camera', 'id':null });
+		navigator.mediaDevices.enumerateDevices()
+			.then(onMediaDevices)
+			.catch(onMediaFail);
 
-	function gotDevices(deviceInfos) {
-		for (let i = 0; i !== deviceInfos.length; ++i) {
+	function onMediaDevices(deviceInfos) {
+		for (let i = 0; i < deviceInfos.length; i++) {
 			let deviceInfo = deviceInfos[i];
 			if (deviceInfo.kind === 'videoinput') 
-				callback(null, { 'label':deviceInfo.label, 'id':deviceInfo.deviceId });
+				callback(null, { 'label':(deviceInfo.label || 'Camera'), 'id':deviceInfo.deviceId });
 		}
 	}
 
