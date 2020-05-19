@@ -24,8 +24,10 @@ function setupCamera(video, deviceID, callback) {
 }
 
 function discoverCameras(callback) {
-	if (navigator.mediaDevices === undefined || navigator.mediaDevices.enumerateDevices === undefined) 
+	if (navigator.mediaDevices === undefined || navigator.mediaDevices.enumerateDevices === undefined) {
+		alert('no enumerateDevices')
 		callback(null, { 'label':'default camera', 'id':null });
+	}
 	else 
 		navigator.mediaDevices.enumerateDevices()
 			.then(gotDevices).then(getStream).catch(onMediaFail);
