@@ -35,7 +35,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('==VERSION 1.8');
+		console.log('==VERSION 1.9');
 
 		let videoScale = 0.5;
 		const videoSelect = document.querySelector('select#videoSource');
@@ -43,7 +43,6 @@
 
 		document.addEventListener("DOMContentLoaded", function(event) {
 			videoSelect.onchange = () => {
-				alert(videoSelect.value);
 				setupCamera(video, videoSelect.value, (err, stream) => {
 					if (err)
 						alert('WEBCAM INITIALIZATION FAILED: ' + JSON.stringify(err));
@@ -59,10 +58,10 @@
 				option.value = id;
 				option.text = label;
 				videoSelect.appendChild(option);
-				if (videoSelect.length === 1) {
-					option.setAttribute('selected', 'selected');
-					videoSelect.dispatchEvent(new Event('change'))
-				}
+				// if (videoSelect.length === 1) {
+				// 	option.setAttribute('selected', 'selected');
+				// 	videoSelect.dispatchEvent(new Event('change'))
+				// }
 			});
 		});
 		
