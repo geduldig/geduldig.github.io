@@ -3,7 +3,7 @@ function setupCamera(video, callback) {
 	  	video: { width: 1280 }
 	};
 
-	if (navigator.mediaDevices.getUserMedia === undefined)
+	if (navigator.mediaDevices === undefined || navigator.mediaDevices.getUserMedia === undefined)
 		onMediaFail('Camera may not be accesible from your browser. If using an iPhone, try Safari.');
 	else
 		navigator.mediaDevices.getUserMedia(constraints)
