@@ -35,10 +35,12 @@ function discoverCameras(callback) {
 			.catch(onMediaFail);
 
 	function onMediaDevices(deviceInfos) {
-		for (let i = 0; i !== deviceInfos.length; ++i) {
+		for (let i = 0; i !== deviceInfos.length; i++) {
 			let deviceInfo = deviceInfos[i];
-			if (deviceInfo.kind === 'videoinput') 
-				callback(null, { 'label':deviceInfo.label, 'id':deviceInfo.deviceId });
+			if (deviceInfo.kind === 'videoinput') {
+				let label = deviceInfo.label ? deviceInfo.label : 'Camera ' + (i+1);
+				callback(null, { 'label':label, 'id':deviceInfo.deviceId });
+			}
 		}
 	}
 

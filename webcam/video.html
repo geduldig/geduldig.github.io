@@ -58,10 +58,8 @@
 				option.value = id;
 				option.text = label;
 				videoSelect.appendChild(option);
-				if (videoSelect.length === 1) {
-					// option.setAttribute('selected', 'selected');
+				if (videoSelect.length === 1) 
 					videoSelect.dispatchEvent(new Event('change'))
-				}
 			});
 		});
 		
