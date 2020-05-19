@@ -31,7 +31,9 @@ function discoverCameras(callback) {
 	}
 	else 
 		navigator.mediaDevices.enumerateDevices()
-			.then(gotDevices).then(getStream).catch(onMediaFail);
+			.then(gotDevices)
+			//.then(getStream)
+			.catch(onMediaFail);
 
 	function gotDevices(deviceInfos) {
 		for (let i = 0; i !== deviceInfos.length; ++i) {
