@@ -45,7 +45,8 @@
 	<script src='https://code.jquery.com/jquery-latest.min.js'></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src='js/JQueryUISlider.js'></script>
-	<script src='js/webgl-utils.js'></script>
+    <script src='js/webglShader.js'></script>
+    <script src='js/webglTexture.js'></script>
 	<script src='js/webcam.js'></script>
 
 	<!-- SHADERS -->
@@ -89,15 +90,35 @@
 	<!-- MAIN PROGRAM -->
 
 	<script>
-		console.log("*** VIDEO_TEXTURE HATCH: VERSION 1.0 ***");
-
-		let k1, k2, k3, k4;
-		let videoScale = 0.5;
+		console.log("VERSION 1.1");
+		
 		const videoSelect = document.querySelector('select#videoSource');
-		const video = document.querySelector('#video');
 		const canvas = document.querySelector('#canvas');
-		const gl = canvas.getContext('webgl', {preserveDrawingBuffer:true});
-		const shader = new webglShader(gl);
+		const image = document.querySelector('#image');
+		const video = document.querySelector('#video');
+		const vs = document.querySelector('#vshader').textContent;
+		const fs = document.querySelector('#fshader').textContent;
+	
+		// Setup shader program and variables 
+		const gl = canvas.getContext('webgl', { preserveDrawingBuffer:true });
+		const program = createProgram(gl, vs, fs);
+		const k1 = gl.getUniformLocation(program, 'K1');
+		const k2 = gl.getUniformLocation(program, 'K2');
+		const k3 = gl.getUniformLocation(program, 'K3');
+		const k4 = gl.getUniformLocation(program, 'K4');
+		const k5 = gl.getUniformLocation(program, 'K5');
+		const width = gl.getUniformLocation(program, 'width');
+		const height = gl.getUniformLocation(program, 'height');
+		const sampler = gl.getUniformLocation(program, 'sampler0');
+		const position = gl.getAttribLocation(program, 'position');
+		const texture = createTexture(gl);
+		const vertexBuffer = webglScreenQuad(gl);
+		gl.uniform1i(sampler, 0);
+		gl.enableVertexAttribArray(position);
+		gl.vertexAttribPointer(position, vertexBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+		let videoScale = 0.5;
+		let animID = undefined;
 
 		document.addEventListener('DOMContentLoaded', function(event) {
 			videoSelect.onchange = () => {
@@ -141,24 +162,6 @@
 		}
 
 		function render() {
-			// -- Create shader program --
-
-			var vs = document.getElementById('vshader').textContent;
-			var fs = document.getElementById('fshader').textContent;
-			var program = shader.createProgram(vs, fs);
-			gl.useProgram(program);
-
-			// -- Set shader variables --
-
-			k1 = gl.getUniformLocation(program, 'K1');
-			k2 = gl.getUniformLocation(program, 'K2');
-			k3 = gl.getUniformLocation(program, 'K3');
-			k4 = gl.getUniformLocation(program, 'K4');
-			k5 = gl.getUniformLocation(program, 'K5');
-			var width = gl.getUniformLocation(program, 'width');
-			var height = gl.getUniformLocation(program, 'height');
-			var sampler = gl.getUniformLocation(program, 'sampler0');
-			var position = gl.getAttribLocation(program, 'position');
 			gl.uniform1f(k1, 1.);
 			gl.uniform1f(k2, .75);
 			gl.uniform1f(k3, .5);
@@ -166,33 +169,66 @@
 			gl.uniform1f(k5, 10.0);
 			gl.uniform1f(width, canvas.width);
 			gl.uniform1f(height, canvas.height);
-			gl.uniform1i(sampler, 0);
-			var vertexPosBuffer = webglScreenQuad(gl);
-			gl.enableVertexAttribArray(position);
-			gl.vertexAttribPointer(position, vertexPosBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-			// -- Create texture --
-
-			var texture = gl.createTexture();
-			gl.activeTexture(gl.TEXTURE0);
-			gl.bindTexture(gl.TEXTURE_2D, texture);
-			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-			gl.bindTexture(gl.TEXTURE_2D, null);
-
-			// -- Render loop --
-
 			gl.viewport(0, 0, canvas.width, canvas.height);
-			window.requestAnimationFrame(function loop() {
-				gl.activeTexture(gl.TEXTURE0);
-				gl.bindTexture(gl.TEXTURE_2D, texture);
-				gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, video);
-				gl.drawArrays(gl.TRIANGLE_STRIP, 0, vertexPosBuffer.numItems);
-				gl.bindTexture(gl.TEXTURE_2D, null);
-				window.requestAnimationFrame(loop);
+
+			window.cancelAnimationFrame(animID);
+			animID = window.requestAnimationFrame(function loop() {
+				updateTexture(gl, texture, vertexBuffer, video);
+				animID = window.requestAnimationFrame(loop);
 			});
+
+			// // -- Create shader program --
+
+			// var vs = document.getElementById('vshader').textContent;
+			// var fs = document.getElementById('fshader').textContent;
+			// var program = shader.createProgram(vs, fs);
+			// gl.useProgram(program);
+
+			// // -- Set shader variables --
+
+			// k1 = gl.getUniformLocation(program, 'K1');
+			// k2 = gl.getUniformLocation(program, 'K2');
+			// k3 = gl.getUniformLocation(program, 'K3');
+			// k4 = gl.getUniformLocation(program, 'K4');
+			// k5 = gl.getUniformLocation(program, 'K5');
+			// var width = gl.getUniformLocation(program, 'width');
+			// var height = gl.getUniformLocation(program, 'height');
+			// var sampler = gl.getUniformLocation(program, 'sampler0');
+			// var position = gl.getAttribLocation(program, 'position');
+			// gl.uniform1f(k1, 1.);
+			// gl.uniform1f(k2, .75);
+			// gl.uniform1f(k3, .5);
+			// gl.uniform1f(k4, .25);
+			// gl.uniform1f(k5, 10.0);
+			// gl.uniform1f(width, canvas.width);
+			// gl.uniform1f(height, canvas.height);
+			// gl.uniform1i(sampler, 0);
+			// var vertexPosBuffer = webglScreenQuad(gl);
+			// gl.enableVertexAttribArray(position);
+			// gl.vertexAttribPointer(position, vertexPosBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+			// // -- Create texture --
+
+			// var texture = gl.createTexture();
+			// gl.activeTexture(gl.TEXTURE0);
+			// gl.bindTexture(gl.TEXTURE_2D, texture);
+			// gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+			// gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+			// gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+			// gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+			// gl.bindTexture(gl.TEXTURE_2D, null);
+
+			// // -- Render loop --
+
+			// gl.viewport(0, 0, canvas.width, canvas.height);
+			// window.requestAnimationFrame(function loop() {
+			// 	gl.activeTexture(gl.TEXTURE0);
+			// 	gl.bindTexture(gl.TEXTURE_2D, texture);
+			// 	gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, video);
+			// 	gl.drawArrays(gl.TRIANGLE_STRIP, 0, vertexPosBuffer.numItems);
+			// 	gl.bindTexture(gl.TEXTURE_2D, null);
+			// 	window.requestAnimationFrame(loop);
+			// });
 		}
 
 		function save() {
