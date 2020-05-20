@@ -172,13 +172,13 @@
 			{ label:'SIZE', options:{min:0.2, max:.8, step:.1, value:.8}, slide:function(value) {
 				resizeCanvas(value); render();}},
 			{ label:'R', options:{min:0, max:2, step:.01, value:.5}, slide:function(value) {
-				gl.uniform1f(Kr, value);}},
+				gl.uniform1f(kr, value);}},
 			{ label:'G', options:{min:0, max:2, step:.01, value:.5}, slide:function(value) {
-				gl.uniform1f(Kg, value);}},
+				gl.uniform1f(kg, value);}},
 			{ label:'B', options:{min:0, max:2, step:.01, value:.5}, slide:function(value) {
-				gl.uniform1f(Kb, value);}},
+				gl.uniform1f(kb, value);}},
 			{ label:'T', options:{min:-10, max:10, step:.1, value:5}, slide:function(value) {
-				gl.uniform1f(Kt, value);}}
+				gl.uniform1f(kt, value);}}
 		];
 		for (var i = 0; i < slider_data.length; i++)
 			JQueryUISlider.CreateSlider('#sliders', slider_data[i]);
