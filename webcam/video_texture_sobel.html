@@ -169,8 +169,10 @@
 				option.value = id;
 				option.text = label;
 				videoSelect.appendChild(option);
-				if (videoSelect.length === 1) 
+				if (videoSelect.length === 1 || option.text.indexOf('Built-in') !== -1) {
+					option.setAttribute('selected', 'selected');
 					videoSelect.dispatchEvent(new Event('change'));
+				}
 			});
 		});
 
