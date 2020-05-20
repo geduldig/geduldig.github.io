@@ -140,10 +140,10 @@
 		// Setup shader program and variables 
 		const gl = canvas.getContext('webgl', { preserveDrawingBuffer:true });
 		const program = createProgram(gl, vs, fs);
-		const kr = gl.getUniformLocation(program, 'Kr');
-		const kg = gl.getUniformLocation(program, 'Kg');
-		const kb = gl.getUniformLocation(program, 'Kb');
-		const kt = gl.getUniformLocation(program, 'Kt');
+		const kr = gl.getUniformLocation(program, 'R');
+		const kg = gl.getUniformLocation(program, 'G');
+		const kb = gl.getUniformLocation(program, 'B');
+		const kt = gl.getUniformLocation(program, 'T');
 		const width = gl.getUniformLocation(program, 'width');
 		const height = gl.getUniformLocation(program, 'height');
 		const sampler = gl.getUniformLocation(program, 'sampler0');
