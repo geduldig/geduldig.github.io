@@ -150,7 +150,7 @@
 
         window.cancelAnimationFrame(animID);
         animID = window.requestAnimationFrame(function loop() {
-          updateTexture(gl, texture, vertexBuffer, video);
+          updateTexture(gl, texture, vertexBuffer, content);
           animID = window.requestAnimationFrame(loop);
         });
       }
