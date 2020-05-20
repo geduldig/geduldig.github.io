@@ -201,8 +201,8 @@
 			// });
 
 			gl.uniform1f(width, canvas.width);
-			gl.uniform1f(weight, canvas.height);
-			gl.viewport(0, 0, width, height);
+			gl.uniform1f(height, canvas.height);
+			gl.viewport(0, 0, canvas.width, canvas.height);
 
 			window.cancelAnimationFrame(animID);
 			animID = window.requestAnimationFrame(function loop() {
