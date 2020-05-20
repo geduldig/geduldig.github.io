@@ -91,7 +91,6 @@
       // Setup shader program and variables 
       const gl = canvas.getContext('webgl', { preserveDrawingBuffer:true });
       const program = createProgram(gl, vs, fs);
-      const texture = createTexture(gl);
       const k1 = gl.getUniformLocation(program, 'K1');
       const k2 = gl.getUniformLocation(program, 'K2');
       const k3 = gl.getUniformLocation(program, 'K3');
@@ -107,6 +106,7 @@
       const canvasHeight = gl.getUniformLocation(program, 'canvasHeight');
       const sampler = gl.getUniformLocation(program, 'sampler0');
       const position = gl.getAttribLocation(program, 'position');
+      const texture = createTexture(gl);
       const vertexBuffer = webglScreenQuad(gl);
       gl.uniform1i(sampler, 0);
       gl.enableVertexAttribArray(position);
@@ -150,7 +150,7 @@
 
         window.cancelAnimationFrame(animID);
         animID = window.requestAnimationFrame(function loop() {
-          updateTexture(gl, texture, vertexBuffer, content);
+          updateTexture(gl, texture, vertexBuffer, video);
           animID = window.requestAnimationFrame(loop);
         });
       }
