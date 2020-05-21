@@ -1,13 +1,11 @@
-function isMoboleDevice() {
-    return 
-        navigator.userAgent.match(/Android/i) ||
-        navigator.userAgent.match(/webOS/i) ||
-        navigator.userAgent.match(/iPhone/i) ||
-        navigator.userAgent.match(/iPad/i) ||
-        navigator.userAgent.match(/iPod/i) ||
-        navigator.userAgent.match(/BlackBerry/i) ||
-        navigator.userAgent.match(/Windows Phone/i);
-}
+const isMoboleDevice =
+    navigator.userAgent.match(/Android/i) ||
+    navigator.userAgent.match(/webOS/i) ||
+    navigator.userAgent.match(/iPhone/i) ||
+    navigator.userAgent.match(/iPad/i) ||
+    navigator.userAgent.match(/iPod/i) ||
+    navigator.userAgent.match(/BlackBerry/i) ||
+    navigator.userAgent.match(/Windows Phone/i);
 
 // DOM elements
 
@@ -49,6 +47,9 @@ document.addEventListener('DOMContentLoaded', function(event) {
             videoSelect.dispatchEvent(new Event('change'));
         }
     });
+
+    if (isMoboleDevice)
+        document.querySelector('#snapshot').style.display = 'none';
 });
 
 videoSelect.onchange = () => {
@@ -63,9 +64,19 @@ videoSelect.onchange = () => {
     });
 };
 
-menu.onmouseover = () => { menu.style.display = 'block'; }
-canvas.onmouseenter = () => { menu.style.display = 'block'; }
-canvas.onmouseleave = () => { menu.style.display = 'none'; }
+function showMenu() {
+    menu.style.display = 'block';
+    if (isMoboleDevice)
+        menu.style.zoom = (canvas.width / menu.clientWidth).toString();
+}
+
+function hideMenu() {
+    menu.style.display = 'none';
+}
+
+menu.onmouseover = showMenu;
+canvas.onmouseenter = showMenu;
+canvas.onmouseleave = hideMenu;
 
 // Tasks
 

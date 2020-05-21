@@ -40,7 +40,16 @@
 		const videoSelect = document.querySelector('select#videoSource');
 		const video = document.querySelector('#video');
 
-		let videoScale = 0.5;
+		const isMoboleDevice =
+			navigator.userAgent.match(/Android/i) ||
+			navigator.userAgent.match(/webOS/i) ||
+			navigator.userAgent.match(/iPhone/i) ||
+			navigator.userAgent.match(/iPad/i) ||
+			navigator.userAgent.match(/iPod/i) ||
+			navigator.userAgent.match(/BlackBerry/i) ||
+			navigator.userAgent.match(/Windows Phone/i);
+
+		let videoScale = 1.0;
 
 		// -- UI events --
 
@@ -68,11 +77,21 @@
 			});
 		};
 
-		menu.onmouseover = () => { menu.style.display = 'block'; }
-		video.onmouseenter = () => { menu.style.display = 'block'; }
-		video.onmouseleave = () => { menu.style.display = 'none'; }
+		menu.onmouseover = showMenu;
+		video.onmouseenter = showMenu;
+		video.onmouseleave = hideMenu;
 
 		// -- Tasks --
+
+		function showMenu() {
+			menu.style.display = 'block';
+			if (isMoboleDevice)
+				menu.style.zoom = (video.width / menu.clientWidth).toString();
+		}
+
+		function hideMenu() {
+			menu.style.display = 'none';
+		}
 
 		function showControls() {
 			var controls = document.getElementsByClassName('controls');
