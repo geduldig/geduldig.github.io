@@ -22,7 +22,7 @@ gl.uniform1i(sampler, 0);
 gl.enableVertexAttribArray(position);
 gl.vertexAttribPointer(position, vertexBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-let videoScale = 0.5;
+let videoScale = 1.0;
 let animID = undefined;
 
 // -- UI events --
