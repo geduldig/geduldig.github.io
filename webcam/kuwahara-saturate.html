@@ -140,13 +140,13 @@
 		const sliders = [
 			{ label:'VIDEO SCALE', options:{min:0.2, max:1., step:.1}, slide:function(value) {
 				resizeCanvas(value); startAnimation();}},
-			{ label:'R', options:{min:0, max:2, step:.01}, slide:function(value) {
+			{ label:'Red', options:{min:0, max:2, step:.01}, slide:function(value) {
 				gl.uniform1f(kr, value);}},
-			{ label:'G', options:{min:0, max:2, step:.01}, slide:function(value) {
+			{ label:'Green', options:{min:0, max:2, step:.01}, slide:function(value) {
 				gl.uniform1f(kg, value);}},
-			{ label:'B', options:{min:0, max:2, step:.01}, slide:function(value) {
+			{ label:'Blue', options:{min:0, max:2, step:.01}, slide:function(value) {
 				gl.uniform1f(kb, value);}},
-			{ label:'T', options:{min:-10, max:10, step:.1}, slide:function(value) {
+			{ label:'Saturation', options:{min:-10, max:10, step:.1}, slide:function(value) {
 				gl.uniform1f(kt, value);}}
 		];
 
