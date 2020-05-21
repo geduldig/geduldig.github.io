@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="style/style.css" />
+
+<body>
+	<div style='display:flex'>
+		<div style='justify-content:flex-start'>
+			<!-- VIDEO AND CANVAS -->
+			<div>
+				<video id='video' autoplay='true' style='display:none'></video>
+				<canvas id='canvas'></canvas>
+			</div>
+		</div>
+		<div id='menu' style='display:none'>
+			<!-- VIDEO SOURCE CHOOSER -->
+			<div class="select">
+				<label for="videoSource">Video </label>
+				<span><select id="videoSource"></select></span>
+			</div>
+			<!-- SLIDER CONTROLS -->
+			<div style='display:inline-block'>
+				<div class='controls'>
+					<div id='sliders'/>
+				</div>					
+			</div>
+			<!-- PRESET BUTTONS -->
+			<div style='display:inline-block'>
+				<div class='controls'>
+					<label for="presets">Presets </label>
+					<span><div id='presets' style='display:inline-block'/></span>
+				</div>					
+			</div>
+			<!-- SNAPSHOT -->
+			<div style='display:inline-block'>
+				<div class='controls'>
+					<a id='save-snapshot' onclick='saveSnapshot()' href='#'>Save snapshot</a>
+					<img id='snapshot-img' style='display:none'></img>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- SHADERS -->
+
+	<script id='vshader' type='text/plain'>
+		attribute vec2 position;
+		void main(void) {
+			gl_Position = vec4(position, 0, 1);
+		}
+	</script>
+
+	<script id='fshader' type='text/plain'>
+		precision mediump float;
+		uniform sampler2D sampler0;
+		uniform float width, height;
+		uniform float K1, K2, K3, K4, K5;
+
+		void main() {
+			vec2 st = vec2(gl_FragCoord.s/width, 1. - gl_FragCoord.t/height);
+			vec3 c = texture2D(sampler0, st).rgb;
+			float lum = 0.21 * c.r + 0.72 * c.g + 0.07 * c.b;
+			gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
+
+			if (lum < K1) {
+				if (mod(gl_FragCoord.x + gl_FragCoord.y, K5) == 0.0)
+					gl_FragColor.a = 1.0;
+			}
+			if (lum < K2) {
+				if (mod(gl_FragCoord.x - gl_FragCoord.y, K5) == 0.0)
+				gl_FragColor.a = 1.0;
+			}
+			if (lum < K3) {
+				if (mod(gl_FragCoord.x + gl_FragCoord.y - K5/2.0, K5) == 0.0)
+				gl_FragColor.a = 1.0;
+			}
+			if (lum < K4) {
+				if (mod(gl_FragCoord.x - gl_FragCoord.y - K5/2.0, K5) == 0.0)
+				gl_FragColor.a = 1.0;
+			}
+		}
+	</script>
+
+	<!-- MAIN PROGRAM -->
+
+	<script src='https://code.jquery.com/jquery-latest.min.js'></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src='js/jquerySlider.js'></script>
+    <script src='js/webglShader.js'></script>
+    <script src='js/webglTexture.js'></script>
+	<script src='js/webcam.js'></script>
+	<script src='js/common.js'></script>
+
+	<script>
+		console.log("VERSION 1.1");
+
+		// -- Shader control knobs --
+		
+		const k1 = gl.getUniformLocation(program, 'K1');
+		const k2 = gl.getUniformLocation(program, 'K2');
+		const k3 = gl.getUniformLocation(program, 'K3');
+		const k4 = gl.getUniformLocation(program, 'K4');
+		const k5 = gl.getUniformLocation(program, 'K5');
+
+		// -- Sliders --
+
+		const sliders = [
+			{ label:'VIDEO SCALE', options:{min:0.2, max:1., step:.1}, slide:function(value) {
+				resizeCanvas(value); startAnimation();}},
+			{ label:'HATCH1 LEFT', options:{min:0., max:1., step:.01}, slide:function(value) {
+				gl.uniform1f(k1, value);}},
+			{ label:'HATCH1 RIGHT', options:{min:0., max:1., step:.01}, slide:function(value) {
+				gl.uniform1f(k2, value);}},
+			{ label:'HATCH2 LEFT', options:{min:0., max:1., step:.01}, slide:function(value) {
+				gl.uniform1f(k3, value);}},
+			{ label:'HATCH2 RIGHT', options:{min:0., max:1., step:.01}, slide:function(value) {
+				gl.uniform1f(k4, value);}},
+			{ label:'SEPARATION', options:{min:1., max:20., step:1.}, slide:function(value) {
+				value = checkSeparation(value); gl.uniform1f(k5, value);}}
+		];
+
+		function checkSeparation(val) {
+			const badValues = [ 7, 13, 14, 15];
+			if (badValues.includes(val)) 
+				return checkSeparation(val + 1);
+			else
+				return val;
+		}
+
+		createSliders(sliders);
+
+		// -- Presets --
+
+		sliders[0].update(.5);
+
+		createPreset('1', () => {
+			sliders[1].update(.25);
+			sliders[2].update(.25);
+			sliders[3].update(.25);
+			sliders[4].update(.25);
+			sliders[5].update(6);
+		}).onclick();
+
+		createPreset('2', () => {
+			sliders[1].update(.2);
+			sliders[2].update(.2);
+			sliders[3].update(.2);
+			sliders[4].update(.2);
+			sliders[5].update(4);
+		});
+
+		createPreset('3', () => {
+			sliders[1].update(.5);
+			sliders[2].update(.2);
+			sliders[3].update(.2);
+			sliders[4].update(.2);
+			sliders[5].update(16);
+		});	
+	</script>
+</body>

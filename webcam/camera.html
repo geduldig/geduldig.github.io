@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="style/style.css" />
+
+<body>
+	<div style='display:flex'>
+		<div style='justify-content:flex-start'>
+			<!-- VIDEO -->
+			<div>
+				<video id='video' autoplay='true' style='display:block'></video>
+			</div>
+		</div>
+		<div id='menu' style='display:none'>
+			<!-- VIDEO SOURCE CHOOSER -->
+			<div class="select">
+				<label for="videoSource">Video </label>
+				<span><select id="videoSource"></select></span>
+			</div>
+			<!-- SLIDER CONTROLS -->
+			<div style='display:inline-block'>
+				<div class='controls'>
+					<div id='sliders'/>
+				</div>					
+			</div>
+		</div>
+	</div>
+
+	<script src='https://code.jquery.com/jquery-latest.min.js'></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src='js/jquerySlider.js'></script>
+	<script src='js/webcam.js'></script>
+
+	<script>
+		console.log('==VERSION 1.1');
+
+		// -- DOM elements --
+
+		const menu = document.querySelector('#menu');
+		const videoSelect = document.querySelector('select#videoSource');
+		const video = document.querySelector('#video');
+
+		let videoScale = 0.5;
+
+		// -- UI events --
+
+		document.addEventListener('DOMContentLoaded', function(event) {
+			discoverCameras((err, {label, id}) => {
+				const option = document.createElement('option');
+				option.value = id;
+				option.text = label;
+				videoSelect.appendChild(option);
+				if (videoSelect.length === 1 || option.text.indexOf('Built-in') !== -1) {
+					option.setAttribute('selected', 'selected');
+					videoSelect.dispatchEvent(new Event('change'));
+				}
+			});
+		});
+
+		videoSelect.onchange = () => {
+			setupCamera(video, videoSelect.value, (err, stream) => {
+				if (err)
+					alert('WEBCAM FAILED: ' + JSON.stringify(err));
+				else {
+					showControls();
+					resizeVideo(videoScale);
+				}
+			});
+		};
+
+		menu.onmouseover = () => { menu.style.display = 'block'; }
+		video.onmouseenter = () => { menu.style.display = 'block'; }
+		video.onmouseleave = () => { menu.style.display = 'none'; }
+
+		// -- Tasks --
+
+		function showControls() {
+			var controls = document.getElementsByClassName('controls');
+			for (var i=0; i < controls.length; i++)
+				controls[i].style.display = '';
+		}
+
+		function resizeVideo(scale) {
+			videoScale = scale;
+			if (video.videoWidth / video.videoHeight > window.innerWidth / window.innerheight) {
+				video.width = window.innerWidth * videoScale;
+				video.height = video.width * video.videoHeight / video.videoWidth;
+			}
+			else {
+				video.height = window.innerHeight * videoScale;
+				video.width = video.height * video.videoWidth / video.videoHeight;
+			}
+		}
+
+		// -- Sliders --
+
+		const sliders = [
+			{ label:'VIDEO SCALE', options:{min:0.2, max:1., step:.1}, slide:function(value) {
+				resizeVideo(value);}},
+		];
+
+		for (var i = 0; i < sliders.length; i++)
+			jQuerySlider.CreateSlider('#sliders', sliders[i]);
+		jQuerySlider.AddSliderStyle();
+
+		// -- Presets --
+
+		sliders[0].update(.5);
+	</script>

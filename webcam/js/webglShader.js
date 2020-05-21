@@ -3,8 +3,8 @@ window.onerror = function(msg, url, lineno) {
 }
 
 function webglShader(_gl) {
-	var gl = _gl;
-	var my = {};
+	const gl = _gl;
+	const my = {};
 
 	function createShader(str, type) {
 		var shader = gl.createShader(type);
@@ -16,8 +16,8 @@ function webglShader(_gl) {
 	}
 
 	function linkProgram(program) {
-		var vshader = createShader(program.vshaderSource, gl.VERTEX_SHADER);
-		var fshader = createShader(program.fshaderSource, gl.FRAGMENT_SHADER);
+		const vshader = createShader(program.vshaderSource, gl.VERTEX_SHADER);
+		const fshader = createShader(program.fshaderSource, gl.FRAGMENT_SHADER);
 		gl.attachShader(program, vshader);
 		gl.attachShader(program, fshader);
 		gl.linkProgram(program);
@@ -26,7 +26,7 @@ function webglShader(_gl) {
 	}
 
 	function loadFile(file, callback, noCache, isJson) {
-		var request = new XMLHttpRequest();
+		const request = new XMLHttpRequest();
 		request.onreadystatechange = function() {
 			if (request.readyState == 1) {
 				if (isJson) 
@@ -42,14 +42,14 @@ function webglShader(_gl) {
 					throw 'XHR error ' + request.status + '.';
 			}
 		};
-		var url = file;
+		let url = file;
 		if (noCache)
 			url += '?' + (new Date()).getTime();
 		request.open('GET', url, true);
 	}
 
 	my.loadProgram = function(vs, fs, callback) {
-		var program = gl.createProgram();
+		const program = gl.createProgram();
 		function vshaderLoaded(str) {
 			program.vshaderSource = str;
 			if (program.fshaderSource) {
@@ -70,9 +70,9 @@ function webglShader(_gl) {
 	}
 
 	my.createProgram = function(vstr, fstr) {
-		var program = gl.createProgram();
-		var vshader = createShader(vstr, gl.VERTEX_SHADER);
-		var fshader = createShader(fstr, gl.FRAGMENT_SHADER);
+		const program = gl.createProgram();
+		const vshader = createShader(vstr, gl.VERTEX_SHADER);
+		const fshader = createShader(fstr, gl.FRAGMENT_SHADER);
 		gl.attachShader(program, vshader);
 		gl.attachShader(program, fshader);
 		gl.linkProgram(program);
@@ -85,8 +85,8 @@ function webglShader(_gl) {
 };
 
 function webglScreenQuad(gl) {
-	var vertices = [-1, -1, 1, -1, -1, 1, 1, 1];
-	var vertexPosBuffer = gl.createBuffer();
+	const vertices = [-1, -1, 1, -1, -1, 1, 1, 1];
+	const vertexPosBuffer = gl.createBuffer();
 	gl.bindBuffer(gl.ARRAY_BUFFER, vertexPosBuffer);
 	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 	vertexPosBuffer.itemSize = 2;
@@ -102,8 +102,8 @@ function webglScreenQuad(gl) {
 }
 
 (function() {
-    var lastTime = 0;
-    var vendors = ['ms', 'moz', 'webkit', 'o'];
+    let lastTime = 0;
+    const vendors = ['ms', 'moz', 'webkit', 'o'];
     for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
         window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
         window.cancelRequestAnimationFrame = window[vendors[x]+
@@ -112,10 +112,9 @@ function webglScreenQuad(gl) {
 
     if (!window.requestAnimationFrame)
         window.requestAnimationFrame = function(callback, element) {
-            var currTime = new Date().getTime();
-            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-            var id = window.setTimeout(function() { callback(currTime + timeToCall); },
-              timeToCall);
+            const currTime = new Date().getTime();
+            const timeToCall = Math.max(0, 16 - (currTime - lastTime));
+            const id = window.setTimeout(function() { callback(currTime + timeToCall); }, timeToCall);
             lastTime = currTime + timeToCall;
             return id;
         };
@@ -127,8 +126,8 @@ function webglScreenQuad(gl) {
 }())
 
 function createProgram(gl, vs, fs) {
-	let shader = new webglShader(gl);
-	let program = shader.createProgram(vs, fs);
+	const shader = new webglShader(gl);
+	const program = shader.createProgram(vs, fs);
 	gl.useProgram(program);
 	return program;
 }

@@ -1,5 +1,5 @@
-var JQueryUISlider = (function($) {
-	var my = {};
+const jQuerySlider = (function($) {
+	const my = {};
 	
 	my.AddSliderStyle = function() {
 		$('#controls').css({
@@ -33,10 +33,9 @@ var JQueryUISlider = (function($) {
 		});
 	};
 
-	my.CreateSlider = function(container, data) {
-		var data = slider_data[i];
-		var sliderId = 'slider' + i;
-		var sliderLabel = 'slider-label' + i;
+	my.CreateSlider = function(container, data, i) {
+		const sliderId = 'slider' + i;
+		const sliderLabel = 'slider-label' + i;
 		$(container)
 			.append($('<div />', {class:'slider-panel'})
 				.append($('<div />', {class:'left slider', id:sliderId}))
@@ -51,6 +50,18 @@ var JQueryUISlider = (function($) {
 				slide(ui.value);
 			};
 		})(data.slide);
+		data.update = function(val) { 
+			const min = $('#'+sliderId).slider('option', 'min');
+			const max = $('#'+sliderId).slider('option', 'max');
+			val = Math.max(min, val);
+			val = Math.min(max, val);
+			$('#'+sliderId).slider('value', val);
+			$('#'+sliderLabel).val(val);
+			data.slide(val);
+		};
+		$('#'+sliderLabel).change(function() {
+			data.update($(this).val());
+		});
 		$('#'+sliderId).slider(data.options);
 		$('#'+sliderLabel).val(data.options.value);
 	};
