@@ -1,7 +1,11 @@
 function setupCamera(video, deviceID, callback) {
 	let id = deviceID ? { exact: deviceID } : null;
 	let constraints = {
-		video: { deviceId: id, width: 1280 }
+		video: { 
+			deviceId: id, 
+			width: 1280,
+			facingMode: { exact:'environment' }
+		}
 	};
 
 	if (navigator.mediaDevices === undefined || navigator.mediaDevices.getUserMedia === undefined) {
