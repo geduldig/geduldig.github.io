@@ -113,7 +113,7 @@
 		// -- Sliders --
 
 		const sliders = [
-			{ label:'VIDEO SCALE', options:{min:0.2, max:1., step:.1}, slide:function(value) {
+			{ label:'VIDEO SCALE', options:{min:0.2, max:1., step:.01}, slide:function(value) {
 				resizeCanvas(value); startAnimation();}},
 			{ label:'HATCH1 LEFT', options:{min:0., max:1., step:.01}, slide:function(value) {
 				gl.uniform1f(k1, value);}},
