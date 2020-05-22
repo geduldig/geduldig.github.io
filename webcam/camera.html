@@ -48,7 +48,7 @@
 		const videoSelect = document.querySelector('select#videoSource');
 		const video = document.querySelector('#video');
 
-		const isMoboleDevice =
+		const isMobileDevice =
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
 			navigator.userAgent.match(/iPhone/i) ||
@@ -74,9 +74,8 @@
 				}
 			});
 
-			if (!isMoboleDevice)
-					document.querySelector('#facingMode').style.display = 'none';
-				showMenu();
+			if (!isMobileDevice)
+				document.querySelector('#facingMode').style.display = 'none';
 		});
 
 		videoSelect.onchange = () => {
@@ -94,6 +93,7 @@
 				else {
 					showControls();
 					resizeVideo(videoScale);
+					showMenu();
 				}
 			});
 		};
@@ -102,7 +102,7 @@
 
 		function showMenu() {
 			menu.style.display = 'block';
-			if (isMoboleDevice)
+			if (isMobileDevice)
 				menu.style.zoom = (video.width / menu.clientWidth).toString();
 		}
 

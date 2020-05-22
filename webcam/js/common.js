@@ -1,4 +1,4 @@
-const isMoboleDevice =
+const isMobileDevice = 
     navigator.userAgent.match(/Android/i) ||
     navigator.userAgent.match(/webOS/i) ||
     navigator.userAgent.match(/iPhone/i) ||
@@ -49,11 +49,10 @@ document.addEventListener('DOMContentLoaded', function(event) {
         }
     });
 
-    if (isMoboleDevice)
+    if (isMobileDevice)
         document.querySelector('#snapshot').style.display = 'none';
     else
         document.querySelector('#facingMode').style.display = 'none';
-    showMenu();
 });
 
 videoSelect.onchange = () => {
@@ -72,6 +71,7 @@ videoSelect.onchange = () => {
             showControls();
             resizeCanvas(videoScale);
             startAnimation();
+            showMenu();
         }
     });
 };
@@ -80,8 +80,10 @@ videoSelect.onchange = () => {
 
 function showMenu() {
     menu.style.display = 'block';
-    if (isMoboleDevice)
+    if (isMobileDevice) {
+        console.log(canvas.width, menu.clientWidth)
         menu.style.zoom = (canvas.width / menu.clientWidth).toString();
+    }
 }
 
 function hideMenu() {
