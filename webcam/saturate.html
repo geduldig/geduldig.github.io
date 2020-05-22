@@ -9,14 +9,22 @@
 			<!-- VIDEO AND CANVAS -->
 			<div>
 				<video id='video' autoplay='true' style='display:none'></video>
-				<canvas id='canvas'></canvas>
+				<canvas id='canvas' onclick=toggleMenu()></canvas>
 			</div>
 		</div>
 		<div id='menu' style='display:none'>
+			<div>
+				<span id='closeMenu' style='display:inline-block'>
+					<button onclick=hideMenu()></button>
+				</span>
+			</div>
 			<!-- VIDEO SOURCE CHOOSER -->
 			<div class="select">
 				<label for="videoSource">Video </label>
 				<span><select id="videoSource"></select></span>
+				<span id='facingMode' style='display:inline-block'>
+					<button class='controls' onclick=toggleFacingMode()></button>
+				</span>
 			</div>
 			<!-- SLIDER CONTROLS -->
 			<div style='display:inline-block'>
@@ -116,10 +124,15 @@
 		];
 
 		for (let irgb = 0; irgb < rgb.length; irgb++) {
-			const p = createPreset((irgb+1).toString(), () => {
+			const p = createPreset((irgb+1).toString(), (e) => {
 				sliders[1].update(rgb[irgb][0]);
 				sliders[2].update(rgb[irgb][1]);
 				sliders[3].update(rgb[irgb][2]);
+				const presets = document.querySelectorAll('.presets');
+				for (let i = 0; i < presets.length; i++)
+					presets[i].style.backgroundColor = 'white';
+				if (e)
+					e.target.style.backgroundColor = 'cyan';
 			});
 			if (irgb === 0) p.onclick();
 		}

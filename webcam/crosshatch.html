@@ -9,14 +9,22 @@
 			<!-- VIDEO AND CANVAS -->
 			<div>
 				<video id='video' autoplay='true' style='display:none'></video>
-				<canvas id='canvas'></canvas>
+				<canvas id='canvas' onclick=toggleMenu()></canvas>
 			</div>
 		</div>
 		<div id='menu' style='display:none'>
+			<div>
+				<span id='closeMenu' style='display:inline-block'>
+					<button onclick=hideMenu()></button>
+				</span>
+			</div>
 			<!-- VIDEO SOURCE CHOOSER -->
 			<div class="select">
 				<label for="videoSource">Video </label>
 				<span><select id="videoSource"></select></span>
+				<span id='facingMode' style='display:inline-block'>
+					<button class='controls' onclick=toggleFacingMode()></button>
+				</span>
 			</div>
 			<!-- SLIDER CONTROLS -->
 			<div style='display:inline-block'>

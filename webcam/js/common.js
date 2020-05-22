@@ -32,6 +32,7 @@ gl.enableVertexAttribArray(position);
 gl.vertexAttribPointer(position, vertexBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
 let videoScale = 1.0;
+let rearCamera = false;
 let animID = undefined;
 
 // -- UI events --
@@ -50,10 +51,21 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
     if (isMoboleDevice)
         document.querySelector('#snapshot').style.display = 'none';
+    else
+        document.querySelector('#facingMode').style.display = 'none';
+    showMenu();
 });
 
 videoSelect.onchange = () => {
-    setupCamera(video, videoSelect.value, (err, stream) => {
+    const constraints = {
+		video: { 
+			width: 1280, 
+			deviceId: videoSelect.value ? { exact:videoSelect.value } : null, 
+			facingMode: rearCamera ? { exact:'environment' } : 'user'
+		}
+	};
+
+    setupCamera(video, constraints, (err, stream) => {
         if (err)
             alert('WEBCAM FAILED: ' + JSON.stringify(err));
         else {
@@ -63,6 +75,8 @@ videoSelect.onchange = () => {
         }
     });
 };
+
+// Tasks
 
 function showMenu() {
     menu.style.display = 'block';
@@ -74,11 +88,14 @@ function hideMenu() {
     menu.style.display = 'none';
 }
 
-menu.onmouseover = showMenu;
-canvas.onmouseenter = showMenu;
-canvas.onmouseleave = hideMenu;
+function toggleMenu() {
+    menu.style.display === 'none' ? showMenu() : hideMenu();;
+}
 
-// Tasks
+function toggleFacingMode() {
+    rearCamera = !rearCamera;
+    videoSelect.onchange();
+}
 
 function showControls() {
     const controls = document.querySelector('.controls');

@@ -8,14 +8,22 @@
 		<div style='justify-content:flex-start'>
 			<!-- VIDEO -->
 			<div>
-				<video id='video' autoplay='true' style='display:block'></video>
+				<video id='video' autoplay='true' style='display:block' onclick=toggleMenu()></video>
 			</div>
 		</div>
 		<div id='menu' style='display:none'>
+			<div>
+				<span id='closeMenu' style='display:inline-block'>
+					<button onclick=hideMenu()></button>
+				</span>
+			</div>
 			<!-- VIDEO SOURCE CHOOSER -->
 			<div class="select">
 				<label for="videoSource">Video </label>
 				<span><select id="videoSource"></select></span>
+				<span id='facingMode' style='display:inline-block'>
+					<button class='controls' onclick=toggleFacingMode()></button>
+				</span>
 			</div>
 			<!-- SLIDER CONTROLS -->
 			<div style='display:inline-block'>
@@ -50,6 +58,7 @@
 			navigator.userAgent.match(/Windows Phone/i);
 
 		let videoScale = 1.0;
+		let rearCamera = false;
 
 		// -- UI events --
 
@@ -64,10 +73,22 @@
 					videoSelect.dispatchEvent(new Event('change'));
 				}
 			});
+
+			if (!isMoboleDevice)
+					document.querySelector('#facingMode').style.display = 'none';
+				showMenu();
 		});
 
 		videoSelect.onchange = () => {
-			setupCamera(video, videoSelect.value, (err, stream) => {
+			const constraints = {
+				video: { 
+					width: 1280, 
+					deviceId: videoSelect.value ? { exact:videoSelect.value } : null, 
+					facingMode: rearCamera ? { exact:'environment' } : 'user'
+				}
+			};
+
+			setupCamera(video, constraints, (err, stream) => {
 				if (err)
 					alert('WEBCAM FAILED: ' + JSON.stringify(err));
 				else {
@@ -76,10 +97,6 @@
 				}
 			});
 		};
-
-		menu.onmouseover = showMenu;
-		video.onmouseenter = showMenu;
-		video.onmouseleave = hideMenu;
 
 		// -- Tasks --
 
@@ -91,6 +108,15 @@
 
 		function hideMenu() {
 			menu.style.display = 'none';
+		}
+
+		function toggleMenu() {
+			menu.style.display === 'none' ? showMenu() : hideMenu();;
+		}
+
+		function toggleFacingMode() {
+			rearCamera = !rearCamera;
+			videoSelect.onchange();
 		}
 
 		function showControls() {

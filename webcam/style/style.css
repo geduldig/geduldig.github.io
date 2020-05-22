@@ -10,7 +10,7 @@ body {
 	position: absolute;
 	background-color: rgba(255, 0, 255, 0.5);
 	overflow: auto;
-}
+  }
 
 .select {
 	padding: 5px;
@@ -19,6 +19,33 @@ body {
 .controls {
 	margin-left:5 px; 
 	padding: 5px;
+}
+
+#facingMode > button {
+	background-image: url("flipCamera.png");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-color: transparent;
+	border-width: 0;
+	width: 20px;
+	height: 20px; 
+}
+
+#closeMenu > button {
+	background-image: url("close.png");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-color: transparent;
+	border-width: 0;
+	width: 14px;
+	height: 14px; 
+	position: absolute;
+	top: 2px;
+	right: 2px;
+	margin: 0;
+	padding: 0;
 }
 
 #sliders {
