@@ -37,8 +37,10 @@ const jQuerySlider = (function($) {
 		const sliderId = 'slider' + i;
 		const sliderLabel = 'slider-label' + i;
 		$(container)
-			.append($('<div />', {class:'slider-panel'})
-				.append($('<div />', {class:'left slider', id:sliderId}))
+			// .append($('<div />', {class:'slider-panel'})
+			.append($('<form />', {class:'slider-panel'})
+				// .append($('<div />', {class:'left slider', id:sliderId}))
+				.append($('<input />', {type:'range', class:'left slider', id:sliderId}))
 				.append($('<div />', {class:'right'})
 					.append($('<label />', {for:sliderLabel}))
 					.append($('<input />', {type:'text', id:sliderLabel}))
