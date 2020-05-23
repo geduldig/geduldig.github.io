@@ -59,12 +59,12 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
 videoSelect.onchange = () => {
     const constraints = {
-		video: { 
-			width: 1280, 
-			deviceId: videoSelect.value ? { exact:videoSelect.value } : null, 
-			facingMode: rearCamera ? { exact:'environment' } : 'user'
-		}
-	};
+        video: { 
+            width: 1280, 
+            deviceId: videoSelect.value ? { exact:videoSelect.value } : null, 
+            facingMode: rearCamera ? { exact:'environment' } : 'user'
+        }
+    };
 
     setupCamera(video, constraints, (err, stream) => {
         if (err)
