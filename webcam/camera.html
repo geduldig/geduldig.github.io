@@ -6,41 +6,37 @@
 
 <body>
 	<div data-role="page">
-	<div role="main" class="ui-content">
-	<form>
-	    <label for="slider-1">Slider:</label>
-	    <input type="range" name="slider-1" id="slider-1" min="0" max="100" value="50">
-	</form>		
-	<div style='display:flex'>
-		<div style='justify-content:flex-start'>
-			<!-- VIDEO -->
-			<div>
-				<video id='video' autoplay='true' style='display:block' onclick=toggleMenu()></video>
+		<div role="main" class="ui-content">
+			<div style='display:flex'>
+				<div style='justify-content:flex-start'>
+					<!-- VIDEO -->
+					<div>
+						<video id='video' autoplay='true' style='display:block' onclick=toggleMenu()></video>
+					</div>
+				</div>
+				<div id='menu' style='display:none'>
+					<div>
+						<span id='closeMenu' style='display:inline-block'>
+							<button onclick=hideMenu()></button>
+						</span>
+					</div>
+					<!-- VIDEO SOURCE CHOOSER -->
+					<div class="select">
+						<label for="videoSource">Video </label>
+						<span><select id="videoSource"></select></span>
+						<span id='facingMode' style='display:inline-block'>
+							<button class='controls' onclick=toggleFacingMode()></button>
+						</span>
+					</div>
+					<!-- SLIDER CONTROLS -->
+					<div style='display:inline-block'>
+						<div class='controls'>
+							<div id='sliders'/>
+						</div>					
+					</div>
+				</div>
 			</div>
 		</div>
-		<div id='menu' style='display:none'>
-			<div>
-				<span id='closeMenu' style='display:inline-block'>
-					<button onclick=hideMenu()></button>
-				</span>
-			</div>
-			<!-- VIDEO SOURCE CHOOSER -->
-			<div class="select">
-				<label for="videoSource">Video </label>
-				<span><select id="videoSource"></select></span>
-				<span id='facingMode' style='display:inline-block'>
-					<button class='controls' onclick=toggleFacingMode()></button>
-				</span>
-			</div>
-			<!-- SLIDER CONTROLS -->
-			<div style='display:inline-block'>
-				<div class='controls'>
-					<div id='sliders'/>
-				</div>					
-			</div>
-		</div>
-	</div>
-	</div>
 	</div>
 
 	<script src='https://code.jquery.com/jquery-latest.min.js'></script>
