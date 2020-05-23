@@ -7,6 +7,11 @@
 <body>
 	<div data-role="page">
 		<div role="main" class="ui-content">
+
+			<div data-demo-html="true" data-demo-js="#dynamic-slider">
+				<form id="dynamic-slider-form"/>
+			</div>
+
 			<div style='display:flex'>
 				<div style='justify-content:flex-start'>
 					<!-- VIDEO -->
@@ -81,6 +86,11 @@
 
 			if (!isMobileDevice)
 				document.querySelector('#facingMode').style.display = 'none';
+
+			$( "<input type='number' data-type='range' min='0' max='100' step='1' value='17'>" )
+				.appendTo( "#dynamic-slider-form" )
+				.slider()
+				.textinput();
 		});
 
 		videoSelect.onchange = () => {
