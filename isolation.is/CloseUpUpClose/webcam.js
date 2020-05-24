@@ -1,9 +1,4 @@
-function setupCamera(video, deviceID, callback) {
-	let id = deviceID ? { exact: deviceID } : null;
-	let constraints = {
-		video: { deviceId: id, width: 1280 }
-	};
-
+function setupCamera(video, constraints, callback) {
 	if (navigator.mediaDevices === undefined || navigator.mediaDevices.getUserMedia === undefined) {
 		let msg = 'Camera may not be accesible from your browser. If using an iPhone, try Safari.';
 		onMediaFail(msg);

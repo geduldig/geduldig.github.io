@@ -39,6 +39,7 @@
       uniform float pointerX, pointerY, pointerR;
       uniform float magnifyR;
       uniform float K1, K2, K3, K4, K5;
+      const float MagnifyPower = 2.0;
 
       void main() {
         vec2 st = vec2(gl_FragCoord.s / canvasWidth, 1. - gl_FragCoord.t / canvasHeight);
@@ -47,10 +48,13 @@
         vec2 diff = pointerXY - windowXY;
         diff.y *= windowHeight / windowWidth;
         float distanceFromPointer = length(diff);
+        float k5 = K5;
 
         // magnify...
-        if (distanceFromPointer < magnifyR)
-          st = st + (pointerXY - st) / 2.0;
+        if (distanceFromPointer < magnifyR) {
+          st = st + (pointerXY - st) / MagnifyPower;
+          k5 *= MagnifyPower;
+        }
 
         // start with transparent black
         gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
@@ -60,19 +64,19 @@
           vec3 c = texture2D(sampler0, st).rgb;
           float lum = 0.21 * c.r + 0.72 * c.g + 0.07 * c.b;
           if (lum < K1) {
-            if (mod(gl_FragCoord.x + gl_FragCoord.y, K5) == 0.0)
+            if (mod(gl_FragCoord.x + gl_FragCoord.y, k5) == 0.0)
               gl_FragColor.a = 1.0;
           }
           if (lum < K2) {
-            if (mod(gl_FragCoord.x - gl_FragCoord.y, K5) == 0.0)
+            if (mod(gl_FragCoord.x - gl_FragCoord.y, k5) == 0.0)
               gl_FragColor.a = 1.0;
           }
           if (lum < K3) {
-            if (mod(gl_FragCoord.x + gl_FragCoord.y - K5/2.0, K5) == 0.0)
+            if (mod(gl_FragCoord.x + gl_FragCoord.y - k5/2.0, k5) == 0.0)
               gl_FragColor.a = 1.0;
           }
           if (lum < K4) {
-            if (mod(gl_FragCoord.x - gl_FragCoord.y - K5/2.0, K5) == 0.0)
+            if (mod(gl_FragCoord.x - gl_FragCoord.y - k5/2.0, k5) == 0.0)
               gl_FragColor.a = 1.0;
           }
         }
@@ -91,6 +95,7 @@
       // Setup shader program and variables 
       const gl = canvas.getContext('webgl', { preserveDrawingBuffer:true });
       const program = createProgram(gl, vs, fs);
+      const texture = createTexture(gl);
       const k1 = gl.getUniformLocation(program, 'K1');
       const k2 = gl.getUniformLocation(program, 'K2');
       const k3 = gl.getUniformLocation(program, 'K3');
@@ -106,7 +111,6 @@
       const canvasHeight = gl.getUniformLocation(program, 'canvasHeight');
       const sampler = gl.getUniformLocation(program, 'sampler0');
       const position = gl.getAttribLocation(program, 'position');
-      const texture = createTexture(gl);
       const vertexBuffer = webglScreenQuad(gl);
       gl.uniform1i(sampler, 0);
       gl.enableVertexAttribArray(position);
@@ -137,6 +141,38 @@
       function K5(x) { let k = Math.floor(4 * (1 + x)); return k !== 7 ? k : 8; }
       function PointerR(x) { return CircleRadius + canvas.width * ease(x); }
       function MagnifyR(x) { return x < .25 ? 0 : CircleRadius * ease(x); }
+
+			const constraints = {
+				video: { 
+					width: 1280, 
+					deviceId: null, 
+					facingMode: 'user'
+				}
+      };
+      
+      // Call IS.create after attempting to initialize the camera.
+
+      setupCamera(video, constraints, (err, stream) => {
+        if (err) {
+          console.log('WEBCAM FAILED: ' + JSON.stringify(err));
+          content = image;
+          contentWidth = image.naturalWidth;
+          contentHeight = image.naturalHeight;
+        }
+        else {
+          content = video;
+          contentWidth = video.videoWidth;
+          contentHeight = video.videoHeight;
+        }
+
+        IS.create({
+          onInit: INIT,
+          onChangeState: CHANGE_STATE,
+          onResize: RESIZE,
+          onTick: TICK,
+          onPointerMove: POINTER_MOVE
+        });
+      });
 
       function startAnimation(width, height) {
         canvas.width = width;
@@ -212,28 +248,6 @@
         gl.uniform1f(pointerX, circleX);
         gl.uniform1f(pointerY, circleY);
       }
-
-      setupCamera(video, null, function(err, stream) {
-          if (err) { 
-            console.log('WEBCAM FAILED: ' + JSON.stringify(err));
-            content = image;
-            contentWidth = image.naturalWidth;
-            contentHeight = image.naturalHeight;
-          }
-          else {
-            content = video;
-            contentWidth = video.videoWidth;
-            contentHeight = video.videoHeight;
-          }
-
-          IS.create({
-            onInit: INIT,
-            onChangeState: CHANGE_STATE,
-            onResize: RESIZE,
-            onTick: TICK,
-            onPointerMove: POINTER_MOVE
-          });
-        });
 
       function INIT({author, title, width, height, state}) {
         startAnimation(width, height);
