@@ -16,9 +16,10 @@ body {
   }
 
 label {
-	text-align: right;
+	text-align: left;
 	vertical-align: bottom;
 	margin-bottom: 0;
+	font-size: 1.3em;
 }
 
 select {
@@ -52,5 +53,9 @@ select {
 }
 
 .presets {
-	margin-right: 4px;
+	margin-right: 16px;
+}
+
+#videoSource {
+	max-width: 50%;
 }

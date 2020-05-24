@@ -1,26 +1,77 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 <link rel="stylesheet" href="style/style.css">
 
-<body style='zoom:2'> 
-  <div>
-    <h2>WEBGL AND WEBCAM EXPERIMENTS</h2>
-  </div>
-  <menu>
-    <div style='color:gray;font-size:80%;vertical-align:text-top'>These work in Chrome but not all other browsers.</div>
-    <div style='color:gray;font-size:80%;vertical-align:text-top'>On an iPhone, these work only in Safari and appear as a still video frame.</div>
-    <div style='color:gray;font-size:80%;vertical-align:text-top'>Click on the video to show controls.</div>
-    <div style='color:gray;font-size:80%;vertical-align:text-top'>Don't forget to use an important analog control: the physical lighting!</div>
-    <li><a href='camera.html'>simple webcam</a></li>
-    <li><a href='blur.html'>blur + posterize</a></li>
-    <li><a href='crosshatch.html'>crosshatching</a></li>
-    <li><a href='saturate.html'>color satuaration</a></li>
-    <li><a href='sobel.html'>edges (Sobel)</a></li>
-    <li><a href='solarize.html'>grayscale solarization (Sabattier)</a></li>
-    <li><a href='solarize-colored.html'>color solarization (Sabattier)</a></li>
-  </menu>
-  <menu>
-    <div style='color:gray;font-size:80%;vertical-align:text-top'>These are very slow on most computers.</div>
-    <li><a href='kuwahara.html'>painterly (Kuwahara)</a></li>
-    <li><a href='kuwahara-saturate.html'>painterly + saturation (Kuwahara)</a></li>
-  </menu>
+<style>
+  .title {
+    font-size: 4.25vh;
+  }
+  .description {
+    color: gray;
+    font-size: 2vh;
+  }
+  menu {
+    margin: 1em 0 0 0;
+    padding: 0;
+  }
+  li {
+    margin: .5em 0 0 0;
+    font-size: 3.75vh;
+  }
+  menu {
+    list-style: none; /* Remove default bullets */
+  }
+</style>
+
+<body> 
+  <main role='main' class='container-fluid test'>
+    <div class='row'>
+      <div col-sm-12>
+        <div class='title'>WEBGL AND WEBCAM EXPERIMENTS</div>
+      </div>
+    </div>
+
+    <div class='row'>
+      <div col-sm-12>
+        <menu> 
+          <div class='description'>         
+            <div>These work in Chrome but not all other browsers.</div>
+            <div>On an iPhone, these work only in Safari and appear as a still video frame.</div>
+            <div>Click on the video to show controls.</div>
+            <div>Don't forget to use an important analog control: the physical lighting!</div>
+          </div>
+          <div class='list'>
+            <li><a href='camera.html'>simple webcam</a></li>
+            <li><a href='blur.html'>blur + posterize</a></li>
+            <li><a href='crosshatch.html'>crosshatching</a></li>
+            <li><a href='saturate.html'>color satuaration</a></li>
+            <li><a href='sobel.html'>edges (Sobel)</a></li>
+            <li><a href='solarize.html'>grayscale solarization (Sabattier)</a></li>
+            <li><a href='solarize-colored.html'>color solarization (Sabattier)</a></li>
+          </div>
+        </menu>
+      </div>
+    </div>
+    
+    <div class='row'>
+      <div col-sm-12>
+        <menu>
+          <div class='description'>         
+            <div>These are very slow on most computers.</div>
+          </div>
+          <div class='list'>
+            <li><a href='kuwahara.html'>painterly (Kuwahara)</a></li>
+            <li><a href='kuwahara-saturate.html'>painterly + saturation (Kuwahara)</a></li>
+          </div>
+        </menu>
+      </div>  
+    </div>
+  </main>
+</body>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+

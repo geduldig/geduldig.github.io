@@ -1,5 +1,3 @@
-console.log('COMMON VERSION 1.0');
-
 const isMobileDevice = 
     navigator.userAgent.match(/Android/i) ||
     navigator.userAgent.match(/webOS/i) ||
@@ -59,11 +57,11 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
 videoSelect.onchange = () => {
     const constraints = {
-        video: { 
-            width: 1280, 
-            deviceId: videoSelect.value ? { exact:videoSelect.value } : null, 
-            facingMode: rearCamera ? { exact:'environment' } : 'user'
-        }
+		video: { 
+			width: 1280, 
+			deviceId: videoSelect.value ? { exact:videoSelect.value } : null, 
+			facingMode: rearCamera ? { exact:'environment' } : 'user'
+		}
     };
 
     setupCamera(video, constraints, (err, stream) => {
@@ -82,10 +80,6 @@ videoSelect.onchange = () => {
 
 function showMenu() {
     menu.style.display = 'block';
-    if (isMobileDevice) {
-        console.log(canvas.width, menu.clientWidth)
-        menu.style.zoom = (canvas.width / menu.clientWidth).toString();
-    }
 }
 
 function hideMenu() {
@@ -132,24 +126,43 @@ function startAnimation() {
 }
 
 function saveSnapshot() {
-    const dataURL = canvas.toDataURL();
-    document.querySelector('#snapshot-img').src = dataURL;
-    const link = document.querySelector('#save-snapshot');
     const now = new Date();
     const stamp = `${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()}-${now.getHours()}-${now.getMinutes()}-${now.getSeconds()}`;
+    const img = document.querySelector('#snapshot-img');
+    const link = document.querySelector('#snapshot-link');
+    img.src = canvas.toDataURL();
     link.download = `webcam-${stamp}.png`;
-    link.href = document.querySelector('#snapshot-img').src;
+    link.href = img.src;
+    link.click();
 }
 
-function createSliders(slider_data) {
-    for (let i = 0; i < slider_data.length; i++) 
-        jQuerySlider.CreateSlider('#sliders', slider_data[i], i);
-    jQuerySlider.AddSliderStyle();
+function CreateSlider(id, name, min, max, step, oninput) {
+    const slider = document.createElement('div');
+    slider.id = id;
+    slider.className = 'd-flex flex-row bd-highlight mb-3';
+    const label = document.createElement('h6');
+    label.className = 'p-2 bd-highlight flex-nowrap label';
+    label.for = id;
+    label.innerText = name;
+    const input = document.createElement('input');
+    input.className = 'col-sm-10 custom-range';
+    input.type = 'range';
+    input.min = min;
+    input.max = max;
+    input.step = step
+    input.oninput = oninput;
+    slider.appendChild(input);
+    slider.appendChild(label);
+    document.querySelector('#sliders').appendChild(slider);
+    return (val) => { 
+        input.value = val;
+        input.oninput();
+    };
 }
 
 function createPreset(name, onclick) {
     const preset = document.createElement('button');
-    preset.className = 'presets';
+    preset.className = 'presets btn btn-primary';
     preset.innerText = name;
     preset.onclick = onclick;
     document.querySelector('#presets').appendChild(preset);

@@ -1,59 +1,47 @@
 <!DOCTYPE html>
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta charset="utf-8">
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 <link rel="stylesheet" href="style/style.css" />
 
 <body>
-	<div data-role="page">
-		<div role="main" class="ui-content">
-			<div style='display:flex'>
-				<div style='justify-content:flex-start'>
-					<!-- VIDEO -->
-					<div>
-						<video id='video' autoplay='true' style='display:block' onclick=toggleMenu()></video>
-					</div>
+	<main role='main' class='container-fluid test'>
+		<div class='row'>
+			<div>
+				<!-- VIDEO -->
+				<div>
+					<video id='video' autoplay='true' style='display:block' onclick=toggleMenu()></video>
 				</div>
-				<div id='menu' style='display:none'>
-					<div>
-						<span id='closeMenu' style='display:inline-block'>
-							<button onclick=hideMenu()></button>
-						</span>
-					</div>
-					<!-- VIDEO SOURCE CHOOSER -->
-					<div class="select">
-						<label for="videoSource">Video </label>
-						<span><select id="videoSource"></select></span>
-						<span id='facingMode' style='display:inline-block'>
-							<button class='controls' onclick=toggleFacingMode()></button>
-						</span>
-					</div>
-					<!-- SLIDER CONTROLS -->
-					<div style='display:inline-block'>
-						<div class='controls'>
-							<div id='sliders'/>
-						</div>					
-					</div>
+			</div>
+			<div id='menu' class='col-lg-6' style='display:none'>
+				<div>
+					<span id='closeMenu' style='display:inline-block'>
+						<button onclick=hideMenu()></button>
+					</span>
+				</div>
+				<!-- VIDEO SOURCE CHOOSER -->
+				<div class='d-flex flex-row bd-highlight mb-3'>
+					<label class='p-2 bd-highlight' for='videoSource'>Video </label>
+					<select class='p-2 bd-highlight' id='videoSource' class='form-control'></select>
+					<button id='facingMode' class='p-2 bd-highlight btn btn-primary' onclick=toggleFacingMode()><img src='style/flipCamera.png' width='30' /></button>
+				</div>
+				<!-- SLIDER CONTROLS -->
+				<div class='controls range-field'>
+					<form id='sliders' />
 				</div>
 			</div>
 		</div>
-	</div>
+	</main>
 
-	<script src='https://code.jquery.com/jquery-latest.min.js'></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<script src='js/jquerySlider.js'></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('==VERSION 1.1');
+		console.log('==VERSION 1.2');
 
-		// -- DOM elements --
-
-		const menu = document.querySelector('#menu');
-		const videoSelect = document.querySelector('select#videoSource');
-		const video = document.querySelector('#video');
-
-		const isMobileDevice =
+		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
 			navigator.userAgent.match(/iPhone/i) ||
@@ -62,8 +50,21 @@
 			navigator.userAgent.match(/BlackBerry/i) ||
 			navigator.userAgent.match(/Windows Phone/i);
 
+		// -- DOM elements --
+
+		const menu = document.querySelector('#menu');
+		const videoSelect = document.querySelector('select#videoSource');
+		const video = document.querySelector('#video');
+
 		let videoScale = 1.0;
 		let rearCamera = false;
+
+		if (!isMobileDevice) {
+			CreateSlider('slider0', 'Video scale', 0.2, 1.0, 0.01, () => {
+				resizeVideo(document.querySelector('#slider0 > input').value);
+			});
+			document.querySelector('#slider0 > input').value = 1.0;
+		}
 
 		// -- UI events --
 
@@ -94,7 +95,7 @@
 
 			setupCamera(video, constraints, (err, stream) => {
 				if (err)
-					alert('WEBCAM FAILED: ' + JSON.stringify(err));
+					console.log('WEBCAM FAILED: ' + JSON.stringify(err));
 				else {
 					showControls();
 					resizeVideo(videoScale);
@@ -107,8 +108,6 @@
 
 		function showMenu() {
 			menu.style.display = 'block';
-			// if (isMobileDevice)
-			// 	menu.style.zoom = (video.width / menu.clientWidth).toString();
 		}
 
 		function hideMenu() {
@@ -142,18 +141,24 @@
 			}
 		}
 
-		// -- Sliders --
-
-		const sliders = [
-			{ label:'VIDEO SCALE', options:{min:0.2, max:1., step:.01}, slide:function(value) {
-				resizeVideo(value);}},
-		];
-
-		for (var i = 0; i < sliders.length; i++)
-			jQuerySlider.CreateSlider('#sliders', sliders[i]);
-		jQuerySlider.AddSliderStyle();
-
-		// -- Presets --
-
-		sliders[0].update(1.0);
+		function CreateSlider(id, name, min, max, step, onchange) {
+			const slider = document.createElement('div');
+			slider.id = id;
+			slider.className = 'd-flex flex-row bd-highlight mb-3';
+			const label = document.createElement('h6');
+			label.className = 'p-2 bd-highlight flex-nowrap mt-8';
+			label.for = id;
+			label.innerText = name;
+			const input = document.createElement('input');
+			input.className = 'col-sm-10 custom-range';
+			input.type = 'range';
+			input.min = min;
+			input.max = max;
+			input.step = step
+			input.oninput = onchange;
+			slider.appendChild(input);
+			slider.appendChild(label);
+			document.querySelector('#sliders').appendChild(slider);
+			return slider;
+		}
 	</script>
