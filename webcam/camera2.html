@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<link rel="stylesheet" href="style/style.css" />
+
+<body>
+	<main role='main' class='container-fluid test'></main>
+		<div class='row'>
+			<div>
+				<!-- VIDEO -->
+				<div>
+					<video id='video' autoplay='true' style='display:block' onclick=toggleMenu()></video>
+				</div>
+			</div>
+			<div id='menu' class='col-md-6' style='display:none'>
+				<div>
+					<span id='closeMenu' style='display:inline-block'>
+						<button onclick=hideMenu()></button>
+					</span>
+				</div>
+				<!-- VIDEO SOURCE CHOOSER -->
+				<div class='row'>
+					<label class="col-md-2" for='videoSource'>Video </label>
+					<select class="col-md-8" id='videoSource' class='form-control'></select>
+					<button id='facingMode' class="btn btn-primary" onclick=toggleFacingMode()><img src="style/flipCamera.png" width="30" /></button>
+				</div>
+				<!-- SLIDER CONTROLS -->
+				<div class='controls range-field'>
+					<form id='sliders'>
+						<div class="row">
+							<label class="col-md-3" for="slider1">Slider</label>
+							<input class="col-md-8 custom-range" type="range" id="slider1" min="0" max="100" />
+						</div>
+						<div class="row">
+							<label class="col-md-3" for="slider2">Slider</label>
+							<input class="col-md-8 custom-range" type="range" id="slider2" min="0" max="100" />
+						</div>
+					</form>						
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+	<script src='js/webcam.js'></script>
+
+	<script>
+		console.log('==VERSION 1.1');
+
+		// -- DOM elements --
+
+		const menu = document.querySelector('#menu');
+		const videoSelect = document.querySelector('select#videoSource');
+		const video = document.querySelector('#video');
+
+		const isMobileDevice = false ||
+			navigator.userAgent.match(/Android/i) ||
+			navigator.userAgent.match(/webOS/i) ||
+			navigator.userAgent.match(/iPhone/i) ||
+			navigator.userAgent.match(/iPad/i) ||
+			navigator.userAgent.match(/iPod/i) ||
+			navigator.userAgent.match(/BlackBerry/i) ||
+			navigator.userAgent.match(/Windows Phone/i);
+
+		let videoScale = 1.0;
+		let rearCamera = false;
+
+		const slider0 = CreateSlider('slider0', 'Video scale', 0.2, 1.0, 0.01, () => {
+			resizeVideo(document.querySelector('#slider0').value);
+		});
+
+		slider0.value = 1.0;
+
+		// -- UI events --
+
+		document.addEventListener('DOMContentLoaded', function(event) {
+			discoverCameras((err, {label, id}) => {
+				const option = document.createElement('option');
+				option.value = id;
+				option.text = label;
+				videoSelect.appendChild(option);
+				if (videoSelect.length === 1 || option.text.indexOf('Built-in') !== -1) {
+					option.setAttribute('selected', 'selected');
+					videoSelect.dispatchEvent(new Event('change'));
+				}
+			});
+
+			if (!isMobileDevice)
+				document.querySelector('#facingMode').style.display = 'none';
+		});
+
+		videoSelect.onchange = () => {
+			const constraints = {
+				video: { 
+					width: 1280, 
+					deviceId: videoSelect.value ? { exact:videoSelect.value } : null, 
+					facingMode: rearCamera ? { exact:'environment' } : 'user'
+				}
+			};
+
+			setupCamera(video, constraints, (err, stream) => {
+				if (err)
+					console.log('WEBCAM FAILED: ' + JSON.stringify(err));
+				else {
+					showControls();
+					resizeVideo(videoScale);
+					showMenu();
+				}
+			});
+		};
+
+		// -- Tasks --
+
+		function showMenu() {
+			menu.style.display = 'block';
+		}
+
+		function hideMenu() {
+			menu.style.display = 'none';
+		}
+
+		function toggleMenu() {
+			menu.style.display === 'none' ? showMenu() : hideMenu();;
+		}
+
+		function toggleFacingMode() {
+			rearCamera = !rearCamera;
+			videoSelect.onchange();
+		}
+
+		function showControls() {
+			var controls = document.getElementsByClassName('controls');
+			for (var i=0; i < controls.length; i++)
+				controls[i].style.display = '';
+		}
+
+		function resizeVideo(scale) {
+			videoScale = scale;
+			if (video.videoWidth / video.videoHeight > window.innerWidth / window.innerheight) {
+				video.width = window.innerWidth * videoScale;
+				video.height = video.width * video.videoHeight / video.videoWidth;
+			}
+			else {
+				video.height = window.innerHeight * videoScale;
+				video.width = video.height * video.videoWidth / video.videoHeight;
+			}
+		}
+
+		function CreateSlider(id, name, min, max, step, onchange) {
+			const slider = document.createElement('div');
+			slider.className = 'row';
+			const label = document.createElement('label');
+			label.className = 'col-md-3';
+			label.for = id;
+			label.innerText = name;
+			const input = document.createElement('input');
+			input.id = id;
+			input.className = 'col-md-8 custom-range';
+			input.type = 'range';
+			input.min = min;
+			input.max = max;
+			input.step = step
+			input.onchange = onchange;
+			slider.appendChild(label);
+			slider.appendChild(input);
+			document.querySelector('#sliders').appendChild(slider);
+
+			return input;
+		}
+	</script>
