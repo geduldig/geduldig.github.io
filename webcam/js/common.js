@@ -53,6 +53,9 @@ document.addEventListener('DOMContentLoaded', function(event) {
         document.querySelector('#snapshot').style.display = 'none';
     else
         document.querySelector('#facingMode').style.display = 'none';
+
+    if (document.querySelector('#presets').childElementCount === 0)
+        document.querySelector('#presets-label').style.display = 'none';
 });
 
 videoSelect.onchange = () => {
@@ -140,8 +143,8 @@ function CreateSlider(id, name, min, max, step, oninput) {
     const slider = document.createElement('div');
     slider.id = id;
     slider.className = 'd-flex flex-row bd-highlight mb-3';
-    const label = document.createElement('h6');
-    label.className = 'p-2 bd-highlight flex-nowrap label';
+    const label = document.createElement('div');
+    label.className = 'p-2 bd-highlight flex-nowrap right-label';
     label.for = id;
     label.innerText = name;
     const input = document.createElement('input');

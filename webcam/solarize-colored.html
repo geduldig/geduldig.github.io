@@ -22,7 +22,7 @@
 				</div>
 				<!-- VIDEO SOURCE CHOOSER -->
 				<div class='d-flex flex-row bd-highlight mb-3'>
-					<label class='p-2 bd-highlight' for='videoSource'>Video </label>
+					<label class='left-label p-2 bd-highlight' for='videoSource'>Video</label>
 					<select class='p-2 bd-highlight' id='videoSource' class='form-control'></select>
 					<button id='facingMode' class='p-2 bd-highlight btn btn-primary' onclick=toggleFacingMode()><img src='style/flipCamera.png' width='30' /></button>
 				</div>
@@ -30,20 +30,19 @@
 				<div class='controls range-field'>
 					<form id='sliders' />
 				</div>
-				<!-- PRESET BUTTONS -->
+				<!-- PRESET AND SNAPSHOT BUTTONS -->
 				<div style='display:inline-block'>
-					<h4 class='controls'>
-						<span class='label'>Presets</spam>
-						<span><div id='presets' style='display:inline-block'/></span>
-					</h4>					
-				</div>
-				<!-- SNAPSHOT -->
-				<div id='snapshot' style='display:inline-block'>
-					<h4 class='controls'>
-						<button id='save-snapshot' class='btn btn-outline-primary' type='button' onclick='saveSnapshot()'>Save snapshot</button>
-						<a id='snapshot-link' href='#'></a>
-						<img id='snapshot-img' style='display:none'></img>
-					</h4>
+					<div class='d-flex flex-row bd-highlight mb-3'>
+						<label id='presets-label' class='left-label p-2 bd-highlight' for='presets'>Presets</label>
+						<span id='presets' style='display:inline-block'></span>
+						<span id='snapshot' class='ml-auto'>
+							<div style='display:inline-block'>
+								<button id='save-snapshot' class='btn btn-outline-primary' type='button' onclick='saveSnapshot()'>Save snapshot</button>
+								<a id='snapshot-link' href='#'></a>
+								<img id='snapshot-img' style='display:none'></img>
+							</div>
+						</span>
+					</div>					
 				</div>
 			</div>
 		</div>

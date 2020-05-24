@@ -15,11 +15,17 @@ body {
 	font-size: .8em;
   }
 
-label {
-	text-align: left;
+.left-label {
+	text-align: right;
 	vertical-align: bottom;
 	margin-bottom: 0;
 	font-size: 1.3em;
+}
+
+.right-label {
+	text-align: left;
+	font-size: 1.3em;
+	min-width: 33%;
 }
 
 select {
@@ -56,8 +62,12 @@ select {
 
 .presets {
 	margin-right: 16px;
+	height: 2.2em;
 }
 
 #videoSource {
 	max-width: 50%;
+}
+
+#snapshot {
 }
