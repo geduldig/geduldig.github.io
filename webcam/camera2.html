@@ -20,23 +20,14 @@
 					</span>
 				</div>
 				<!-- VIDEO SOURCE CHOOSER -->
-				<div class='row'>
-					<label class="col-md-2" for='videoSource'>Video </label>
-					<select class="col-md-8" id='videoSource' class='form-control'></select>
-					<button id='facingMode' class="btn btn-primary" onclick=toggleFacingMode()><img src="style/flipCamera.png" width="30" /></button>
+				<div class='d-flex flex-row bd-highlight mb-3'>
+					<label class='p-2 bd-highlight' for='videoSource'>Video </label>
+					<select class='p-2 bd-highlight' id='videoSource' class='form-control'></select>
+					<button id='facingMode' class='p-2 bd-highlight btn btn-primary' onclick=toggleFacingMode()><img src='style/flipCamera.png' width='30' /></button>
 				</div>
 				<!-- SLIDER CONTROLS -->
 				<div class='controls range-field'>
-					<form id='sliders'>
-						<div class="row">
-							<label class="col-md-3" for="slider1">Slider</label>
-							<input class="col-md-8 custom-range" type="range" id="slider1" min="0" max="100" />
-						</div>
-						<div class="row">
-							<label class="col-md-3" for="slider2">Slider</label>
-							<input class="col-md-8 custom-range" type="range" id="slider2" min="0" max="100" />
-						</div>
-					</form>						
+					<form id='sliders' />
 				</div>
 			</div>
 		</div>
@@ -151,14 +142,15 @@
 
 		function CreateSlider(id, name, min, max, step, onchange) {
 			const slider = document.createElement('div');
-			slider.className = 'row';
+			slider.className = 'd-flex flex-row bd-highlight mb-3';
 			const label = document.createElement('label');
-			label.className = 'col-md-3';
+			//label.className = 'p-2 bd-highlight flex-nowrap';
+			label.className = 'col-lg-3';
 			label.for = id;
 			label.innerText = name;
 			const input = document.createElement('input');
 			input.id = id;
-			input.className = 'col-md-8 custom-range';
+			input.className = 'p-2 bd-highlight custom-range';
 			input.type = 'range';
 			input.min = min;
 			input.max = max;
