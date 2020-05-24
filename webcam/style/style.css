@@ -18,7 +18,11 @@ body {
 label {
 	text-align: right;
 	vertical-align: bottom;
-	padding-top: 8px;
+	margin-bottom: 0;
+}
+
+select {
+	height: 2.6em;
 }
 
 .controls {
@@ -26,15 +30,9 @@ label {
 	padding: 5px;
 }
 
-#facingMode > button {
-	background-image: url("flipCamera.png");
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-color: transparent;
-	border-width: 0;
-	width: 20px;
-	height: 20px; 
+#facingMode {
+	padding: 0 !important;
+	margin-left: 8px;
 }
 
 #closeMenu > button {
