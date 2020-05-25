@@ -6,6 +6,9 @@
 <body>
 	<main role='main' class='container-fluid test'>
 		<div class='row'>
+            <pre id='userAgent'>[USER AGENT]</pre>
+		</div>
+        <div class='row'>
 			<div class='col-lg-4'>
                 <pre id='supported'>[SUPPORTED]</pre>
             </div>
@@ -29,8 +32,11 @@
 		// 	navigator.userAgent.match(/BlackBerry/i) ||
         //     navigator.userAgent.match(/Windows Phone/i);
             
+        const userAgent = document.querySelector('#userAgent');
         const supported = document.querySelector('#supported');
         const settings = document.querySelector('#settings');
+
+        userAgent.textContent += navigator.userAgent;
 
         if (!navigator.mediaDevices)
             supported.textContent += 'navigator.mediaDevices is not supported';
