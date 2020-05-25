@@ -1,8 +1,6 @@
 function setupCamera(video, constraints, callback) {
-	if (navigator.mediaDevices === undefined || navigator.mediaDevices.getUserMedia === undefined) {
-		let msg = 'Camera may not be accesible from your browser. If using an iPhone, try Safari.';
-		onMediaFail(msg);
-	}
+	if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) 
+		onMediaFail('Camera not found.');
 	else
 		navigator.mediaDevices.getUserMedia(constraints)
 			.then(onMediaStream)
@@ -20,7 +18,7 @@ function setupCamera(video, constraints, callback) {
 }
 
 function discoverCameras(callback) {
-	if (navigator.mediaDevices === undefined || navigator.mediaDevices.enumerateDevices === undefined) 
+	if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) 
 		callback(null, { 'label':'Camera', 'id':null });
 	else 
 		navigator.mediaDevices.enumerateDevices()
