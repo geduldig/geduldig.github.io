@@ -20,19 +20,24 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
 	<script>
-		const isMobileDevice = 
-			navigator.userAgent.match(/Android/i) ||
-			navigator.userAgent.match(/webOS/i) ||
-			navigator.userAgent.match(/iPhone/i) ||
-			navigator.userAgent.match(/iPad/i) ||
-			navigator.userAgent.match(/iPod/i) ||
-			navigator.userAgent.match(/BlackBerry/i) ||
-            navigator.userAgent.match(/Windows Phone/i);
+		// const isMobileDevice = 
+		// 	navigator.userAgent.match(/Android/i) ||
+		// 	navigator.userAgent.match(/webOS/i) ||
+		// 	navigator.userAgent.match(/iPhone/i) ||
+		// 	navigator.userAgent.match(/iPad/i) ||
+		// 	navigator.userAgent.match(/iPod/i) ||
+		// 	navigator.userAgent.match(/BlackBerry/i) ||
+        //     navigator.userAgent.match(/Windows Phone/i);
             
         const supported = document.querySelector('#supported');
         const facingMode = document.querySelector('#facingMode');
 
-        if (!navigator.mediaDevices.getSupportedConstraints)
+        supported.textContent += '\n-0-\n';
+        facingMode.textContent += '\n-0-\n';
+
+        if (!navigator.mediaDevices)
+            supported.textContent += 'navigator.mediaDevices is not supported';
+        else if (!navigator.mediaDevices.getSupportedConstraints)
             supported.textContent += 'navigator.mediaDevices.getSupportedConstraints is not supported';
         else {
             supported.textContent += '\n-1-\n';
