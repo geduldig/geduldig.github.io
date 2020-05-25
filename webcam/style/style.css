@@ -37,7 +37,7 @@ select {
 	padding: 5px;
 }
 
-#facingMode {
+#facingMode, #takePhoto {
 	padding: 0 !important;
 	margin-left: 8px;
 	width: 2em;
