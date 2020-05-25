@@ -10,7 +10,7 @@
                 <pre id='supported'>[SUPPORTED]</pre>
             </div>
 			<div class='col-lg-4'>
-                <pre id='facingMode'>[FACINGMODE]</pre>
+                <pre id='settings'>[SETTINGS]</pre>
             </div>
 		</div>
 	</main>
@@ -30,41 +30,28 @@
         //     navigator.userAgent.match(/Windows Phone/i);
             
         const supported = document.querySelector('#supported');
-        const facingMode = document.querySelector('#facingMode');
-
-        supported.textContent += '\n-0-\n';
-        facingMode.textContent += '\n-0-\n';
+        const settings = document.querySelector('#settings');
 
         if (!navigator.mediaDevices)
             supported.textContent += 'navigator.mediaDevices is not supported';
         else if (!navigator.mediaDevices.getSupportedConstraints)
             supported.textContent += 'navigator.mediaDevices.getSupportedConstraints is not supported';
         else {
-            supported.textContent += '\n-1-\n';
             const caps = navigator.mediaDevices.getSupportedConstraints()
             supported.textContent += JSON.stringify(caps, undefined, 4);
-            supported.textContent += '\n-2-\n';
 
-            if (caps.facingMode === true) {
-                facingMode.textContent += '\n-1-\n';
-                if (!navigator.mediaDevices.getUserMedia)
-                    facingMode.textContent += 'navigator.mediaDevices.getUserMedia is not supported';
-                else {
-                    let constraints = {
-                        video: {
-                            facingMode: { exact:'environment' }
-                        }
-                    };
-                    navigator.mediaDevices.getUserMedia(constraints)
-                        .then((stream) => {
-                            facingMode.textContent += 'rear camera present';
-                            facingMode.textContent += '\n-2-\n';
-                        })
-                        .catch((err) => {
-                            facingMode.textContent += 'no rear camera\n' + JSON.stringify(err, null, 4);
-                            facingMode.textContent += '\n-2-\n';
-                        });
-                }
+            if (!navigator.mediaDevices.getUserMedia)
+                settings.textContent += 'navigator.mediaDevices.getUserMedia is not supported';
+            else {
+                let constraints = { video: true };
+                navigator.mediaDevices.getUserMedia(constraints)
+                    .then((stream) => {
+                        settings.textContent += 
+                            JSON.stringify(stream.getVideoTracks()[0].getSettings(), undefined, 4);
+                    })
+                    .catch((err) => {
+                        settings.textContent += 'no rear camera\n' + JSON.stringify(err, null, 4);
+                    });
             }
         }    
     </script>
