@@ -38,6 +38,8 @@ let animID = undefined;
 // -- UI events --
 
 document.addEventListener('DOMContentLoaded', function(event) {
+    enableRearCamera();
+
     discoverCameras((err, {label, id}) => {
         const option = document.createElement('option');
         option.value = id;
@@ -51,8 +53,6 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
     if (isMobileDevice)
         document.querySelector('#snapshot').style.display = 'none';
-    else
-        document.querySelector('#facingMode').style.display = 'none';
 
     if (document.querySelector('#presets').childElementCount === 0)
         document.querySelector('#presets-label').style.display = 'none';
@@ -80,6 +80,17 @@ videoSelect.onchange = () => {
 };
 
 // Tasks
+
+function enableRearCamera() {
+    let constraints = {
+        video: {
+            facingMode: { exact:'environment' }
+        }
+    };			
+    setupCamera(video, constraints, (err, stream) => {
+        document.querySelector('#facingMode').style.display = err ? 'none' : 'block';
+    });
+}
 
 function showMenu() {
     menu.style.display = 'block';
