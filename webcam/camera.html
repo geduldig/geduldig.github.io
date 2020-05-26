@@ -39,7 +39,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('==VERSION 1.27');
+		console.log('==VERSION 1.28');
 
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
@@ -68,6 +68,12 @@
 		// -- UI events --
 
 		document.addEventListener('DOMContentLoaded', function(event) {
+			video.setAttribute("playsinline", true);
+				video.setAttribute("controls", true);
+				setTimeout(() => {
+					video.removeAttribute("controls");
+				});			
+
 			setupCamera(video, {video:true}, (err, stream) => {
 				discoverCameras((err, {label, id}) => {
 					const option = document.createElement('option');
