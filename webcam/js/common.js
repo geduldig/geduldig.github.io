@@ -32,7 +32,7 @@ gl.enableVertexAttribArray(position);
 gl.vertexAttribPointer(position, vertexBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
 let videoScale = 1.0;
-let rearCamera = false;
+//let `rear`Camera = false;
 let animID = undefined;
 
 // -- UI events --
@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
     if (document.querySelector('#presets').childElementCount === 0)
         document.querySelector('#presets-label').style.display = 'none';
 
+    alert('COMMON 1.0')
     //enableRearCamera(() => {
     setupCamera(video, {video:true}, (err, stream) => {
         discoverCameras((err, {label, id}) => {
@@ -63,7 +64,7 @@ videoSelect.onchange = () => {
     const constraints = {
 		video: { 
 			deviceId: videoSelect.value ? { exact:videoSelect.value } : null, 
-			facingMode: rearCamera ? { exact:'environment' } : 'user'
+			// facingMode: rearCamera ? { exact:'environment' } : 'user'
 		}
     };
 
@@ -81,20 +82,6 @@ videoSelect.onchange = () => {
 
 // Tasks
 
-
-function enableRearCamera(callback) {
-    let constraints = {
-        video: {
-            deviceId: null,
-            facingMode: { exact:'environment' }
-        }
-    };			
-    setupCamera(video, constraints, (err, stream) => {
-        document.querySelector('#facingMode').style.display = err ? 'none' : 'block';
-        callback();
-    });
-}
-
 function showMenu() {
     menu.style.display = 'block';
 }
@@ -107,10 +94,10 @@ function toggleMenu() {
     menu.style.display === 'none' ? showMenu() : hideMenu();;
 }
 
-function toggleFacingMode() {
-    rearCamera = !rearCamera;
-    videoSelect.onchange();
-}
+// function toggleFacingMode() {
+//     rearCamera = !rearCamera;
+//     videoSelect.onchange();
+// }
 
 function showControls() {
     const controls = document.querySelector('.controls');
