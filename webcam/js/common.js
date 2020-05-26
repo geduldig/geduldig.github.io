@@ -44,7 +44,8 @@ document.addEventListener('DOMContentLoaded', function(event) {
     if (document.querySelector('#presets').childElementCount === 0)
         document.querySelector('#presets-label').style.display = 'none';
 
-    enableRearCamera(() => {
+    //enableRearCamera(() => {
+    setupCamera(video, {video:true}, (err, stream) => {
         discoverCameras((err, {label, id}) => {
             const option = document.createElement('option');
             option.value = id;
@@ -61,7 +62,6 @@ document.addEventListener('DOMContentLoaded', function(event) {
 videoSelect.onchange = () => {
     const constraints = {
 		video: { 
-			width: 1280, 
 			deviceId: videoSelect.value ? { exact:videoSelect.value } : null, 
 			facingMode: rearCamera ? { exact:'environment' } : 'user'
 		}
@@ -81,15 +81,15 @@ videoSelect.onchange = () => {
 
 // Tasks
 
+
 function enableRearCamera(callback) {
     let constraints = {
         video: {
+            deviceId: null,
             facingMode: { exact:'environment' }
         }
     };			
     setupCamera(video, constraints, (err, stream) => {
-        if (stream)
-            stream.getTracks[0].stop();
         document.querySelector('#facingMode').style.display = err ? 'none' : 'block';
         callback();
     });

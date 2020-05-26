@@ -39,8 +39,8 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('==VERSION 1.23');
-		alert('v 1.23');
+		console.log('==VERSION 1.24');
+		alert('v 1.24');
 
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
@@ -70,7 +70,8 @@
 		// -- UI events --
 
 		document.addEventListener('DOMContentLoaded', function(event) {
-			enableRearCamera(() => {
+			//enableRearCamera(() => {
+			setupCamera(video, {video:true}, (err, stream) => {
 				discoverCameras((err, {label, id}) => {
 					const option = document.createElement('option');
 					option.value = id;
@@ -105,18 +106,18 @@
 
 		// -- Tasks --
 
-		function enableRearCamera(callback) {
-			let constraints = {
-				// video: {
-				// 	deviceId: null,
-				// 	facingMode: { exact:'user' }
-				// }
-				//video: true
-			};			
-			setupCamera(video, constraints, (err, stream) => {
-				callback();
-			});
-		}
+		// function enableRearCamera(callback) {
+		// 	let constraints = {
+		// 		// video: {
+		// 		// 	deviceId: null,
+		// 		// 	facingMode: { exact:'user' }
+		// 		// }
+		// 		video: true
+		// 	};			
+		// 	setupCamera(video, constraints, (err, stream) => {
+		// 		callback();
+		// 	});
+		// }
 
 		function showMenu() {
 			menu.style.display = 'block';
