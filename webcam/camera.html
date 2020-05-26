@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" crossorigin="anonymous">
 <link rel="stylesheet" href="style/style.css" />
 
 <body>
@@ -40,8 +40,8 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('==VERSION 1.9');
-		alert('camera v 1.9')
+		console.log('==VERSION 1.10');
+		alert('camera v 1.10')
 
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
@@ -88,7 +88,6 @@
 		videoSelect.onchange = () => {
 			const constraints = {
 				video: { 
-					//width: 1280, 
 					width: { ideal: 4096 },
 			        height: { ideal: 2160 },
 					deviceId: videoSelect.value ? { exact:videoSelect.value } : null, 
@@ -96,14 +95,16 @@
 				}
 			};
 
-			setupCamera(video, constraints, (err, stream) => {
-				if (err) 
-					alert('Problem: ' + err);
-				else {
-					showControls();
-					resizeVideo(videoScale);
-					showMenu();
-				}
+			enableRearCamera(() => {
+				setupCamera(video, constraints, (err, stream) => {
+					if (err) 
+						alert('Problem: ' + err);
+					else {
+						showControls();
+						resizeVideo(videoScale);
+						showMenu();
+					}
+				});
 			});
 		};
 
@@ -112,6 +113,9 @@
 		function enableRearCamera(callback) {
 			let constraints = {
 				video: {
+					width: { ideal: 4096 },
+			        height: { ideal: 2160 },
+					deviceId: videoSelect.value ? { exact:videoSelect.value } : null, 
 					facingMode: { exact:'environment' }
 				}
 			};			
