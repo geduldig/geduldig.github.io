@@ -88,6 +88,8 @@ function enableRearCamera(callback) {
         }
     };			
     setupCamera(video, constraints, (err, stream) => {
+        if (stream)
+            stream.getTracks[0].stop();
         document.querySelector('#facingMode').style.display = err ? 'none' : 'block';
         callback();
     });
