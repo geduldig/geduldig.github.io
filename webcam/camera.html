@@ -40,8 +40,8 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('==VERSION 1.11');
-		alert('camera v 1.11')
+		console.log('==VERSION 1.12');
+		alert('camera v 1.12')
 
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
@@ -88,8 +88,9 @@
 		videoSelect.onchange = () => {
 			const constraints = {
 				video: { 
-					width: { ideal: 4096 },
-			        height: { ideal: 2160 },
+					// width: { ideal: 4096 },
+			        // height: { ideal: 2160 },
+					width: { ideal: 1080 },
 					deviceId: videoSelect.value ? { exact:videoSelect.value } : null, 
 					facingMode: rearCamera ? { exact:'environment' } : 'user'
 				}
@@ -113,15 +114,16 @@
 		function enableRearCamera(callback) {
 			let constraints = {
 				video: {
-					width: { ideal: 4096 },
-			        height: { ideal: 2160 },
+					// width: { ideal: 4096 },
+			        // height: { ideal: 2160 },
+					width: { ideal: 1080 },
 					deviceId: videoSelect.value ? { exact:videoSelect.value } : null, 
 					facingMode: { exact:'environment' }
 				}
 			};			
 			setupCamera(video, constraints, (err, stream) => {
-				// if (stream)
-				// 	stream.getTracks[0].stop();
+				if (stream)
+					stream.getTracks[0].stop();
 				document.querySelector('#facingMode').style.display = err ? 'none' : 'block';
 				callback();
 			});
