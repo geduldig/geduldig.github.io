@@ -40,8 +40,8 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('==VERSION 1.14');
-		alert('camera v 1.14')
+		console.log('==VERSION 1.15');
+		alert('camera v 1.15')
 
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
@@ -71,7 +71,7 @@
 		// -- UI events --
 
 		document.addEventListener('DOMContentLoaded', function(event) {
-			//enableRearCamera(() => {
+			enableRearCamera(() => {
 				discoverCameras((err, {label, id}) => {
 					const option = document.createElement('option');
 					option.value = id;
@@ -82,7 +82,7 @@
 						videoSelect.dispatchEvent(new Event('change'));
 					}
 				});
-			//});
+			});
 		});
 
 		videoSelect.onchange = () => {
@@ -96,7 +96,7 @@
 				}
 			};
 
-			enableRearCamera(() => {
+			//enableRearCamera(() => {
 				setupCamera(video, constraints, (err, stream) => {
 					if (err) 
 						alert('Problem: ' + err);
@@ -106,7 +106,7 @@
 						showMenu();
 					}
 				});
-			});
+			//});
 		};
 
 		// -- Tasks --
@@ -117,7 +117,8 @@
 					// width: { ideal: 4096 },
 			        // height: { ideal: 2160 },
 					//width: { ideal: 1080 },
-					deviceId: videoSelect.value ? { exact:videoSelect.value } : null, 
+					//deviceId: videoSelect.value ? { exact:videoSelect.value } : null, 
+					deviceId: null,
 					facingMode: { exact:'environment' }
 				}
 			};			
