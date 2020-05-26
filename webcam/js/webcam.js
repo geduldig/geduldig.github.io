@@ -1,5 +1,6 @@
 function setupCamera(video, constraints, callback) {
-	alert('webcam v1')
+	console.log('==WEBCAM VERSION 1.4');
+	alert('webcam v 1.4\n' + JSON.stringify(constraints))
 	if (navigator.mediaDevices === undefined || navigator.mediaDevices.getUserMedia === undefined) 
 		onMediaFail('Camera not found.');
 	else

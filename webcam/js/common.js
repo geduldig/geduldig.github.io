@@ -1,5 +1,3 @@
-console.log('==COMMON VERSION 1.3');
-
 const isMobileDevice = 
     navigator.userAgent.match(/Android/i) ||
     navigator.userAgent.match(/webOS/i) ||
