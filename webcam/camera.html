@@ -39,8 +39,8 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('==VERSION 1.25');
-		alert('v 1.25');
+		console.log('==VERSION 1.26');
+		alert('v 1.26');
 
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
@@ -58,7 +58,7 @@
 		const video = document.querySelector('#video');
 
 		let videoScale = 1.0;
-		let rearCamera = false;
+		// let rearCamera = false;
 
 		if (!isMobileDevice) {
 			CreateSlider('slider0', 'Video scale', 0.2, 1.0, 0.01, () => {
@@ -70,8 +70,7 @@
 		// -- UI events --
 
 		document.addEventListener('DOMContentLoaded', function(event) {
-			//enableRearCamera(() => {
-			setupCamera(video, null, (err, stream) => {
+			setupCamera(video, {video:true}, (err, stream) => {
 				discoverCameras((err, {label, id}) => {
 					const option = document.createElement('option');
 					option.value = id;
@@ -89,7 +88,7 @@
 			const constraints = {
 				video: { 
 					deviceId: videoSelect.value ? { exact:videoSelect.value } : null, 
-					facingMode: rearCamera ? { exact:'environment' } : 'user'
+					// facingMode: rearCamera ? { exact:'environment' } : 'user'
 				}
 			};
 
@@ -106,19 +105,6 @@
 
 		// -- Tasks --
 
-		// function enableRearCamera(callback) {
-		// 	let constraints = {
-		// 		// video: {
-		// 		// 	deviceId: null,
-		// 		// 	facingMode: { exact:'user' }
-		// 		// }
-		// 		video: true
-		// 	};			
-		// 	setupCamera(video, constraints, (err, stream) => {
-		// 		callback();
-		// 	});
-		// }
-
 		function showMenu() {
 			menu.style.display = 'block';
 		}
@@ -129,11 +115,6 @@
 
 		function toggleMenu() {
 			menu.style.display === 'none' ? showMenu() : hideMenu();;
-		}
-
-		function toggleFacingMode() {
-			rearCamera = !rearCamera;
-			videoSelect.onchange();
 		}
 
 		function showControls() {
