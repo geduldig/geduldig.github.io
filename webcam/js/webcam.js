@@ -1,4 +1,5 @@
 function setupCamera(video, constraints, callback) {
+	alert(JSON.stringify(constraints))
 	if (navigator.mediaDevices === undefined || navigator.mediaDevices.getUserMedia === undefined) 
 		onMediaFail('Camera not found.');
 	else
