@@ -40,8 +40,8 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('==VERSION 1.5');
-		alert('camera v 1.5')
+		console.log('==VERSION 1.6');
+		alert('camera v 1.6')
 
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
@@ -89,8 +89,8 @@
 			const constraints = {
 				video: { 
 					width: 1280, 
-					// deviceId: videoSelect.value ? { exact:videoSelect.value } : null, 
-					// facingMode: rearCamera ? { exact:'environment' } : 'user'
+					deviceId: videoSelect.value ? { exact:videoSelect.value } : null, 
+					facingMode: rearCamera ? { exact:'environment' } : 'user'
 				}
 			};
 
