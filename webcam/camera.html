@@ -39,8 +39,8 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('==VERSION 1.21');
-		alert('v 1.21');
+		console.log('==VERSION 1.22');
+		alert('v 1.22');
 
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
@@ -107,11 +107,11 @@
 
 		function enableRearCamera(callback) {
 			let constraints = {
-				video: {
-					deviceId: null,
-					// facingMode: { exact:'environment' }
-					facingMode: { exact:'user' }
-				}
+				// video: {
+				// 	deviceId: null,
+				// 	facingMode: { exact:'user' }
+				// }
+				video: true
 			};			
 			setupCamera(video, constraints, (err, stream) => {
 				callback();
