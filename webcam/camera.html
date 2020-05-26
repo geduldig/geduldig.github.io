@@ -39,8 +39,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('==VERSION 1.26');
-		alert('v 1.26');
+		console.log('==VERSION 1.27');
 
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
@@ -58,7 +57,6 @@
 		const video = document.querySelector('#video');
 
 		let videoScale = 1.0;
-		// let rearCamera = false;
 
 		if (!isMobileDevice) {
 			CreateSlider('slider0', 'Video scale', 0.2, 1.0, 0.01, () => {
@@ -88,7 +86,6 @@
 			const constraints = {
 				video: { 
 					deviceId: videoSelect.value ? { exact:videoSelect.value } : null, 
-					// facingMode: rearCamera ? { exact:'environment' } : 'user'
 				}
 			};
 
