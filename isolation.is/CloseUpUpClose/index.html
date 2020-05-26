@@ -142,13 +142,13 @@
       function PointerR(x) { return CircleRadius + canvas.width * ease(x); }
       function MagnifyR(x) { return x < .25 ? 0 : CircleRadius * ease(x); }
 
-			const constraints = {
-				video: { 
-					width: { ideal: 4096 },
+      const constraints = {
+        video: { 
+          width: { ideal: 4096 },
           height: { ideal: 2160 },
-					deviceId: null, 
-					facingMode: 'user'
-				}
+          deviceId: null, 
+          facingMode: 'user'
+        }
       };
       
       // Call IS.create after attempting to initialize the camera.
