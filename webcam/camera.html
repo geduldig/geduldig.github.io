@@ -39,8 +39,8 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('==VERSION 1.20');
-		alert('v 1.20');
+		console.log('==VERSION 1.21');
+		alert('v 1.21');
 
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
@@ -109,11 +109,11 @@
 			let constraints = {
 				video: {
 					deviceId: null,
-					facingMode: { exact:'environment' }
+					// facingMode: { exact:'environment' }
+					facingMode: { exact:'user' }
 				}
 			};			
 			setupCamera(video, constraints, (err, stream) => {
-				//document.querySelector('#facingMode').style.display = err ? 'none' : 'block';
 				callback();
 			});
 		}
