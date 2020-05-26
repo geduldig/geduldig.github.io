@@ -54,6 +54,7 @@
                     .then((stream) => {
                         settings.textContent += 
                             JSON.stringify(stream.getVideoTracks()[0].getSettings(), undefined, 4);
+                        stream.getTracks[0].stop();
                     })
                     .catch((err) => {
                         settings.textContent += 'no rear camera\n' + JSON.stringify(err, null, 4);
