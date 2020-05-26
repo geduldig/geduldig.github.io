@@ -39,8 +39,8 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('==VERSION 1.24');
-		alert('v 1.24');
+		console.log('==VERSION 1.25');
+		alert('v 1.25');
 
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
@@ -71,7 +71,7 @@
 
 		document.addEventListener('DOMContentLoaded', function(event) {
 			//enableRearCamera(() => {
-			setupCamera(video, {video:true}, (err, stream) => {
+			setupCamera(video, null, (err, stream) => {
 				discoverCameras((err, {label, id}) => {
 					const option = document.createElement('option');
 					option.value = id;
