@@ -40,8 +40,8 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('==VERSION 1.13');
-		alert('camera v 1.13')
+		console.log('==VERSION 1.14');
+		alert('camera v 1.14')
 
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
@@ -122,8 +122,8 @@
 				}
 			};			
 			setupCamera(video, constraints, (err, stream) => {
-				if (stream)
-					stream.getVideoTracks[0].stop();
+				// if (stream)
+				// 	stream.getVideoTracks[0].stop();
 				document.querySelector('#facingMode').style.display = err ? 'none' : 'block';
 				callback();
 			});
