@@ -1,21 +1,19 @@
 function setupCamera(video, constraints, callback) {
-	if (navigator.mediaDevices === undefined || navigator.mediaDevices.getUserMedia === undefined) {
-		let msg = 'Camera may not be accesible from your browser. If using an iPhone, try Safari.';
-		onMediaFail(msg);
-	}
+	if (navigator.mediaDevices === undefined || navigator.mediaDevices.getUserMedia === undefined) 
+		onMediaFail('Camera not found.');
 	else
 		navigator.mediaDevices.getUserMedia(constraints)
 			.then(onMediaStream)
 			.catch(onMediaFail);
 
 	function onMediaStream(stream) {
-	  	window.URL = window.URL || window.webkitURL;
+		window.URL = window.URL || window.webkitURL;
 	  	video.srcObject = stream;
 	  	video.onloadedmetadata = (e) => { callback(null, stream); };
 	}
 
 	function onMediaFail(e) {
-	  	callback(e, null);
+		callback(e, null);
 	}
 }
 
