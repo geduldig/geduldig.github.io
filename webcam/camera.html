@@ -10,7 +10,7 @@
 			<div>
 				<!-- VIDEO -->
 				<div>
-					<video id='video' autoplay='true' style='display:block' onclick=toggleMenu()></video>
+					<video id='video' autoplay playsinline style='display:block' onclick=toggleMenu()></video>
 				</div>
 			</div>
 			<div id='menu' class='col-lg-6' style='display:none'>
@@ -68,12 +68,6 @@
 		// -- UI events --
 
 		document.addEventListener('DOMContentLoaded', function(event) {
-			video.setAttribute("playsinline", true);
-			// video.setAttribute("controls", true);
-			// setTimeout(() => {
-			// 	video.removeAttribute("controls");
-			// });			
-
 			setupCamera(video, {video:true}, (err, stream) => {
 				discoverCameras((err, {label, id}) => {
 					const option = document.createElement('option');
