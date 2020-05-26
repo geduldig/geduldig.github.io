@@ -40,8 +40,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('==VERSION 1.16');
-		alert('camera v 1.16')
+		console.log('==VERSION 1.18');
 
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
@@ -67,11 +66,12 @@
 			});
 			document.querySelector('#slider0 > input').value = 1.0;
 		}
+		document.querySelector('#facingMode').style.display = 'none';
 
 		// -- UI events --
 
 		document.addEventListener('DOMContentLoaded', function(event) {
-			enableRearCamera(() => {
+			//enableRearCamera(() => {
 				discoverCameras((err, {label, id}) => {
 					const option = document.createElement('option');
 					option.value = id;
@@ -82,31 +82,26 @@
 						videoSelect.dispatchEvent(new Event('change'));
 					}
 				});
-			});
+			//});
 		});
 
 		videoSelect.onchange = () => {
 			const constraints = {
 				video: { 
-					// width: { ideal: 4096 },
-			        // height: { ideal: 2160 },
-					//width: { ideal: 1080 },
 					deviceId: videoSelect.value ? { exact:videoSelect.value } : null, 
 					facingMode: rearCamera ? { exact:'environment' } : 'user'
 				}
 			};
 
-			//enableRearCamera(() => {
-				setupCamera(video, constraints, (err, stream) => {
-					if (err) 
-						alert('Problem: ' + err);
-					else {
-						showControls();
-						resizeVideo(videoScale);
-						showMenu();
-					}
-				});
-			//});
+			setupCamera(video, constraints, (err, stream) => {
+				if (err) 
+					alert('Problem: ' + err);
+				else {
+					showControls();
+					resizeVideo(videoScale);
+					showMenu();
+				}
+			});
 		};
 
 		// -- Tasks --
@@ -114,17 +109,11 @@
 		function enableRearCamera(callback) {
 			let constraints = {
 				video: {
-					// width: { ideal: 4096 },
-			        // height: { ideal: 2160 },
-					//width: { ideal: 1080 },
-					//deviceId: videoSelect.value ? { exact:videoSelect.value } : null, 
 					deviceId: null,
 					facingMode: { exact:'environment' }
 				}
 			};			
 			setupCamera(video, constraints, (err, stream) => {
-				// if (stream)
-				// 	stream.getVideoTracks[0].stop();
 				document.querySelector('#facingMode').style.display = err ? 'none' : 'block';
 				callback();
 			});
