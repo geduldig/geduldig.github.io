@@ -38,7 +38,7 @@ let animID = undefined;
 // -- UI events --
 
 document.addEventListener('DOMContentLoaded', function(event) {
-    //enableRearCamera();
+    enableRearCamera();
 
     discoverCameras((err, {label, id}) => {
         const option = document.createElement('option');
