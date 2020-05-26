@@ -23,7 +23,6 @@
 				<div class='d-flex flex-row bd-highlight mb-3'>
 					<label class='left-label p-2 bd-highlight' for='videoSource'>Video</label>
 					<select class='p-2 bd-highlight' id='videoSource' class='form-control'></select>
-					<button id='facingMode' class='p-2 bd-highlight btn btn-primary' onclick=toggleFacingMode()><img src='style/flipCamera.png' width='30' /></button>
 					<button id='takePhoto' class='p-2 bd-highlight btn btn-primary' onclick=videoSelect.onchange()><img src='style/photo.png' width='30' /></button>
 				</div>
 				<!-- SLIDER CONTROLS -->
@@ -40,7 +39,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('==VERSION 1.18');
+		console.log('==VERSION 1.19');
 
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
@@ -66,7 +65,6 @@
 			});
 			document.querySelector('#slider0 > input').value = 1.0;
 		}
-		document.querySelector('#facingMode').style.display = 'none';
 
 		// -- UI events --
 
