@@ -1,5 +1,6 @@
 function setupCamera(video, constraints, callback) {
-	if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) 
+	alert('webcam v1')
+	if (navigator.mediaDevices === undefined || navigator.mediaDevices.getUserMedia === undefined) 
 		onMediaFail('Camera not found.');
 	else
 		navigator.mediaDevices.getUserMedia(constraints)
@@ -18,7 +19,7 @@ function setupCamera(video, constraints, callback) {
 }
 
 function discoverCameras(callback) {
-	if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) 
+	if (navigator.mediaDevices === undefined || navigator.mediaDevices.enumerateDevices === undefined) 
 		callback(null, { 'label':'Camera', 'id':null });
 	else 
 		navigator.mediaDevices.enumerateDevices()
