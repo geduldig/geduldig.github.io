@@ -70,7 +70,7 @@
 		// -- UI events --
 
 		document.addEventListener('DOMContentLoaded', function(event) {
-			enableRearCamera(() => {
+			//enableRearCamera(() => {
 				discoverCameras((err, {label, id}) => {
 					const option = document.createElement('option');
 					option.value = id;
@@ -81,7 +81,7 @@
 						videoSelect.dispatchEvent(new Event('change'));
 					}
 				});
-			});
+			//});
 		});
 
 		videoSelect.onchange = () => {
@@ -93,6 +93,7 @@
 				}
 			};
 
+			alert('v1')
 			setupCamera(video, constraints, (err, stream) => {
 				if (err) 
 					alert('Problem: ' + err);
