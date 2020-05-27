@@ -9,7 +9,10 @@ function setupCamera(video, constraints, callback) {
 	function onMediaStream(stream) {
 		window.URL = window.URL || window.webkitURL;
 	  	video.srcObject = stream;
-	  	video.onloadedmetadata = (e) => { callback(null, stream); };
+	  	video.onloadedmetadata = (e) => { 
+			video.play();
+			callback(null, stream); 
+		};
 	}
 
 	function onMediaFail(e) {
