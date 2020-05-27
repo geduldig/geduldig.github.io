@@ -1,5 +1,5 @@
 function setupCamera(video, constraints, callback) {
-	alert('webcam 1')
+	alert('webcam 2')
 	if (navigator.mediaDevices === undefined || navigator.mediaDevices.getUserMedia === undefined) 
 		onMediaFail('Camera not found.');
 	else
@@ -9,7 +9,7 @@ function setupCamera(video, constraints, callback) {
 
 	function onMediaStream(stream) {
 		  video.srcObject = stream;
-		  video.onloadedmetadata = () => { stream.play(); callback(null, stream); };
+		  video.onloadedmetadata = () => { video.play(); callback(null, stream); };
 	}
 
 	function onMediaFail(err) {
