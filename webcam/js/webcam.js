@@ -7,13 +7,13 @@ function setupCamera(video, constraints, callback) {
 			.catch(onMediaFail);
 
 	function onMediaStream(stream) {
-		window.URL = window.URL || window.webkitURL;
-	  	video.srcObject = stream;
-	  	video.onloadedmetadata = (e) => { callback(null, stream); };
+		  video.srcObject = stream;
+		  //video.play();
+		  video.onloadedmetadata = () => { callback(null, stream); };
 	}
 
-	function onMediaFail(e) {
-		callback(e, null);
+	function onMediaFail(err) {
+		callback(err, null);
 	}
 }
 
@@ -33,7 +33,7 @@ function discoverCameras(callback) {
 		}
 	}
 
-	function onMediaFail(e) {
-		callback(e, null);
+	function onMediaFail(err) {
+		callback(err, null);
   	}
 }
