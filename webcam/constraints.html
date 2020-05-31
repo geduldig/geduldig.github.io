@@ -67,9 +67,15 @@
                 settings.textContent += 'navigator.mediaDevices.getUserMedia is not supported';
             else {
                 // let constraints = { video: true };
-                let constraints = { video: {width:1280} };
-                //let constraints = { video: {aspectRatio: {ideal: 16/9}} };
-                navigator.mediaDevices.getUserMedia(constraints)
+                // let constraints = { video: {width:1280} };
+                // let constraints = { video: {aspectRatio: {ideal: 16/9}} };
+                let constraints = { 
+                    video: { 
+                        width: { ideal: screen.width },
+                        height: { ideal: screen.height }
+                    }
+                };
+                 navigator.mediaDevices.getUserMedia(constraints)
                     .then((stream) => {
                         settings.textContent += 
                             JSON.stringify(stream.getVideoTracks()[0].getSettings(), undefined, 4);
