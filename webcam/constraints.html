@@ -59,15 +59,15 @@
             if (!navigator.mediaDevices.getUserMedia)
                 settings.textContent += 'navigator.mediaDevices.getUserMedia is not supported';
             else {
-                let vidconstraints = { video: true };
+                // let vidconstraints = { video: true };
                 // let vidconstraints = { video: {width:1280} };
                 // let vidconstraints = { video: {aspectRatio: {ideal: 16/9}} };
-                // let vidconstraints = { 
-                //     video: { 
-                //         width: { ideal: screen.width },
-                //         height: { ideal: screen.height }
-                //     }
-                // };
+                let vidconstraints = { 
+                    video: { 
+                        width: { ideal: 2*screen.width },
+                        height: { ideal: 2*screen.height }
+                    }
+                };
                 constraints.textContent += JSON.stringify(vidconstraints, undefined, 4);
                 navigator.mediaDevices.getUserMedia(vidconstraints)
                     .then((stream) => {

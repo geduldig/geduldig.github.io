@@ -1,4 +1,4 @@
-console.log('==COMMON VERSION 2.8');
+console.log('==COMMON VERSION 2.9');
 
 const isMobileDevice = 
     navigator.userAgent.match(/Android/i) ||
@@ -65,8 +65,8 @@ document.addEventListener('DOMContentLoaded', function(event) {
 videoSelect.onchange = () => {
     const constraints = {
         video: { 
-            // width: { ideal: screen.width },
-            // height: { ideal: screen.height },
+            width: { ideal: 2*screen.width },
+            height: { ideal: 2*screen.height },
             deviceId: videoSelect.value ? { exact:videoSelect.value } : null,
         }
     };
