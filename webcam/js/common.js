@@ -1,4 +1,4 @@
-console.log('==COMMON VERSION 2.0');
+console.log('==COMMON VERSION 2.2');
 
 const isMobileDevice = 
     navigator.userAgent.match(/Android/i) ||
@@ -62,7 +62,6 @@ document.addEventListener('DOMContentLoaded', function(event) {
 videoSelect.onchange = () => {
     const constraints = {
 		video: { 
-            aspectRatio: (16/9),
 			deviceId: videoSelect.value ? { exact:videoSelect.value } : null,
 		}
     };
