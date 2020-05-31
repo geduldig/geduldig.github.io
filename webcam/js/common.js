@@ -1,4 +1,4 @@
-console.log('==COMMON VERSION 2.0');
+console.log('==COMMON VERSION 2.1');
 
 const isMobileDevice = 
     navigator.userAgent.match(/Android/i) ||
@@ -70,7 +70,6 @@ videoSelect.onchange = () => {
             deviceId: videoSelect.value ? { exact:videoSelect.value } : null,
         }
     };
-    alert(JSON.stringify(constraints));
 
     setupCamera(video, constraints, (err, stream) => {
         if (err)
@@ -114,8 +113,8 @@ function resizeCanvas(scale) {
         canvas.height = window.innerHeight * videoScale;
         canvas.width = canvas.height * video.videoWidth / video.videoHeight;
     }
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
+    canvas.width = video.videoWidth * videoScale;
+    canvas.height = video.videoHeight  * videoScale;
 
     gl.uniform1f(width, canvas.width);
     gl.uniform1f(height, canvas.height);
