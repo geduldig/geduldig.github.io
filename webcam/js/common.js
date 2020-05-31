@@ -1,4 +1,4 @@
-console.log('==COMMON VERSION 2.9');
+console.log('==COMMON VERSION 2.0');
 
 const isMobileDevice = 
     navigator.userAgent.match(/Android/i) ||
@@ -114,6 +114,8 @@ function resizeCanvas(scale) {
         canvas.height = window.innerHeight * videoScale;
         canvas.width = canvas.height * video.videoWidth / video.videoHeight;
     }
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
 
     gl.uniform1f(width, canvas.width);
     gl.uniform1f(height, canvas.height);
