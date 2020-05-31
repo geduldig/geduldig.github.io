@@ -1,4 +1,4 @@
-console.log('==COMMON VERSION 2.7');
+console.log('==COMMON VERSION 2.9');
 
 const isMobileDevice = 
     navigator.userAgent.match(/Android/i) ||
@@ -69,7 +69,8 @@ videoSelect.onchange = () => {
             // height: { ideal: window.innerHeight },
             // width: window.innerWidth,
             // height: window.innerHeight,
-            aspectRatio: { ideal:(window.innerWidth/window.innerHeight) },
+            // aspectRatio: { ideal:(window.innerWidth/window.innerHeight) },
+            width: 1280,
             deviceId: videoSelect.value ? { exact:videoSelect.value } : null,
         }
     };
