@@ -1,4 +1,4 @@
-console.log('==COMMON VERSION 2.2');
+console.log('==COMMON VERSION 2.4');
 
 const isMobileDevice = 
     navigator.userAgent.match(/Android/i) ||
@@ -65,11 +65,12 @@ document.addEventListener('DOMContentLoaded', function(event) {
 videoSelect.onchange = () => {
     const constraints = {
         video: { 
-            // width: { ideal: 2*screen.width },
-            // height: { ideal: 2*screen.height },
+            width: { ideal: window.innerWidth },
+            height: { ideal: window.innerHeight },
             deviceId: videoSelect.value ? { exact:videoSelect.value } : null,
         }
     };
+    alert(window.innerWidth + 'X' + window.innerHeight);
 
     setupCamera(video, constraints, (err, stream) => {
         if (err)
