@@ -1,4 +1,4 @@
-console.log('==COMMON VERSION 2.9');
+console.log('==COMMON VERSION 2.0');
 
 const isMobileDevice = 
     navigator.userAgent.match(/Android/i) ||
