@@ -31,6 +31,7 @@
             </div>
 			<div class='col-lg-9'>
                 <pre id='settings'>[SETTINGS]</pre>
+                <pre id='constraints'>[CONSTRAINTS]</pre>
             </div>
 		</div>
 	</main>
@@ -40,18 +41,10 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
 	<script>
-		// const isMobileDevice = 
-		// 	navigator.userAgent.match(/Android/i) ||
-		// 	navigator.userAgent.match(/webOS/i) ||
-		// 	navigator.userAgent.match(/iPhone/i) ||
-		// 	navigator.userAgent.match(/iPad/i) ||
-		// 	navigator.userAgent.match(/iPod/i) ||
-		// 	navigator.userAgent.match(/BlackBerry/i) ||
-        //     navigator.userAgent.match(/Windows Phone/i);
-            
         const userAgent = document.querySelector('#userAgent');
         const supported = document.querySelector('#supported');
         const settings = document.querySelector('#settings');
+        const constraints = document.querySelector('#constraints');
 
         userAgent.textContent += navigator.userAgent;
 
@@ -66,19 +59,19 @@
             if (!navigator.mediaDevices.getUserMedia)
                 settings.textContent += 'navigator.mediaDevices.getUserMedia is not supported';
             else {
-                // let constraints = { video: true };
-                // let constraints = { video: {width:1280} };
-                // let constraints = { video: {aspectRatio: {ideal: 16/9}} };
-                let constraints = { 
-                    video: { 
-                        width: { ideal: screen.width },
-                        height: { ideal: screen.height }
-                    }
-                };
-                 navigator.mediaDevices.getUserMedia(constraints)
+                let vidconstraints = { video: true };
+                // let vidconstraints = { video: {width:1280} };
+                // let vidconstraints = { video: {aspectRatio: {ideal: 16/9}} };
+                // let vidconstraints = { 
+                //     video: { 
+                //         width: { ideal: screen.width },
+                //         height: { ideal: screen.height }
+                //     }
+                // };
+                constraints.textContent += JSON.stringify(vidconstraints, undefined, 4);
+                navigator.mediaDevices.getUserMedia(vidconstraints)
                     .then((stream) => {
-                        settings.textContent += 
-                            JSON.stringify(stream.getVideoTracks()[0].getSettings(), undefined, 4);
+                        settings.textContent += JSON.stringify(stream.getVideoTracks()[0].getSettings(), undefined, 4);
                         stream.getTracks[0].stop();
                     })
                     .catch((err) => {
