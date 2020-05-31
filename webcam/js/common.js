@@ -1,4 +1,4 @@
-console.log('==COMMON VERSION 2.2');
+console.log('==COMMON VERSION 2.3');
 
 const isMobileDevice = 
     navigator.userAgent.match(/Android/i) ||
@@ -39,6 +39,9 @@ let animID = undefined;
 // -- UI events --
 
 document.addEventListener('DOMContentLoaded', function(event) {
+    gl.width = window.innerWidth;
+    gl.height = window.innerHeight;
+
     if (isMobileDevice)
         document.querySelector('#snapshot').style.display = 'none';
 
