@@ -1,4 +1,4 @@
-console.log('==COMMON VERSION 2.5');
+console.log('==COMMON VERSION 2.6');
 
 const isMobileDevice = 
     navigator.userAgent.match(/Android/i) ||
@@ -67,12 +67,12 @@ videoSelect.onchange = () => {
         video: { 
             // width: { ideal: window.innerWidth },
             // height: { ideal: window.innerHeight },
-            width: window.innerWidth,
-            height: window.innerHeight,
+            // width: window.innerWidth,
+            // height: window.innerHeight,
+            aspectRatio: { ideal:(window.innerWidth/window.innerHeight) },
             deviceId: videoSelect.value ? { exact:videoSelect.value } : null,
         }
     };
-    alert(window.innerWidth + 'X' + window.innerHeight);
 
     setupCamera(video, constraints, (err, stream) => {
         if (err)
