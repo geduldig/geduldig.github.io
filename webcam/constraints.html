@@ -64,8 +64,9 @@
                 // let vidconstraints = { video: {aspectRatio: {ideal: 16/9}} };
                 let vidconstraints = { 
                     video: { 
-                        width: { ideal: 2*screen.width },
-                        height: { ideal: 2*screen.height }
+                        // width: { ideal: 2*screen.width },
+                        // height: { ideal: 2*screen.height }
+                        aspectRatio: { ideal:(window.innerWidth/window.innerHeight) }
                     }
                 };
                 constraints.textContent += JSON.stringify(vidconstraints, undefined, 4);
