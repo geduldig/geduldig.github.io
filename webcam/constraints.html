@@ -59,8 +59,8 @@
             if (!navigator.mediaDevices.getUserMedia)
                 settings.textContent += 'navigator.mediaDevices.getUserMedia is not supported';
             else {
-                let vidconstraints = { video: true };
-                // let vidconstraints = { video: {width:1280} };
+                // let vidconstraints = { video: true };
+                let vidconstraints = { video: {width:1280} };
                 // let vidconstraints = { video: {aspectRatio: {ideal: 16/9}} };
                 // let vidconstraints = { 
                 //     video: { 
