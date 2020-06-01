@@ -30,8 +30,8 @@
                 <pre id='supported'>[SUPPORTED]</pre>
             </div>
 			<div class='col-lg-9'>
-                <pre id='settings'>[SETTINGS]</pre>
                 <pre id='constraints'>[CONSTRAINTS]</pre>
+                <pre id='settings'>[SETTINGS]</pre>
             </div>
 		</div>
 	</main>
@@ -73,10 +73,10 @@
                 navigator.mediaDevices.getUserMedia(vidconstraints)
                     .then((stream) => {
                         settings.textContent += JSON.stringify(stream.getVideoTracks()[0].getSettings(), undefined, 4);
-                        stream.getTracks[0].stop();
+                        stream.getVideoTracks()[0].stop();
                     })
                     .catch((err) => {
-                        settings.textContent += JSON.stringify(err, null, 4);
+                        settings.textContent += err;
                     });
             }
         }    

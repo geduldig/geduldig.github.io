@@ -2,46 +2,54 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-<link rel="stylesheet" href="style/style.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<link rel="stylesheet" href="style/style.css?v=2.5">
 
 <body>
-	<main role='main' class='container-fluid test'>
-		<div class='row'>
-			<div>
-				<!-- VIDEO -->
+	<main role='main' class='container-fluid test no-spacing'>
+		<!-- VIDEO -->
+		<div class='row no-spacing'>
+			<div class='col-sm-12 no-spacing'>
 				<div>
 					<video id='video' autoplay playsinline style='display:none'></video>
 					<canvas id='canvas' onclick=toggleMenu()></canvas>
 				</div>
 			</div>
-			<div id='menu' class='col-lg-6' style='display:none'>
+			<div id='on-boarding' class='fade-in' onclick=hideOnBoarding() style='display:none'>
+				Click image to display options.
+			</div>
+		</div>
+
+		<!-- MENU -->
+		<div class='row'>
+			<div id='menu' class='col-lg-6 fade-in' style='display:none'>
 				<div>
-					<span id='closeMenu' style='display:inline-block'>
-						<button onclick=hideMenu()></button>
-					</span>
+					<div id='goBack' style='display:block'>
+						<button class='fa fa-arrow-left fa-2x' onclick=goToParentPage()></button>
+					</div>
+					<div id='closeMenu' style='display:block'>
+						<button class='fa fa-times fa-2x' onclick=hideMenu()></button>
+					</div>
 				</div>
 				<!-- VIDEO SOURCE CHOOSER -->
-				<div class='d-flex flex-row bd-highlight mb-3'>
+				<div class='d-flex flex-row bd-highlight mb-0 mt-4'>
 					<label class='left-label p-2 bd-highlight' for='videoSource'>Video</label>
 					<select class='p-2 bd-highlight' id='videoSource' class='form-control'></select>
-					<button id='takePhoto' class='p-2 bd-highlight btn btn-primary' onclick=videoSelect.onchange()><img src='style/photo.png' width='30' /></button>
+					<button id='snapshot' class='p-2 bd-highlight btn btn-primary' onclick=saveSnapshot()>
+						<img src='style/photo.png' width='30'/>
+						<a id='snapshot-link' href='#'></a>
+						<img id='snapshot-img' style='display:none'/>
+					</button>
 				</div>
 				<!-- SLIDER CONTROLS -->
-				<div class='controls range-field'>
-					<form id='sliders' />
+				<div class='controls range-field m-0 p-0'>
+					<form id='sliders'/>
 				</div>
 				<!-- PRESET AND SNAPSHOT BUTTONS -->
 				<div style='display:inline-block'>
-					<div class='d-flex flex-row bd-highlight mb-3'>
+					<div class='d-flex flex-row bd-highlight mb-3 mt-0'>
 						<label id='presets-label' class='left-label p-2 bd-highlight' for='presets'>Presets</label>
 						<span id='presets' style='display:inline-block'></span>
-						<span id='snapshot' class='ml-auto'>
-							<div style='display:inline-block'>
-								<button id='save-snapshot' class='btn btn-outline-primary' type='button' onclick='saveSnapshot()'>Save snapshot</button>
-								<a id='snapshot-link' href='#'></a>
-								<img id='snapshot-img' style='display:none'></img>
-							</div>
-						</span>
 					</div>					
 				</div>
 			</div>
@@ -86,7 +94,7 @@
 	<script src='js/common.js'></script>
 
 	<script>
-		console.log("VERSION 1.2");
+		console.log("VERSION 2.1");
 
 		// -- Shader control knobs --
 		
@@ -95,12 +103,10 @@
 
 		// -- Sliders --
 
-		if (!isMobileDevice) {
-			const scaleUpdate = CreateSlider('slider0', 'Video scale', 0.2, 1.0, 0.01, () => {
-				resizeCanvas(document.querySelector('#slider0 > input').value);
-			});
-			scaleUpdate(1);
-		}
+		const maxScale = isMobileDevice ? 2.0 : 1.0;
+		CreateSlider('slider0', 'Video scale', 0.2, maxScale, 0.01, () => {
+			resizeCanvas(document.querySelector('#slider0 > input').value);
+		});
 
 		const slider1Update = CreateSlider('slider1', 'A', 0, 1, 0.01, () => {
 			gl.uniform1f(k1, document.querySelector('#slider1 > input').value);
