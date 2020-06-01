@@ -3,11 +3,18 @@ body {
 	margin: 0;
 	font: 1em sans-serif;
 	color: black;
-	background-color: cyan;
+	background-color: white;
 }
 
-canvas {
-	background-color: green;
+#on-boarding {
+	position: absolute;
+	background-color: rgba(255, 0, 255, 0.5);
+	overflow: auto;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 2em;
+	padding: 1em;
 }
 
 .no-spacing {
@@ -46,27 +53,39 @@ select {
 	padding: 5px;
 }
 
-#takePhoto {
+#snapshot {
 	padding: 0 !important;
 	margin-left: 8px;
 	width: 2em;
 	height: 2em;
 }
 
-#closeMenu > button {
-	background-image: url("close.png");
+#goBack > button {
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-color: transparent;
 	border-width: 0;
-	width: 2em;
-	height: 2em; 
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	margin: 0;
+	padding: 0;
+	color: dodgerblue;
+}
+
+#closeMenu > button {
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-color: transparent;
+	border-width: 0;
 	position: absolute;
 	top: 2px;
 	right: 2px;
 	margin: 0;
 	padding: 0;
+	color: dodgerblue;
 }
 
 .presets, #save-snapshot {
@@ -76,4 +95,13 @@ select {
 
 #videoSource {
 	max-width: 50%;
+}
+
+.fade-in {
+	animation: fadein 1.5s;
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }

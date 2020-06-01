@@ -11,6 +11,7 @@ const isMobileDevice =
 
 // DOM elements
 
+const onboarding = document.querySelector('#on-boarding');
 const menu = document.querySelector('#menu');
 const videoSelect = document.querySelector('select#videoSource');
 const video = document.querySelector('#video');
@@ -42,8 +43,10 @@ document.addEventListener('DOMContentLoaded', function(event) {
     gl.width = window.innerWidth;
     gl.height = window.innerHeight;
 
-    if (isMobileDevice)
+    if (isMobileDevice) {
+        onboarding.innerHTML = onboarding.innerHTML.replace('Click', 'Touch');
         document.querySelector('#snapshot').style.display = 'none';
+    }
 
     if (document.querySelector('#presets').childElementCount === 0)
         document.querySelector('#presets-label').style.display = 'none';
@@ -82,14 +85,27 @@ videoSelect.onchange = () => {
             showControls();
             resizeCanvas(videoScale);
             startAnimation();
-            showMenu();
+            showOnBoarding();
         }
     });
 };
 
 // Tasks
 
+function showOnBoarding() {
+    onboarding.style.display = 'block';
+}
+
+function hideOnBoarding() {
+    onboarding.style.display = 'none';
+}
+
+function goToParentPage() {
+    window.location = 'index.html';
+}
+
 function showMenu() {
+    hideOnBoarding();
     menu.style.display = 'block';
 }
 
@@ -117,8 +133,6 @@ function resizeCanvas(scale) {
         canvas.height = window.innerHeight * videoScale;
         canvas.width = canvas.height * video.videoWidth / video.videoHeight;
     }
-    // canvas.width = video.videoWidth * videoScale;
-    // canvas.height = video.videoHeight  * videoScale;
 
     gl.uniform1f(width, canvas.width);
     gl.uniform1f(height, canvas.height);
@@ -153,7 +167,7 @@ function CreateSlider(id, name, min, max, step, oninput) {
     label.for = id;
     label.innerText = name;
     const input = document.createElement('input');
-    input.className = 'col-sm-10 custom-range';
+    input.className = 'col-sm-8 custom-range';
     input.type = 'range';
     input.min = min;
     input.max = max;
