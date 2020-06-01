@@ -43,7 +43,7 @@
 				</div>
 				<!-- SLIDER CONTROLS -->
 				<div class='controls range-field m-0 p-0'>
-					<form id='sliders' />
+					<form id='sliders'/>
 				</div>
 				<!-- PRESET AND SNAPSHOT BUTTONS -->
 				<div style='display:inline-block'>
@@ -116,10 +116,10 @@
     <script src='js/webglShader.js'></script>
     <script src='js/webglTexture.js'></script>
 	<script src='js/webcam.js'></script>
-	<script src='js/common.js?v=2.0'></script>
+	<script src='js/common.js?v=2.1'></script>
 
 	<script>
-		console.log("VERSION 2.0");
+		console.log("VERSION 2.1");
 
 		// -- Shader control knobs --
 		
@@ -130,10 +130,9 @@
 		// -- Sliders --
 
 		const maxScale = isMobileDevice ? 2.0 : 1.0;
-		const scaleUpdate = CreateSlider('slider0', 'Video scale', 0.2, maxScale, 0.01, () => {
+		CreateSlider('slider0', 'Video scale', 0.2, maxScale, 0.01, () => {
 			resizeCanvas(document.querySelector('#slider0 > input').value);
 		});
-		scaleUpdate(1);
 
 		const slider1Update = CreateSlider('slider1', 'Gamma', 0, 1, 0.01, () => {
 			gl.uniform1f(k1, document.querySelector('#slider1 > input').value);

@@ -1,4 +1,4 @@
-console.log('==COMMON VERSION 2.0');
+console.log('==COMMON VERSION 2.1');
 
 const isMobileDevice = 
     navigator.userAgent.match(/Android/i) ||
@@ -9,7 +9,7 @@ const isMobileDevice =
     navigator.userAgent.match(/BlackBerry/i) ||
     navigator.userAgent.match(/Windows Phone/i);
 
-// DOM elements
+// -- DOM elements --
 
 const onboarding = document.querySelector('#on-boarding');
 const menu = document.querySelector('#menu');
@@ -20,7 +20,7 @@ const image = document.querySelector('#image');
 const vs = document.querySelector('#vshader').textContent;
 const fs = document.querySelector('#fshader').textContent;
 
-// -- Setup shader program and variables  
+// -- Setup shader program and variables --
 
 const gl = canvas.getContext('webgl', { preserveDrawingBuffer:true });
 const program = createProgram(gl, vs, fs);
@@ -34,7 +34,7 @@ gl.uniform1i(sampler, 0);
 gl.enableVertexAttribArray(position);
 gl.vertexAttribPointer(position, vertexBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-let videoScale = 1.0;
+let videoScale = isMobileDevice ? undefined : 1.0;
 let animID = undefined;
 
 // -- UI events --
@@ -90,7 +90,7 @@ videoSelect.onchange = () => {
     });
 };
 
-// Tasks
+// -- Tasks --
 
 function showOnBoarding() {
     onboarding.style.display = 'block';
@@ -125,13 +125,19 @@ function showControls() {
 
 function resizeCanvas(scale) {
     videoScale = scale;
-    if (video.videoWidth / video.videoHeight > window.innerWidth / window.innerHeight) {
+    const videoAspect = video.videoWidth / video.videoHeight;
+    const windowAspect = window.innerWidth / window.innerHeight;
+    if (videoAspect > windowAspect) {
+        if (videoScale === undefined)
+            videoScale = 1.0;
         canvas.width = window.innerWidth * videoScale;
-        canvas.height = canvas.width * video.videoHeight / video.videoWidth;
+        canvas.height = canvas.width / videoAspect;
     }
     else {
+        if (videoScale === undefined)
+            videoScale = windowAspect / videoAspect;
         canvas.height = window.innerHeight * videoScale;
-        canvas.width = canvas.height * video.videoWidth / video.videoHeight;
+        canvas.width = canvas.height * videoAspect;
     }
 
     gl.uniform1f(width, canvas.width);
