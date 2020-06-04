@@ -136,6 +136,7 @@ function resizeCanvas(scale) {
         canvas.height = window.innerHeight * videoScale;
         canvas.width = canvas.height * videoAspect;
     }
+    alert(canvas.width + 'x' + canvas.height)
 
     gl.uniform1f(width, canvas.width);
     gl.uniform1f(height, canvas.height);
