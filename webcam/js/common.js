@@ -1,4 +1,4 @@
-console.log('==COMMON VERSION 2.5');
+console.log('==COMMON VERSION 2.6');
 
 const isMobileDevice = 
     navigator.userAgent.match(/Android/i) ||
@@ -137,7 +137,7 @@ function resizeCanvas(scale) {
         canvas.width = canvas.height * videoAspect;
     }
 
-    menu.setAttribute('style', 'max-width:canvas.width !important');
+    menu.setAttribute('style', 'max-width: ' + canvas.width + 'px !important');
     hideMenu();
 
     gl.uniform1f(width, canvas.width);
