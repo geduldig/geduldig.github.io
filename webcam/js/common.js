@@ -1,4 +1,4 @@
-console.log('==COMMON VERSION 2.1');
+console.log('==COMMON VERSION 2.2');
 
 const isMobileDevice = 
     navigator.userAgent.match(/Android/i) ||
@@ -11,7 +11,7 @@ const isMobileDevice =
 
 // -- DOM elements --
 
-const onboarding = document.querySelector('#on-boarding');
+let onboarding = document.querySelector('#on-boarding');
 const menu = document.querySelector('#menu');
 const videoSelect = document.querySelector('select#videoSource');
 const video = document.querySelector('#video');
@@ -82,7 +82,6 @@ videoSelect.onchange = () => {
         if (err)
             alert('WEBCAM FAILED: ' + JSON.stringify(err));
         else {
-            showControls();
             resizeCanvas(videoScale);
             startAnimation();
             showOnBoarding();
@@ -93,11 +92,15 @@ videoSelect.onchange = () => {
 // -- Tasks --
 
 function showOnBoarding() {
-    onboarding.style.display = 'block';
+    if (onboarding)
+        onboarding.style.display = 'block';
 }
 
 function hideOnBoarding() {
-    onboarding.style.display = 'none';
+    if (onboarding) {
+        onboarding.style.display = 'none';
+        onboarding = null;
+    }
 }
 
 function goToParentPage() {
@@ -115,12 +118,6 @@ function hideMenu() {
 
 function toggleMenu() {
     menu.style.display === 'none' ? showMenu() : hideMenu();;
-}
-
-function showControls() {
-    const controls = document.querySelector('.controls');
-    for (let i=0; i < controls.length; i++)
-        controls[i].style.display = '';
 }
 
 function resizeCanvas(scale) {
