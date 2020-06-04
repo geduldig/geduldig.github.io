@@ -129,7 +129,6 @@ function resizeCanvas(scale) {
             videoScale = 1.0;
         canvas.width = window.innerWidth * videoScale;
         canvas.height = canvas.width / videoAspect;
-        menu.style.maxWidth = canvas.width;
     }
     else {
         if (videoScale === undefined)
@@ -137,6 +136,9 @@ function resizeCanvas(scale) {
         canvas.height = window.innerHeight * videoScale;
         canvas.width = canvas.height * videoAspect;
     }
+
+    menu.setAttribute('style', 'max-width:canvas.width !important');
+    hideMenu();
 
     gl.uniform1f(width, canvas.width);
     gl.uniform1f(height, canvas.height);
