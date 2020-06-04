@@ -1,4 +1,4 @@
-console.log('==COMMON VERSION 2.2');
+console.log('==COMMON VERSION 2.3');
 
 const isMobileDevice = 
     navigator.userAgent.match(/Android/i) ||
@@ -124,7 +124,7 @@ function resizeCanvas(scale) {
     videoScale = scale;
     const videoAspect = video.videoWidth / video.videoHeight;
     const windowAspect = window.innerWidth / window.innerHeight;
-    if (videoAspect > windowAspect) {
+    if (videoAspect > windowAspect || isMobileDevice) {
         if (videoScale === undefined)
             videoScale = 1.0;
         canvas.width = window.innerWidth * videoScale;
@@ -136,7 +136,6 @@ function resizeCanvas(scale) {
         canvas.height = window.innerHeight * videoScale;
         canvas.width = canvas.height * videoAspect;
     }
-    alert(canvas.width + 'x' + canvas.height)
 
     gl.uniform1f(width, canvas.width);
     gl.uniform1f(height, canvas.height);
