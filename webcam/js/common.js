@@ -1,4 +1,4 @@
-console.log('==COMMON VERSION 2.3');
+console.log('==COMMON VERSION 2.4');
 
 const isMobileDevice = 
     navigator.userAgent.match(/Android/i) ||
@@ -129,6 +129,7 @@ function resizeCanvas(scale) {
             videoScale = 1.0;
         canvas.width = window.innerWidth * videoScale;
         canvas.height = canvas.width / videoAspect;
+        menu.style.maxWidth = canvas.width;
     }
     else {
         if (videoScale === undefined)
