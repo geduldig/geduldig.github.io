@@ -1,4 +1,4 @@
-console.log('==COMMON VERSION 3.3');
+console.log('==COMMON VERSION 3.4');
 
 const isMobileDevice = 
     navigator.userAgent.match(/Android/i) ||
@@ -69,6 +69,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
                 option.setAttribute('selected', 'selected');
                 videoSelect.dispatchEvent(new Event('change'));
                 label = label.toLowerCase();
+                alert(label)
                 if (label.includes('front')) {
                     facingFrontId = id;
                     facingCameraId = id;
