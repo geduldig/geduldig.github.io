@@ -1,4 +1,4 @@
-console.log('==COMMON VERSION 3.6');
+console.log('==COMMON VERSION 3.8');
 
 const isMobileDevice = 
     navigator.userAgent.match(/Android/i) ||
@@ -65,10 +65,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
             option.value = id;
             option.text = label;
             videoSelect.appendChild(option);
-            if (videoSelect.length === 1 || option.text.indexOf('Built-in') !== -1) {
-                option.setAttribute('selected', 'selected');
-                videoSelect.dispatchEvent(new Event('change'));
-            }
+
             label = label.toLowerCase();
             alert(label)
             if (label.includes('front')) {
@@ -79,6 +76,11 @@ document.addEventListener('DOMContentLoaded', function(event) {
             else if (label.includes('back')) {
                 facingBackId = id;
                 alert('back:'+facingBackId)
+            }
+
+            if (videoSelect.length === 1 || option.text.indexOf('Built-in') !== -1) {
+                option.setAttribute('selected', 'selected');
+                videoSelect.dispatchEvent(new Event('change'));
             }
         });
     });
@@ -154,7 +156,7 @@ function toggleMenu() {
 function toggleFacingMode() {
     // facingFront = !facingFront;
     // videoSelect.onchange();
-    if (facingCameraId) {
+    if (facingFrontId && facingBackId) {
         facingCameraId == facingCameraId === facingFrontId ? facingBackId : facingFrontId;
         alert('facing id:'+facingCameraId)
         videoSelect.onchange();
