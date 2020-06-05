@@ -1,4 +1,4 @@
-console.log('==COMMON VERSION 3.9');
+console.log('==COMMON VERSION 3.0');
 
 const isMobileDevice = 
     navigator.userAgent.match(/Android/i) ||
@@ -159,7 +159,7 @@ function toggleFacingMode() {
     // videoSelect.onchange();
     alert('current facing id:'+facingCameraId)
     if (facingFrontId && facingBackId) {
-        facingCameraId == facingCameraId === facingFrontId ? facingBackId : facingFrontId;
+        facingCameraId = facingCameraId === facingFrontId ? facingBackId : facingFrontId;
         alert('new facing id:'+facingCameraId)
         videoSelect.onchange();
     }
