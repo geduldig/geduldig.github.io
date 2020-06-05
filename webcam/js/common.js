@@ -1,4 +1,4 @@
-console.log('==COMMON VERSION 2.8');
+console.log('==COMMON VERSION 2.9');
 
 const isMobileDevice = 
     navigator.userAgent.match(/Android/i) ||
@@ -92,8 +92,14 @@ videoSelect.onchange = () => {
 // -- Tasks --
 
 function showOnBoarding() {
-    if (onboarding) 
+    if (onboarding) {
         onboarding.style.display = 'block';
+        // if (true) {
+        //     onboarding.style.left = '0';
+        //     onboarding.style.top = '0';
+        //     onboarding.style.width = '100%';
+        // }
+    }
 }
 
 function hideOnBoarding() {
