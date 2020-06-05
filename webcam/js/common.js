@@ -1,4 +1,4 @@
-console.log('==COMMON VERSION 2.6');
+console.log('==COMMON VERSION 2.7');
 
 const isMobileDevice = 
     navigator.userAgent.match(/Android/i) ||
@@ -92,8 +92,13 @@ videoSelect.onchange = () => {
 // -- Tasks --
 
 function showOnBoarding() {
-    if (onboarding)
+    if (onboarding) {
         onboarding.style.display = 'block';
+        if (isMobileDevice) {
+            onboarding.style.top = (0.5 * canvas.width) + 'px';
+            onboarding.style.left = (0.5 * canvas.height) + 'px';
+        }
+    }
 }
 
 function hideOnBoarding() {
@@ -110,6 +115,9 @@ function goToParentPage() {
 function showMenu() {
     hideOnBoarding();
     menu.style.display = 'block';
+    if (isMobileDevice)
+       menu.setAttribute('style', 'max-width: ' + canvas.width + 'px !important');
+    // hideMenu();
 }
 
 function hideMenu() {
@@ -136,9 +144,6 @@ function resizeCanvas(scale) {
         canvas.height = window.innerHeight * videoScale;
         canvas.width = canvas.height * videoAspect;
     }
-
-    menu.setAttribute('style', 'max-width: ' + canvas.width + 'px !important');
-    hideMenu();
 
     gl.uniform1f(width, canvas.width);
     gl.uniform1f(height, canvas.height);
