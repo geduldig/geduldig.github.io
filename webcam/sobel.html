@@ -22,7 +22,7 @@
 
 		<!-- MENU -->
 		<div class='row'>
-			<div id='menu' class='col-lg-6 fade-in' style='display:none'>
+			<div id='menu' class='col-lg-6 col-sm-12 fade-in' style='display:none'>
 				<div>
 					<div id='goBack' style='display:block'>
 						<button class='fa fa-arrow-left fa-2x' onclick=goToParentPage()></button>
@@ -33,8 +33,11 @@
 				</div>
 				<!-- VIDEO SOURCE CHOOSER -->
 				<div class='d-flex flex-row bd-highlight mb-0 mt-4'>
-					<label class='left-label p-2 bd-highlight' for='videoSource'>Video</label>
+					<label class='left-label p-2 bd-highlight' for='videoSource'>Camera</label>
 					<select class='p-2 bd-highlight' id='videoSource' class='form-control'></select>
+					<button id='facingMode' class='p-2 bd-highlight btn btn-primary' onclick=toggleFacingMode()>
+						<img src='style/flipCamera.png' width='30'/>
+					</button>
 					<button id='snapshot' class='p-2 bd-highlight btn btn-primary' onclick=saveSnapshot()>
 						<img src='style/photo.png' width='30'/>
 						<a id='snapshot-link' href='#'></a>

@@ -1,4 +1,4 @@
-console.log('==COMMON VERSION 3.0');
+console.log('==COMMON VERSION 3.1');
 
 const isMobileDevice = 
     navigator.userAgent.match(/Android/i) ||
@@ -90,18 +90,10 @@ videoSelect.onchange = () => {
     const id = facingCameraId ? facingCameraId : videoSelect.value;
     const constraints = {
         video: { 
-            // width: { ideal: window.innerWidth },
-            // height: { ideal: window.innerHeight },
-            // width: window.innerWidth,
-            // height: window.innerHeight,
-            // aspectRatio: { ideal:(window.innerWidth/window.innerHeight) },
             width: 1280,
-            // deviceId: videoSelect.value ? { exact:videoSelect.value } : null,
-            // facingMode: facingFront ? 'user' : { exact:'environment' }
-            deviceId: id ? { exact:id } : null,
+            deviceId: id ? { exact:id } : null
         }
     };
-    alert(JSON.stringify(constraints));
 
     setupCamera(video, constraints, (err, stream) => {
         if (err)
@@ -117,14 +109,8 @@ videoSelect.onchange = () => {
 // -- Tasks --
 
 function showOnBoarding() {
-    if (onboarding) {
+    if (onboarding) 
         onboarding.style.display = 'block';
-        // if (true) {
-        //     onboarding.style.left = '0';
-        //     onboarding.style.top = '0';
-        //     onboarding.style.width = '100%';
-        // }
-    }
 }
 
 function hideOnBoarding() {
@@ -143,7 +129,6 @@ function showMenu() {
     menu.style.display = 'block';
     if (isMobileDevice)
        menu.setAttribute('style', 'max-width: ' + canvas.width + 'px !important');
-    // hideMenu();
 }
 
 function hideMenu() {
@@ -155,12 +140,8 @@ function toggleMenu() {
 }
 
 function toggleFacingMode() {
-    // facingFront = !facingFront;
-    // videoSelect.onchange();
-    alert('current facing id:'+facingCameraId)
     if (facingFrontId && facingBackId) {
         facingCameraId = facingCameraId === facingFrontId ? facingBackId : facingFrontId;
-        alert('new facing id:'+facingCameraId)
         videoSelect.onchange();
     }
 }
