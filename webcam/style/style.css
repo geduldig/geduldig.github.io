@@ -57,7 +57,7 @@ select {
 	padding: 5px;
 }
 
-#snapshot {
+#snapshot, #facingMode {
 	padding: 0 !important;
 	margin-left: 8px;
 	width: 2em;

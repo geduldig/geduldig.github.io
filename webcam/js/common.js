@@ -1,4 +1,4 @@
-console.log('==COMMON VERSION 2.9');
+console.log('==COMMON VERSION 3.0');
 
 const isMobileDevice = 
     navigator.userAgent.match(/Android/i) ||
@@ -36,6 +36,7 @@ gl.vertexAttribPointer(position, vertexBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
 let videoScale = isMobileDevice ? undefined : 1.0;
 let animID = undefined;
+let facingFront = true;
 
 // -- UI events --
 
@@ -50,6 +51,11 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
     if (document.querySelector('#presets').childElementCount === 0)
         document.querySelector('#presets-label').style.display = 'none';
+
+    if (isMobileDevice)
+        videoSelect.style.display = 'none';
+    else
+        document.querySelector('#facingMode').style.display = 'none';
 
     setupCamera(video, {video:true}, (err, stream) => {
         discoverCameras((err, {label, id}) => {
@@ -75,6 +81,7 @@ videoSelect.onchange = () => {
             // aspectRatio: { ideal:(window.innerWidth/window.innerHeight) },
             width: 1280,
             deviceId: videoSelect.value ? { exact:videoSelect.value } : null,
+            facingMode: facingFront ? 'user' : { exact:'environment' }
         }
     };
 
@@ -127,6 +134,11 @@ function hideMenu() {
 
 function toggleMenu() {
     menu.style.display === 'none' ? showMenu() : hideMenu();;
+}
+
+function toggleFacingMode() {
+    facingFront = !facingFront;
+    videoSelect.onchange();
 }
 
 function resizeCanvas(scale) {
