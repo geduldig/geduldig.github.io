@@ -1,4 +1,4 @@
-console.log('==COMMON VERSION 3.2');
+console.log('==COMMON VERSION 3.3');
 
 const isMobileDevice = 
     navigator.userAgent.match(/Android/i) ||
@@ -72,9 +72,12 @@ document.addEventListener('DOMContentLoaded', function(event) {
                 if (label.includes('front')) {
                     facingFrontId = id;
                     facingCameraId = id;
+                    alert('front:'+facingFrontId)
                 }
-                else if (label.includes('back'))
+                else if (label.includes('back')) {
                     facingBackId = id;
+                    alert('back:'+facingBackId)
+                }
             }
         });
     });
@@ -152,6 +155,7 @@ function toggleFacingMode() {
     // videoSelect.onchange();
     if (facingCameraId) {
         facingCameraId === facingFrontId ? facingBackId : facingFrontId;
+        alert('facing id:'+facingCameraId)
         videoSelect.onchange();
     }
 }
