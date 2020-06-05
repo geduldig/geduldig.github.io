@@ -1,4 +1,4 @@
-console.log('==COMMON VERSION 3.1');
+console.log('==COMMON VERSION 3.2');
 
 const isMobileDevice = 
     navigator.userAgent.match(/Android/i) ||
@@ -49,15 +49,13 @@ document.addEventListener('DOMContentLoaded', function(event) {
     if (isMobileDevice) {
         onboarding.innerHTML = onboarding.innerHTML.replace('Click', 'Touch');
         document.querySelector('#snapshot').style.display = 'none';
+        videoSelect.style.display = 'none';
     }
+    else
+        document.querySelector('#facingMode').style.display = 'none';
 
     if (document.querySelector('#presets').childElementCount === 0)
         document.querySelector('#presets-label').style.display = 'none';
-
-    if (isMobileDevice)
-        videoSelect.style.display = 'none';
-    else
-        document.querySelector('#facingMode').style.display = 'none';
 
     setupCamera(video, {video:true}, (err, stream) => {
         discoverCameras((err, {label, id}) => {
@@ -67,16 +65,12 @@ document.addEventListener('DOMContentLoaded', function(event) {
             videoSelect.appendChild(option);
 
             label = label.toLowerCase();
-            alert(label)
             if (label.includes('front')) {
                 facingFrontId = id;
                 facingCameraId = id;
-                alert('front:'+facingFrontId)
             }
-            else if (label.includes('back')) {
+            else if (label.includes('back')) 
                 facingBackId = id;
-                alert('back:'+facingBackId)
-            }
 
             if (videoSelect.length === 1 || option.text.indexOf('Built-in') !== -1) {
                 option.setAttribute('selected', 'selected');
