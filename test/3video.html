@@ -101,7 +101,7 @@
 			let cameraId = undefined;
 			setupCamera(video, {video:true}, (err, stream) => {
 				discoverCameras((err, camera) => {
-					alert(JSON.stringify(camer));
+					alert(JSON.stringify(camera));
 					if (camera) {
 						let label = camera.label.toLowerCase();
 						if (label.includes('built-in') || label.includes('front')) {
