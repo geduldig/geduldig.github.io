@@ -64,7 +64,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 27');
+		console.log('VERSION 28');
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
@@ -99,7 +99,7 @@
 
 		document.addEventListener('DOMContentLoaded', function(event) {
 			//let cameraId = undefined;
-			//setupCamera(video, {video:true}, (err, stream) => {
+			setupCamera(video, {video:true}, (err, stream) => {
 				discoverCameras((err, camera) => {
 					alert(JSON.stringify(camera));
 					if (camera) {
@@ -111,7 +111,7 @@
 						}
 					}
 				});
-			//});
+			});
 		});
 		
 		// -- Tasks --
