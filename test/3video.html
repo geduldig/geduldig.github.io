@@ -6,6 +6,8 @@
 
 <style>
 	body, html {
+		margin: 0;
+		padding: 0;
 		height: 100%;
 	}
 	.main {
@@ -25,7 +27,8 @@
 		<div class='row h-100'>
 			<div class='col-12 h-100'>
 				<div class='h-100' id='fill-screen'>
-					<canvas id='canvas'></canvas>
+					<video id='video' autoplay playsinline style='display:none'/>
+					<canvas id='canvas'/>
 				</div>
 			</div>
 		</div>
@@ -39,7 +42,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 1');
+		console.log('VERSION 2');
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
@@ -51,6 +54,7 @@
 
 		// -- DOM elements --
 		const canvas = document.querySelector('#canvas');
+		const video = document.querySelector('#video');
 
 		// -- Setup shader program and variables --
 
@@ -59,9 +63,17 @@
 		// -- DOM events --
 
 		document.addEventListener('DOMContentLoaded', function(event) {
-			resizeCanvas();
+			let cameraId = undefined;
+			discoverCameras((err, {label, id}) => {
+				label = label.toLowerCase();
+				alert('VIDEO LABEL: ' + label);
+				if (cameraId === undefined) {
+					cameraId = id;
+					startVideo(cameraId):
+				}
+			});
 		});
-
+		
 		// -- Tasks --
 
 		function resizeCanvas() {
@@ -71,4 +83,20 @@
 			gl.clearColor(1, 1, 0,  1);
 			gl.clear(gl.COLOR_BUFFER_BIT);
 		}
+		
+		function startVideo(id) {
+			const constraints = {
+				video: { 
+					width: 1280,
+					deviceId: id ? { exact:id } : null
+				}
+			};
+
+			setupCamera(video, constraints, (err, stream) => {
+				if (err)
+					alert('WEBCAM FAILED: ' + JSON.stringify(err));
+				else 
+					resizeCanvas();
+			});
+		}			
 	</script>
