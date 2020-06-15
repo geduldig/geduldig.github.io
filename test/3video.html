@@ -66,7 +66,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 7');
+		console.log('VERSION 8');
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
@@ -85,8 +85,6 @@
 		// -- Setup shader program and variables --
 
 		const gl = canvas.getContext('webgl', { preserveDrawingBuffer:true });
-		alert(vs);
-		alert(fs);
 		const program = createProgram(gl, vs, fs);
 		const width = gl.getUniformLocation(program, 'width');
 		const height = gl.getUniformLocation(program, 'height');
