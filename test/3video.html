@@ -66,7 +66,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 14');
+		console.log('VERSION 15');
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
@@ -116,11 +116,21 @@
 		// -- Tasks --
 
 		function resizeCanvas() {
-			canvas.width = canvas.parentElement.clientWidth;
-			canvas.height = canvas.parentElement.clientHeight;
-			//gl.viewport(0, 0, canvas.width, canvas.height);
-			//gl.clearColor(1, 1, 0,  1);
-			//gl.clear(gl.COLOR_BUFFER_BIT);
+			//canvas.width = canvas.parentElement.clientWidth;
+			//canvas.height = canvas.parentElement.clientHeight;
+
+			const videoAspect = video.videoWidth / video.videoHeight;
+			const windowAspect = window.innerWidth / window.innerHeight;
+			if (videoAspect > windowAspect || isMobileDevice) {
+				canvas.width = window.innerWidth;
+				canvas.height = canvas.width / videoAspect;
+			}
+			else {
+				let videoScale = windowAspect / videoAspect;
+				canvas.height = window.innerHeight * videoScale;
+				canvas.width = canvas.height * videoAspect;
+			}			
+			
 			gl.uniform1f(width, canvas.width);
 			gl.uniform1f(height, canvas.height);
 			gl.viewport(0, 0, canvas.width, canvas.height);
