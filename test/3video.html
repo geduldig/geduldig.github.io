@@ -51,7 +51,7 @@
 			return vec2(st.x/width, 1. - st.y/height);
 		}
 		void main() {
-			vec3 rgb = texture2D(sampler0, gl_FragCoord.st).rgb;
+			vec3 rgb = vec3(0,1,1);//texture2D(sampler0, gl_FragCoord.st).rgb;
 			gl_FragColor = vec4(rgb, 1.);
 		}
 	</script>
@@ -66,7 +66,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 11');
+		console.log('VERSION 13');
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
@@ -104,9 +104,9 @@
 			gl.height = window.innerHeight;
 			let cameraId = undefined;
 			discoverCameras((err, {label, id}) => {
-				label = label.toLowerCase();
-				alert('VIDEO LABEL: ' + label);
 				if (cameraId === undefined) {
+					label = label.toLowerCase();
+					alert('VIDEO LABEL: ' + label);
 					cameraId = id;
 					startVideo(cameraId);
 				}
@@ -130,7 +130,7 @@
 			const constraints = {
 				video: { 
 					width: 1280,
-					deviceId: id ? { exact:id } : null
+					//deviceId: id ? { exact:id } : null
 				}
 			};
 
