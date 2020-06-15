@@ -26,9 +26,9 @@
 	<main role='main' class='container-fluid h-100'>
 		<div class='row h-100'>
 			<div class='col-12 h-100'>
-				<div class='h-100' id='fill-screen'>
-					<video id='video' autoplay playsinline style='display:none'/>
-					<canvas id='canvas'/>
+				<div class='h-100'>
+					<video id='video' autoplay playsinline style='display:none'></video>
+					<canvas id='canvas'></canvas>
 				</div>
 			</div>
 		</div>
@@ -61,12 +61,12 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" crossorigin="anonymous"></script>
-	<script src='js/webglShader.js?v=10'></script>
+	<script src='js/webglShader.js'></script>
 	<script src='js/webglTexture.js'></script>
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 10');
+		console.log('VERSION 11');
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
