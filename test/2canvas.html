@@ -31,7 +31,9 @@
 	<main role='main' class='container-fluid h-100'>
 		<div class='row h-100'>
 			<div class='col-12 h-100'>
-				<div class='h-100' id='fill-screen'>verison 1</div>
+				<div class='h-100' id='fill-screen'>
+					<canvas id='canvas'></canvas>
+				</div>
 			</div>
 		</div>
 	</main>
@@ -54,11 +56,25 @@
 			navigator.userAgent.match(/Windows Phone/i);
 
 		// -- DOM elements --
+		const canvas = document.querySelector('#canvas');
+
+		// -- Setup shader program and variables --
+
+		const gl = canvas.getContext('webgl', { preserveDrawingBuffer:true });
 
 		// -- DOM events --
 
 		document.addEventListener('DOMContentLoaded', function(event) {
+			fitCanvasToParent();
 		});
 
 		// -- Tasks --
+
+		function fitCanvasToParent() {
+			canvas.width = canvas.parentElement.width / 2;
+			canvas.height = canvas.parentElement.height / 2;
+			gl.viewport(0, 0, canvas.width, canvas.height);
+			gl.clearColor(1, 1, 0,  1);
+			gl.clear(gl.COLOR_BUFFER_BIT);
+		}
 	</script>
