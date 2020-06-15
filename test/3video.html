@@ -66,7 +66,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 4');
+		console.log('VERSION 5');
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
@@ -79,6 +79,8 @@
 		// -- DOM elements --
 		const canvas = document.querySelector('#canvas');
 		const video = document.querySelector('#video');
+		const vs = document.querySelector('#vshader').textContent;
+		const fs = document.querySelector('#fshader').textContent;
 
 		// -- Setup shader program and variables --
 
