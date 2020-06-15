@@ -64,7 +64,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 21');
+		console.log('VERSION 22');
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
@@ -99,15 +99,19 @@
 
 		document.addEventListener('DOMContentLoaded', function(event) {
 			let cameraId = undefined;
-			discoverCameras((err, camera) => {
+			discoverCameras((err, {label, id}) => {
 // 				if (!camera) {
 // 					alert('VIDEO LABEL: no cam');
 // 					return;
 // 				}
 // 				alert('VIDEO LABEL: ' + camera.label);
-// 				if (cameraId === undefined || camera.label.toLowerCase().include('front')) {
-				if (cameraId === undefined) {
-					cameraId = camera.id;
+//  				if (cameraId === undefined || camera.label.toLowerCase().include('built-in')) {
+// 					cameraId = camera.id;
+// 					startVideo(cameraId);
+// 				}
+				let label = label.toLowerCase();
+ 				if (cameraId === undefined || label.include('built-in') ||  || label.include('front')) {
+					cameraId = id;
 					startVideo(cameraId);
 				}
 			});
