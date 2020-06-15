@@ -9,6 +9,9 @@
 		margin: 0 !important;
 		padding: 0 !important;
 	}
+	.hide {
+		display: none;
+	}
 	#on-boarding {
 		background-color: rgba(255, 0, 255, 0.5);
 		font-size: 2em;
@@ -21,10 +24,10 @@
 	<main role='main' class='container-fluid h-100'>
 		<div class='row h-100'>
 			<div class='col-12 h-100'>
-				<video id='video' autoplay playsinline style='display:none'></video>
+				<video class='hide' id='video' autoplay playsinline></video>
 				<canvas id='canvas'></canvas>
 			</div>
-			<div class='col-12' id='on-boarding'>
+			<div class='col-12 hide' id='on-boarding' onclick=hideOnBoarding()>
 				Click image to display options
 			</div>
 		</div>
@@ -61,7 +64,15 @@
 
 	<script>
 		console.log('VERSION 6');
-
+		const isMobileDevice = 
+			navigator.userAgent.match(/Android/i) ||
+			navigator.userAgent.match(/webOS/i) ||
+			navigator.userAgent.match(/iPhone/i) ||
+			navigator.userAgent.match(/iPad/i) ||
+			navigator.userAgent.match(/iPod/i) ||
+			navigator.userAgent.match(/BlackBerry/i) ||
+			navigator.userAgent.match(/Windows Phone/i);
+		
 		// -- DOM elements --
 		const canvas = document.querySelector('#canvas');
 		const video = document.querySelector('#video');
@@ -104,6 +115,23 @@
 		
 		// -- Tasks --
 
+		function showOnBoarding() {
+			let onboarding = document.querySelector('#on-boarding');
+			if (onboarding) {
+				if (isMobileDevice) 
+					onboarding.innerHTML = onboarding.innerHTML.replace('Click', 'Touch');
+				onboarding.style.display = 'block';
+			}
+		}
+
+		function hideOnBoarding() {
+			let onboarding = document.querySelector('#on-boarding');
+			if (onboarding) {
+				onboarding.style.display = 'none';
+				onboarding.parentNode.removeChild(onboarding);
+			}
+		}
+
 		function resizeCanvas() {
 			canvas.width = canvas.parentElement.clientWidth;
 			canvas.height = canvas.width * (video.videoHeight / video.videoWidth);			
@@ -126,6 +154,7 @@
 				else {
 					resizeCanvas();
 					startAnimation();
+					showOnBoarding();
 				}
 			});
 		}
