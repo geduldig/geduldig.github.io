@@ -10,14 +10,7 @@
 		padding: 0;
 		height: 100%;
 	}
-	.main {
-		background: magenta;
-	}
-	.row {
-		background: black;
-	}
 	.col-12 {
-		background: orange;
 		padding: 0;
 	}
 </style>
@@ -64,15 +57,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 28');
-		const isMobileDevice = 
-			navigator.userAgent.match(/Android/i) ||
-			navigator.userAgent.match(/webOS/i) ||
-			navigator.userAgent.match(/iPhone/i) ||
-			navigator.userAgent.match(/iPad/i) ||
-			navigator.userAgent.match(/iPod/i) ||
-			navigator.userAgent.match(/BlackBerry/i) ||
-			navigator.userAgent.match(/Windows Phone/i);
+		console.log('VERSION 29');
 
 		// -- DOM elements --
 		const canvas = document.querySelector('#canvas');
@@ -98,16 +83,14 @@
 		// -- DOM events --
 
 		document.addEventListener('DOMContentLoaded', function(event) {
-			//let cameraId = undefined;
 			setupCamera(video, {video:true}, (err, stream) => {
 				discoverCameras((err, camera) => {
-					alert(JSON.stringify(camera));
-					if (camera) {
+					if (err)
+						alert(err);
+					else {
 						let label = camera.label.toLowerCase();
-						if (label.includes('built-in') || label.includes('back')) {
-							alert(label);
-							cameraId = camera.id;
-							startVideo(cameraId);
+						if (label.includes('built-in') || label.includes('front')) {
+							startVideo(camera.id);
 						}
 					}
 				});
@@ -134,7 +117,7 @@
 
 			setupCamera(video, constraints, (err, stream) => {
 				if (err)
-					alert('WEBCAM FAILED: ' + JSON.stringify(err));
+					alert('WEBCAM FAILED: ' + err);
 				else {
 					resizeCanvas();
 					startAnimation();
