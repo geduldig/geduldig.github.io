@@ -19,7 +19,7 @@
 		padding: 0;
 	}
 	.canvas {
-		overflow: hidden;
+		//overflow: hidden;
 	}
 </style>
 
@@ -42,7 +42,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 3');
+		console.log('VERSION 4');
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
@@ -70,7 +70,8 @@
 		function fitCanvasToParent() {
 			canvas.width = canvas.parentElement.clientWidth;
 			canvas.height = canvas.parentElement.clientHeight * 2;
-			gl.viewport(0, 0, canvas.width, canvas.height);
+			//gl.viewport(0, 0, canvas.width, canvas.height);
+			gl.viewport(0, 0, canvas.parentElement.clientWidth, canvas.parentElement.clientHeight);
 			gl.clearColor(1, 1, 0,  1);
 			gl.clear(gl.COLOR_BUFFER_BIT);
 		}
