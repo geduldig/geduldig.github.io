@@ -47,11 +47,9 @@
 		precision mediump float;
 		uniform sampler2D sampler0;
 		uniform float width, height;
-		vec2 flip(vec2 st) {
-			return vec2(st.x/width, 1. - st.y/height);
-		}
 		void main() {
-			vec3 rgb = texture2D(sampler0, gl_FragCoord.st).rgb;
+			vec2 st = vec2(gl_FragCoord.s/width, 1. - gl_FragCoord.t/height);
+			vec3 rgb = texture2D(sampler0, st).rgb;
 			gl_FragColor = vec4(rgb, 1.);
 		}
 	</script>
@@ -66,7 +64,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 15');
+		console.log('VERSION 16');
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
