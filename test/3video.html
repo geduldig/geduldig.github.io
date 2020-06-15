@@ -51,7 +51,7 @@
 			return vec2(st.x/width, 1. - st.y/height);
 		}
 		void main() {
-			vec3 rgb = vec3(0,1,1);//texture2D(sampler0, gl_FragCoord.st).rgb;
+			vec3 rgb = texture2D(sampler0, gl_FragCoord.st).rgb;
 			gl_FragColor = vec4(rgb, 1.);
 		}
 	</script>
@@ -66,7 +66,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 13');
+		console.log('VERSION 14');
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
