@@ -46,7 +46,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 1');
+		console.log('VERSION 2');
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
@@ -73,8 +73,8 @@
 
 		function fitCanvasToParent() {
 			console.log(canvas.parentElement.width,canvas.parentElement.height);
-			canvas.width = canvas.parentElement.width / 2;
-			canvas.height = canvas.parentElement.height / 2;
+			canvas.width = canvas.parentElement.clientWidth / 2;
+			canvas.height = canvas.parentElement.clientHeight / 2;
 			gl.viewport(0, 0, canvas.width, canvas.height);
 			gl.clearColor(1, 1, 0,  1);
 			gl.clear(gl.COLOR_BUFFER_BIT);
