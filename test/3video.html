@@ -17,7 +17,7 @@
 		background: black;
 	}
 	.col-12 {
-		background: red;
+		background: orange;
 		padding: 0;
 	}
 </style>
@@ -64,7 +64,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 18');
+		console.log('VERSION 19');
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
@@ -98,12 +98,12 @@
 		// -- DOM events --
 
 		document.addEventListener('DOMContentLoaded', function(event) {
-			gl.width = window.innerWidth;
-			gl.height = window.innerHeight;
+			//gl.width = window.innerWidth;
+			//gl.height = window.innerHeight;
 			let cameraId = undefined;
 			discoverCameras((err, {label, id}) => {
-				if (cameraId === undefined) {
-					label = label.toLowerCase();
+				label = label.toLowerCase();
+				if (cameraId === undefined || label.include('front')) {
 					alert('VIDEO LABEL: ' + label);
 					cameraId = id;
 					startVideo(cameraId);
