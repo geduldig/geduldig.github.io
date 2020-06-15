@@ -7,7 +7,6 @@ function webglShader(_gl) {
 	const my = {};
 
 	function createShader(str, type) {
-		alert(str);
 		let shader = gl.createShader(type);
 		gl.shaderSource(shader, str);
 		gl.compileShader(shader);
