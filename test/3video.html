@@ -64,7 +64,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 20');
+		console.log('VERSION 21');
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
@@ -98,16 +98,15 @@
 		// -- DOM events --
 
 		document.addEventListener('DOMContentLoaded', function(event) {
-			//gl.width = window.innerWidth;
-			//gl.height = window.innerHeight;
 			let cameraId = undefined;
 			discoverCameras((err, camera) => {
-				if (!camera) {
-					alert('VIDEO LABEL: no cam');
-					return;
-				}
-				alert('VIDEO LABEL: ' + camera.label);
-				if (cameraId === undefined || camera.label.toLowerCase().include('front')) {
+// 				if (!camera) {
+// 					alert('VIDEO LABEL: no cam');
+// 					return;
+// 				}
+// 				alert('VIDEO LABEL: ' + camera.label);
+// 				if (cameraId === undefined || camera.label.toLowerCase().include('front')) {
+				if (cameraId === undefined) {
 					cameraId = camera.id;
 					startVideo(cameraId);
 				}
@@ -117,23 +116,8 @@
 		// -- Tasks --
 
 		function resizeCanvas() {
-			//canvas.width = canvas.parentElement.clientWidth;
-			//canvas.height = canvas.parentElement.clientHeight;
-
-// 			const videoAspect = video.videoWidth / video.videoHeight;
-// 			const windowAspect = window.innerWidth / window.innerHeight;
-// 			if (videoAspect > windowAspect || isMobileDevice) {
-// 				canvas.width = window.innerWidth;
-// 				canvas.height = canvas.width / videoAspect;
-// 			}
-// 			else {
-// 				let videoScale = windowAspect / videoAspect;
-// 				canvas.height = window.innerHeight * videoScale;
-// 				canvas.width = canvas.height * videoAspect;
-// 			}			
 			canvas.width = canvas.parentElement.clientWidth;
-			canvas.height = canvas.width * (video.videoHeight / video.videoWidth);
-			
+			canvas.height = canvas.width * (video.videoHeight / video.videoWidth);			
 			gl.uniform1f(width, canvas.width);
 			gl.uniform1f(height, canvas.height);
 			gl.viewport(0, 0, canvas.width, canvas.height);
@@ -143,9 +127,10 @@
 			const constraints = {
 				video: { 
 					width: 1280,
-					//deviceId: id ? { exact:id } : null
+					deviceId: id ? { exact:id } : null
 				}
 			};
+			alert(JSON.stringify(constraints));
 
 			setupCamera(video, constraints, (err, stream) => {
 				if (err)
