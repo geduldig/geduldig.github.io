@@ -72,6 +72,7 @@
 		// -- Tasks --
 
 		function fitCanvasToParent() {
+			console.log(canvas.parentElement.width,canvas.parentElement.height);
 			canvas.width = canvas.parentElement.width / 2;
 			canvas.height = canvas.parentElement.height / 2;
 			gl.viewport(0, 0, canvas.width, canvas.height);
