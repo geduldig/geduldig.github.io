@@ -64,7 +64,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 23');
+		console.log('VERSION 24');
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
@@ -102,6 +102,7 @@
 			discoverCameras((err, camera) => {
 				if (camera) {
 					let label = camera.label.toLowerCase();
+					alert(label);
 					if (label.include('built-in') || label.include('front')) {
 						alert(camera.id);
 						cameraId = camera.id;
