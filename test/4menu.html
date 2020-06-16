@@ -19,7 +19,7 @@
 		from { opacity: 0; }
 		to   { opacity: 1; }
 	}
-	.menu {
+	.popup {
 		background-color: rgba(255, 0, 255, 0.5);
 		position: absolute;
 	}
@@ -63,12 +63,12 @@
 			</div>
 			
 			<!-- ONBOARDING MENU -->
-			<div class='col-12 p-1 h3 menu fade-in hide' id='on-boarding' onclick=hideOnBoarding()>
+			<div class='col-12 p-1 h3 popup fade-in hide' id='on-boarding' onclick=hideOnBoarding()>
 				Click image to display options
 			</div>
 			
 			<!-- OPTIONS MENU -->
-			<div class='col-lg-6 col-sm-12 menu fade-in hide' id='opt-menu'>
+			<div class='col-lg-6 col-sm-12 popup fade-in hide' id='opt-menu'>
 				<!-- MENU BACK AND CLOSE BUTTONS -->
 				<div>
 					<div class='menu-btn'>
@@ -148,6 +148,7 @@
 			navigator.userAgent.match(/Windows Phone/i);
 		
 		// -- DOM elements --
+		const menu = document.querySelector('#opt-menu');
 		const videoSelect = document.querySelector('#videoSource');
 		const video = document.querySelector('#video');
 		const canvas = document.querySelector('#canvas');
@@ -168,6 +169,9 @@
 		gl.enableVertexAttribArray(position);
 		gl.vertexAttribPointer(position, vertexBuffer.itemSize, gl.FLOAT, false, 0, 0);
 		let animID = undefined;
+		let facingCameraId = undefined;
+		let facingFrontId = undefined;
+		let facingBackId = undefined;
 
 		// -- DOM events --
 
