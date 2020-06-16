@@ -137,7 +137,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 28');
+		console.log('VERSION 29');
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
@@ -291,7 +291,7 @@
 		function createSlider(id, name, min, max, step, oninput) {
 			const slider = document.createElement('div');
 			slider.id = id;
-			slider.className = 'd-flex flex-row bd-highlight mb-3';
+			slider.className = 'd-flex flex-row bd-highlight mb-3 ml-2';
 			const label = document.createElement('div');
 			label.className = 'p-2 bd-highlight flex-nowrap right-label';
 			label.for = id;
@@ -314,7 +314,7 @@
 
 		function createPreset(name, onclick) {
 			const preset = document.createElement('button');
-			preset.className = 'presets btn btn-primary';
+			preset.className = 'presets btn btn-primary btn-block';
 			preset.innerText = name;
 			preset.onclick = onclick;
 			document.querySelector('#presets').appendChild(preset);
