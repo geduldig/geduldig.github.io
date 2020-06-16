@@ -140,7 +140,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 21');
+		console.log('VERSION 22');
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
@@ -180,12 +180,20 @@
 
 		document.addEventListener('DOMContentLoaded', function(event) {
 			if (isMobileDevice) {
-				document.querySelector('#snapshot').style.display = 'none';
-				videoSelect.style.display = 'none';
+				let snapshot = document.querySelector('#snapshot');
+				snapshot.parentNode.removeChild(snapshot);
+				videoSelect.parentNod.removeChild(videoSelect);
 			}
-			else
-				document.querySelector('#facingMode').style.display = 'none';
+			else {
+				let facingMode = document.querySelector('#facingMode');
+				facingMode.parentNode.removeChild(facingMode);
+			}
 			
+			if (document.querySelector('#presets').childElementCount === 0) {
+				let presetsLabel = document.querySelector('#presets-label');
+				presetsLabel.parentNode.removeChild(presetsLabel);
+			}
+
 			setupCamera(video, {video:true}, (err, stream) => {
 				if (err)
 					alert(err);
@@ -194,10 +202,6 @@
 						if (err)
 							alert(err);
 						else {
-// 							let label = camera.label.toLowerCase();
-// 							if (label.includes('built-in') || label.includes('front')) 
-// 								startVideo(camera.id);
-							
 							const option = document.createElement('option');
 							option.value = camera.id;
 							option.text = camera.label;
