@@ -52,10 +52,6 @@
 		width: 2em !important;
 		height: 2em !important;
 	}
-	.presets {
-		width: 2em !important;
-		height: 2em !important;
-	}
 </style>
 
 <body>
@@ -136,7 +132,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 42');
+		console.log('VERSION 43');
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
@@ -318,6 +314,7 @@
 			preset.onclick = onclick;
 			const block = document.createElement('div');
 			block.className = 'presets';
+			block.style.width = '4em';
 			block.appendChild(preset);
 			document.querySelector('#presets').appendChild(block);
 			return preset;
