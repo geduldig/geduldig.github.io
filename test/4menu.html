@@ -42,7 +42,6 @@
 	.left-label {
 		text-align: right;
 		vertical-align: bottom;
-		margin-bottom: 0;
 		font-size: 1.3em;
 	}
 	#videoSource {
@@ -50,7 +49,6 @@
 		height: 2.6em;
 	}
 	#snapshot, #facingMode {
-		margin-left: 8px;
 		width: 2em;
 		height: 2em;
 	}
@@ -83,7 +81,7 @@
 				</div>
 				<!-- VIDEO SOURCE CHOOSER AND SNAPSHOT -->
 				<div class='d-flex flex-row bd-highlight my-0'>
-					<label class='p-2 bd-highlight left-label' for='videoSource'>Camera</label>
+					<label class='p-2 mb-0 bd-highlight left-label' for='videoSource'>Camera</label>
 					<select class='p-0 ml-2 bd-highlight' id='videoSource' class='form-control'></select>
 					<button class='p-0 ml-2 bd-highlight btn btn-primary' id='facingMode' onclick=toggleFacingMode()>
 						<img src='style/flipCamera.png' width='30'/>
@@ -101,7 +99,7 @@
 				<!-- PRESET AND SNAPSHOT BUTTONS -->
 				<div style='display:inline-block'>
 					<div class='d-flex flex-row bd-highlight mb-3 mt-0'>
-						<label class='left-label p-2 bd-highlight' id='presets-label' for='presets'>Presets</label>
+						<label class='left-label p-2 mb-0 bd-highlight' id='presets-label' for='presets'>Presets</label>
 						<span style='display:inline-block' id='presets'></span>
 					</div>					
 				</div>
