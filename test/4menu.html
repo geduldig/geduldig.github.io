@@ -46,11 +46,11 @@
 	}
 	#videoSource {
 		max-width: 50%;
-		//height: 2.2em;
+		height: 2.2em !important;
 	}
 	#snapshot, #facingMode, .presets {
-		width: 2em;
-		height: 2em;
+		width: 2em !important;
+		height: 2em !important;
 	}
 </style>
 
@@ -132,7 +132,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 40');
+		console.log('VERSION 41');
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
