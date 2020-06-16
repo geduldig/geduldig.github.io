@@ -140,7 +140,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 20');
+		console.log('VERSION 21');
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
@@ -179,6 +179,13 @@
 		// -- DOM events --
 
 		document.addEventListener('DOMContentLoaded', function(event) {
+			if (isMobileDevice) {
+				document.querySelector('#snapshot').style.display = 'none';
+				videoSelect.style.display = 'none';
+			}
+			else
+				document.querySelector('#facingMode').style.display = 'none';
+			
 			setupCamera(video, {video:true}, (err, stream) => {
 				if (err)
 					alert(err);
@@ -212,6 +219,11 @@
 					});
 			});
 		});
+
+		videoSelect.onchange = () => {
+			const id = facingCameraId ? facingCameraId : videoSelect.value;
+			startVideo(id);
+		};		
 		
 		// -- Menu tasks --
 
@@ -239,8 +251,6 @@
 		function showMenu() {
 			hideOnBoarding();
 			menu.style.display = 'block';
-// 			if (isMobileDevice)
-// 				menu.setAttribute('style', 'max-width: ' + canvas.width + 'px !important');
 		}
 
 		function hideMenu() {
