@@ -96,7 +96,7 @@
 				<div class='controls range-field m-0 p-0'>
 					<form id='sliders'/>
 				</div>
-				<!-- PRESET AND SNAPSHOT BUTTONS -->
+				<!-- PRESET BUTTONS -->
 				<div style='display:inline-block'>
 					<div class='d-flex flex-row bd-highlight mb-3 mt-0'>
 						<label class='left-label p-2 mb-0 bd-highlight' id='presets-label' for='presets'>Presets</label>
@@ -138,7 +138,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 23');
+		console.log('VERSION 24');
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
@@ -225,7 +225,13 @@
 		videoSelect.onchange = () => {
 			const id = facingCameraId ? facingCameraId : videoSelect.value;
 			startVideo(id);
-		};		
+		};
+		
+		// -- Sliders and presets --
+
+		const slider1Update = CreateSlider('slider1', 'Gamma', 0, 1, 0.01, () => {});
+		
+		createPreset('1', () => { alert('preset 1') });		
 		
 		// -- Menu tasks --
 
