@@ -47,6 +47,7 @@
 	}
 	#videoSource {
 		max-width: 50%;
+		height: 2.6em;
 	}
 	#snapshot, #facingMode {
 		margin-left: 8px;
@@ -139,7 +140,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 14');
+		console.log('VERSION 15');
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
@@ -229,7 +230,7 @@
 		}
 
 		function toggleMenu() {
-			menu.style.display === 'none' ? showMenu() : hideMenu();;
+			menu.style.display === 'none' || menu.style.display === '' ? showMenu() : hideMenu();;
 		}
 
 		function toggleFacingMode() {
