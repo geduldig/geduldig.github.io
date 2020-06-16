@@ -78,10 +78,10 @@
 			<div class='col-lg-6 col-sm-12 popup fade-in hide' id='opt-menu'>
 				<!-- MENU BACK AND CLOSE BUTTONS -->
 				<div>
-					<div>
+					<div style='display:block'>
 						<button class='fa fa-arrow-left fa-2x' id='go-back-btn' onclick=goToParentPage()></button>
 					</div>
-					<div>
+					<div style='display:block'>
 						<button class='fa fa-times fa-2x' id='close-menu-btn' onclick=hideMenu()></button>
 					</div>
 				</div>
@@ -144,7 +144,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 8');
+		console.log('VERSION 9');
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
