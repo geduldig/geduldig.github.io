@@ -135,7 +135,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 35');
+		console.log('VERSION 36');
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
@@ -312,10 +312,13 @@
 
 		function createPreset(name, onclick) {
 			const preset = document.createElement('button');
-			preset.className = 'presets btn btn-primary btn-block';
+			preset.className = 'btn btn-primary btn-block';
 			preset.innerText = name;
 			preset.onclick = onclick;
-			document.querySelector('#presets').appendChild(preset);
+			const parent = document.createElement('div');
+			parent.className = 'presets';
+			parent.appendChild(preset);
+			document.querySelector('#presets').appendChild(parent);
 			return preset;
 		}	
 		
