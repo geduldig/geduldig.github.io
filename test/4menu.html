@@ -140,7 +140,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 18');
+		console.log('VERSION 19');
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
@@ -221,8 +221,8 @@
 		function showMenu() {
 			hideOnBoarding();
 			menu.style.display = 'block';
-			if (isMobileDevice)
-				menu.setAttribute('style', 'max-width: ' + canvas.width + 'px !important');
+// 			if (isMobileDevice)
+// 				menu.setAttribute('style', 'max-width: ' + canvas.width + 'px !important');
 		}
 
 		function hideMenu() {
