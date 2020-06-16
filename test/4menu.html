@@ -25,6 +25,8 @@
 	}
 	.menu-btn {
 		display: block;
+	}
+	#go-back-btn, #close-menu-btn {
 		background-position: center;
 		background-repeat: no-repeat;
 		background-size: cover;
@@ -33,6 +35,13 @@
 		position: absolute;
 		color: dodgerblue;
 	}	
+	#go-back-btn {
+		top: 0;
+		left: 0;
+	#close-menu-btn {
+		top: 2px;
+		right: 2px;
+	}
 	.left-label {
 		text-align: right;
 		vertical-align: bottom;
@@ -71,11 +80,11 @@
 			<div class='col-lg-6 col-sm-12 popup fade-in hide' id='opt-menu'>
 				<!-- MENU BACK AND CLOSE BUTTONS -->
 				<div>
-					<div class='menu-btn'>
-						<button class='fa fa-arrow-left fa-2x' onclick=goToParentPage()></button>
+					<div>
+						<button class='fa fa-arrow-left fa-2x' id='go-back-btn' onclick=goToParentPage()></button>
 					</div>
-					<div class='menu-btn'>
-						<button class='fa fa-times fa-2x' onclick=hideMenu()></button>
+					<div>
+						<button class='fa fa-times fa-2x' id='close-menu-btn' onclick=hideMenu()></button>
 					</div>
 				</div>
 				<!-- VIDEO SOURCE CHOOSER AND SNAPSHOT -->
