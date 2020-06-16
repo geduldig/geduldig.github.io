@@ -46,7 +46,7 @@
 	}
 	#videoSource {
 		max-width: 50%;
-		height: 2.2em;
+		//height: 2.2em;
 	}
 	#snapshot, #facingMode, .presets {
 		width: 2em;
@@ -135,7 +135,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 31');
+		console.log('VERSION 32');
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
@@ -289,7 +289,7 @@
 		function createSlider(id, name, min, max, step, oninput) {
 			const slider = document.createElement('div');
 			slider.id = id;
-			slider.className = 'd-flex flex-row bd-highlight mb-3 ml-2';
+			slider.className = 'd-flex flex-row bd-highlight mb-3 ml-4';
 			const label = document.createElement('div');
 			label.className = 'p-2 bd-highlight flex-nowrap right-label';
 			label.for = id;
