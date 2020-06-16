@@ -76,12 +76,12 @@
 			<!-- OPTIONS MENU -->
 			<div class='col-lg-6 col-sm-12 popup fade-in hide' id='opt-menu'>
 				<!-- MENU BACK AND CLOSE BUTTONS -->
-				<div>
+				<div w-100>
 					<button class='fa fa-arrow-left fa-2x' id='go-back-btn' onclick=goToParentPage()></button>
 					<button class='fa fa-times fa-2x' id='close-menu-btn' onclick=hideMenu()></button>
 				</div>
 				<!-- VIDEO SOURCE CHOOSER AND SNAPSHOT -->
-				<div class='d-flex flex-row bd-highlight mb-0 mt-4'>
+				<div class='d-flex flex-row bd-highlight my-0'>
 					<label class='p-2 bd-highlight left-label' for='videoSource'>Camera</label>
 					<select class='p-2 bd-highlight' id='videoSource' class='form-control'></select>
 					<button class='p-2 bd-highlight btn btn-primary' id='facingMode' onclick=toggleFacingMode()>
@@ -139,7 +139,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 11');
+		console.log('VERSION 12');
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
