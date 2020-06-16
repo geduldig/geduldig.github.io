@@ -49,12 +49,9 @@
 		//height: 2.2em;
 	}
 	#snapshot, #facingMode, .presets {
-/* 		width: 2em;
-		height: 2em; */
+		width: 2em;
+		height: 2em;
 	}
-/* 	.presets {
-		height: 2.2em;
-	}	 */
 </style>
 
 <body>
@@ -135,7 +132,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 37');
+		console.log('VERSION 38');
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
@@ -312,13 +309,13 @@
 
 		function createPreset(name, onclick) {
 			const preset = document.createElement('button');
-			preset.className = 'btn btn-primary btn-block';
+			preset.className = 'preset btn btn-primary';
 			preset.innerText = name;
 			preset.onclick = onclick;
-			const parent = document.createElement('div');
-			parent.className = 'presets';
-			parent.appendChild(preset);
-			document.querySelector('#presets').appendChild(parent);
+// 			const parent = document.createElement('div');
+// 			parent.className = 'presets';
+// 			parent.appendChild(preset);
+			document.querySelector('#presets').appendChild(preset);
 			return preset;
 		}	
 		
