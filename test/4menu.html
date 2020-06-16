@@ -140,7 +140,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 19');
+		console.log('VERSION 20');
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
@@ -187,9 +187,27 @@
 						if (err)
 							alert(err);
 						else {
+// 							let label = camera.label.toLowerCase();
+// 							if (label.includes('built-in') || label.includes('front')) 
+// 								startVideo(camera.id);
+							
+							const option = document.createElement('option');
+							option.value = camera.id;
+							option.text = camera.label;
+							videoSelect.appendChild(option);
+
 							let label = camera.label.toLowerCase();
-							if (label.includes('built-in') || label.includes('front')) 
-								startVideo(camera.id);
+							if (label.includes('front')) {
+								facingFrontId = camera.id;
+								facingCameraId = camera.id;
+							}
+							else if (label.includes('back')) 
+								facingBackId = camera.id;
+
+							if (videoSelect.length === 1 || label.indexOf('built-in') !== -1) {
+								option.setAttribute('selected', 'selected');
+								videoSelect.dispatchEvent(new Event('change'));
+							}							
 						}
 					});
 			});
