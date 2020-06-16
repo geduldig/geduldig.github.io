@@ -29,7 +29,7 @@
 		background-size: cover;
 		background-color: transparent;
 		border-width: 0;
-		position: absolute;
+		position: relative;
 		color: dodgerblue;
 	}	
 	#go-back-btn {
@@ -78,7 +78,7 @@
 				<!-- MENU BACK AND CLOSE BUTTONS -->
 				<div w-100>
 					<button class='fa fa-arrow-left fa-2x' id='go-back-btn' onclick=goToParentPage()></button>
-					<button class='fa fa-times fa-2x' id='close-menu-btn' onclick=hideMenu()></button>
+					<button class='fa fa-times fa-2x float-right' id='close-menu-btn' onclick=hideMenu()></button>
 				</div>
 				<!-- VIDEO SOURCE CHOOSER AND SNAPSHOT -->
 				<div class='d-flex flex-row bd-highlight my-0'>
@@ -139,7 +139,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 13');
+		console.log('VERSION 14');
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
