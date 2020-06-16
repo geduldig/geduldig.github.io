@@ -52,7 +52,7 @@
 		width: 2em;
 		height: 2em;
 	}
-	#presets, #save-snapshot {
+	.presets, #save-snapshot {
 		margin-right: 16px;
 		height: 2.2em;
 	}	
@@ -80,7 +80,7 @@
 					<button class='fa fa-times fa-2x float-right' id='close-menu-btn' onclick=hideMenu()></button>
 				</div>
 				<!-- VIDEO SOURCE CHOOSER AND SNAPSHOT -->
-				<div class='d-flex flex-row bd-highlight my-0'>
+				<div class='d-flex flex-row bd-highlight mb-1'>
 					<label class='p-2 mb-0 bd-highlight left-label' for='videoSource'>Camera</label>
 					<select class='p-0 ml-2 bd-highlight' id='videoSource' class='form-control'></select>
 					<button class='p-0 ml-2 bd-highlight btn btn-primary' id='facingMode' onclick=toggleFacingMode()>
@@ -136,7 +136,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 25');
+		console.log('VERSION 26');
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
