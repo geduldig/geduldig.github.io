@@ -12,12 +12,6 @@
 	.hide {
 		display: none;
 	}
-	#on-boarding {
-		background-color: rgba(255, 0, 255, 0.5);
-		font-size: 2em;
-		padding: 1em;
-		position: absolute;
-	}
 	.fade-in {
 		animation: fadein 1.5s;
 	}
@@ -25,18 +19,91 @@
 		from { opacity: 0; }
 		to   { opacity: 1; }
 	}
+	.menu {
+		background-color: rgba(255, 0, 255, 0.5);
+		position: absolute;
+	}
+	.menu-btn {
+		display: block;
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-color: transparent;
+		border-width: 0;
+		position: absolute;
+		color: dodgerblue;
+	}	
+	.left-label {
+		text-align: right;
+		vertical-align: bottom;
+		margin-bottom: 0;
+		font-size: 1.3em;
+	}
+	#videoSource {
+		max-width: 50%;
+	}
+	#snapshot, #facingMode {
+		margin-left: 8px;
+		width: 2em;
+		height: 2em;
+	}
+	#presets, #save-snapshot {
+		margin-right: 16px;
+		height: 2.2em;
+	}	
 </style>
 
 <body>
 	<main role='main' class='container-fluid h-100'>
 		<div class='row h-100'>
+			<!-- VIDEO CANVAS -->
 			<div class='col-12 h-100'>
 				<video class='hide' id='video' autoplay playsinline></video>
-				<canvas id='canvas'></canvas>
+				<canvas id='canvas' onclick=toggleMenu()></canvas>
 			</div>
-			<div class='col-12 fade-in hide' id='on-boarding' onclick=hideOnBoarding()>
+			
+			<!-- ONBOARDING MENU -->
+			<div class='col-12 p-1 h3 menu fade-in hide' id='on-boarding' onclick=hideOnBoarding()>
 				Click image to display options
 			</div>
+			
+			<!-- OPTIONS MENU -->
+			<div class='col-lg-6 col-sm-12 menu fade-in hide' id='opt-menu'>
+				<!-- MENU BACK AND CLOSE BUTTONS -->
+				<div>
+					<div class='menu-btn'>
+						<button class='fa fa-arrow-left fa-2x' onclick=goToParentPage()></button>
+					</div>
+					<div class='menu-btn'>
+						<button class='fa fa-times fa-2x' onclick=hideMenu()></button>
+					</div>
+				</div>
+				<!-- VIDEO SOURCE CHOOSER AND SNAPSHOT -->
+				<div class='d-flex flex-row bd-highlight mb-0 mt-4'>
+					<label class='p-2 bd-highlight left-label' for='videoSource'>Camera</label>
+					<select class='p-2 bd-highlight' id='videoSource' class='form-control'></select>
+					<button class='p-2 bd-highlight btn btn-primary' id='facingMode' onclick=toggleFacingMode()>
+						<img src='style/flipCamera.png' width='30'/>
+					</button>
+					<button class='p-2 bd-highlight btn btn-primary' id='snapshot' onclick=saveSnapshot()>
+						<img src='style/photo.png' width='30'/>
+						<a id='snapshot-link' href='#'></a>
+						<img class='hide' id='snapshot-img'/>
+					</button>
+				</div>
+				<!-- SLIDER CONTROLS -->
+				<div class='controls range-field m-0 p-0'>
+					<form id='sliders'/>
+				</div>
+				<!-- PRESET AND SNAPSHOT BUTTONS -->
+				<div style='display:inline-block'>
+					<div class='d-flex flex-row bd-highlight mb-3 mt-0'>
+						<label class='left-label p-2 bd-highlight' id='presets-label' for='presets'>Presets</label>
+						<span style='display:inline-block' id='presets'></span>
+					</div>					
+				</div>
+			</div>			
+			
 		</div>
 	</main>
 
@@ -70,7 +137,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 6');
+		console.log('VERSION 7');
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
@@ -81,8 +148,9 @@
 			navigator.userAgent.match(/Windows Phone/i);
 		
 		// -- DOM elements --
-		const canvas = document.querySelector('#canvas');
+		const videoSelect = document.querySelector('#videoSource');
 		const video = document.querySelector('#video');
+		const canvas = document.querySelector('#canvas');
 		const vs = document.querySelector('#vshader').textContent;
 		const fs = document.querySelector('#fshader').textContent;
 
@@ -120,7 +188,7 @@
 			});
 		});
 		
-		// -- Tasks --
+		// -- Menu tasks --
 
 		function showOnBoarding() {
 			let onboarding = document.querySelector('#on-boarding');
@@ -139,6 +207,80 @@
 			}
 		}
 
+		function goToParentPage() {
+			window.location = 'index.html';
+		}
+
+		function showMenu() {
+			hideOnBoarding();
+			menu.style.display = 'block';
+			if (isMobileDevice)
+				menu.setAttribute('style', 'max-width: ' + canvas.width + 'px !important');
+		}
+
+		function hideMenu() {
+			menu.style.display = 'none';
+		}
+
+		function toggleMenu() {
+			menu.style.display === 'none' ? showMenu() : hideMenu();;
+		}
+
+		function toggleFacingMode() {
+			if (facingFrontId && facingBackId) {
+				facingCameraId = facingCameraId === facingFrontId ? facingBackId : facingFrontId;
+				videoSelect.onchange();
+			}
+		}
+
+		function saveSnapshot() {
+			const now = new Date();
+			const stamp = 
+				 `${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()}-` + 
+				 `${now.getHours()}-${now.getMinutes()}-${now.getSeconds()}`;
+			const img = document.querySelector('#snapshot-img');
+			const link = document.querySelector('#snapshot-link');
+			img.src = canvas.toDataURL();
+			link.download = `webcam-${stamp}.png`;
+			link.href = img.src;
+			link.click();
+		}
+
+		function createSlider(id, name, min, max, step, oninput) {
+			const slider = document.createElement('div');
+			slider.id = id;
+			slider.className = 'd-flex flex-row bd-highlight mb-3';
+			const label = document.createElement('div');
+			label.className = 'p-2 bd-highlight flex-nowrap right-label';
+			label.for = id;
+			label.innerText = name;
+			const input = document.createElement('input');
+			input.className = 'col-sm-8 custom-range';
+			input.type = 'range';
+			input.min = min;
+			input.max = max;
+			input.step = step
+			input.oninput = oninput;
+			slider.appendChild(input);
+			slider.appendChild(label);
+			document.querySelector('#sliders').appendChild(slider);
+			return (val) => { 
+				input.value = val;
+				input.oninput();
+			};
+		}
+
+		function createPreset(name, onclick) {
+			const preset = document.createElement('button');
+			preset.className = 'presets btn btn-primary';
+			preset.innerText = name;
+			preset.onclick = onclick;
+			document.querySelector('#presets').appendChild(preset);
+			return preset;
+		}	
+		
+		// -- Video tasks --
+				     
 		function resizeCanvas() {
 			canvas.width = canvas.parentElement.clientWidth;
 			canvas.height = canvas.width * (video.videoHeight / video.videoWidth);			
