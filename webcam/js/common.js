@@ -1,4 +1,4 @@
-console.log('COMMON VERSION 3');
+console.log('COMMON VERSION 4');
 
 const isMobileDevice = 
     navigator.userAgent.match(/Android/i) ||
@@ -8,6 +8,7 @@ const isMobileDevice =
     navigator.userAgent.match(/iPod/i) ||
     navigator.userAgent.match(/BlackBerry/i) ||
     navigator.userAgent.match(/Windows Phone/i);
+alert('MOBILE: ' + isMobileDevice + '\n' + navigator.userAgent);
 
 // -- DOM elements --
 const menu = document.querySelector('#opt-menu');
@@ -85,6 +86,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
 videoSelect.onchange = () => {
     const id = facingCameraId ? facingCameraId : videoSelect.value;
+    alert('ID: ' + id);
     startVideo(id);
 };	
 
