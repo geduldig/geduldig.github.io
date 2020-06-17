@@ -1,4 +1,4 @@
-console.log('COMMON VERSION 6');
+console.log('COMMON VERSION 7');
 
 const isMobileDevice = 
     navigator.userAgent.match(/Android/i) ||
@@ -62,16 +62,19 @@ document.addEventListener('DOMContentLoaded', function(event) {
                     videoSelect.appendChild(option);
 
                     let label = camera.label.toLowerCase();
-                    if (label.includes('front')) {
-                        facingFrontId = camera.id;
-                        facingCameraId = camera.id;
-                    }
-                    else if (label.includes('back')) 
-                        facingBackId = camera.id;
-
-                    if (facingFrontId && facingBackId) {
-                        videoSelect.classList.add('hide');
-                        document.querySelector('#facingMode').classList.remove('hide');
+                    let isFrontCamera = label.includes('front');
+                    let isBackCamera = label.includes('back');
+                    if (isFrontCamera || isBackCamera) {
+                        if (isFrontCamera) {
+                            facingFrontId = camera.id;
+                            facingCameraId = camera.id;
+                        }
+                        else
+                            facingBackId = camera.id;
+                        if (facingFrontId && facingBackId) {
+                            videoSelect.classList.add('hide');
+                            document.querySelector('#facingMode').classList.remove('hide');
+                        }
                     }
                         
                     if (videoSelect.length === 1 || label.indexOf('built-in') !== -1) {
