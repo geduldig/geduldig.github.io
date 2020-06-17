@@ -1,4 +1,4 @@
-console.log('COMMON VERSION 4');
+console.log('COMMON VERSION 5');
 
 const isMobileDevice = 
     navigator.userAgent.match(/Android/i) ||
@@ -8,7 +8,6 @@ const isMobileDevice =
     navigator.userAgent.match(/iPod/i) ||
     navigator.userAgent.match(/BlackBerry/i) ||
     navigator.userAgent.match(/Windows Phone/i);
-alert('MOBILE: ' + isMobileDevice + '\n' + navigator.userAgent);
 
 // -- DOM elements --
 const menu = document.querySelector('#opt-menu');
@@ -42,11 +41,11 @@ document.addEventListener('DOMContentLoaded', function(event) {
     if (isMobileDevice) {
         let snapshot = document.querySelector('#snapshot');
         snapshot.parentNode.removeChild(snapshot);
-        videoSelect.parentNode.removeChild(videoSelect);
+        // videoSelect.parentNode.removeChild(videoSelect);
     }
     else {
-        let facingMode = document.querySelector('#facingMode');
-        facingMode.parentNode.removeChild(facingMode);
+        // let facingMode = document.querySelector('#facingMode');
+        // facingMode.parentNode.removeChild(facingMode);
     }
 
     if (document.querySelector('#presets').childElementCount === 0) {
@@ -75,6 +74,11 @@ document.addEventListener('DOMContentLoaded', function(event) {
                     else if (label.includes('back')) 
                         facingBackId = camera.id;
 
+                    if (facingFrontId && facingBackId) {
+                        videoSelect.classList.add('hide');
+                        document.querySelector('#facingMode').classList.remove('hide');
+                    }
+                        
                     if (videoSelect.length === 1 || label.indexOf('built-in') !== -1) {
                         option.setAttribute('selected', 'selected');
                         videoSelect.dispatchEvent(new Event('change'));
