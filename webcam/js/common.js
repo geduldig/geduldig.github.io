@@ -1,4 +1,4 @@
-console.log('COMMON VERSION 2');
+console.log('COMMON VERSION 3');
 
 const isMobileDevice = 
     navigator.userAgent.match(/Android/i) ||
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
     if (isMobileDevice) {
         let snapshot = document.querySelector('#snapshot');
         snapshot.parentNode.removeChild(snapshot);
-        videoSelect.parentNod.removeChild(videoSelect);
+        videoSelect.parentNode.removeChild(videoSelect);
     }
     else {
         let facingMode = document.querySelector('#facingMode');
