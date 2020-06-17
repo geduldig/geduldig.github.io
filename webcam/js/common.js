@@ -1,4 +1,4 @@
-console.log('==COMMON VERSION 3.2');
+console.log('COMMON VERSION 1');
 
 const isMobileDevice = 
     navigator.userAgent.match(/Android/i) ||
@@ -10,13 +10,10 @@ const isMobileDevice =
     navigator.userAgent.match(/Windows Phone/i);
 
 // -- DOM elements --
-
-let onboarding = document.querySelector('#on-boarding');
-const menu = document.querySelector('#menu');
-const videoSelect = document.querySelector('select#videoSource');
+const menu = document.querySelector('#opt-menu');
+const videoSelect = document.querySelector('#videoSource');
 const video = document.querySelector('#video');
 const canvas = document.querySelector('#canvas');
-const image = document.querySelector('#image');
 const vs = document.querySelector('#vshader').textContent;
 const fs = document.querySelector('#fshader').textContent;
 
@@ -33,84 +30,80 @@ const vertexBuffer = webglScreenQuad(gl);
 gl.uniform1i(sampler, 0);
 gl.enableVertexAttribArray(position);
 gl.vertexAttribPointer(position, vertexBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-let videoScale = isMobileDevice ? undefined : 1.0;
 let animID = undefined;
 let facingCameraId = undefined;
 let facingFrontId = undefined;
 let facingBackId = undefined;
 
-// -- UI events --
+// -- DOM events --
 
 document.addEventListener('DOMContentLoaded', function(event) {
-    gl.width = window.innerWidth;
-    gl.height = window.innerHeight;
-
     if (isMobileDevice) {
-        onboarding.innerHTML = onboarding.innerHTML.replace('Click', 'Touch');
-        document.querySelector('#snapshot').style.display = 'none';
-        videoSelect.style.display = 'none';
+        let snapshot = document.querySelector('#snapshot');
+        snapshot.parentNode.removeChild(snapshot);
+        videoSelect.parentNod.removeChild(videoSelect);
     }
-    else
-        document.querySelector('#facingMode').style.display = 'none';
+    else {
+        let facingMode = document.querySelector('#facingMode');
+        facingMode.parentNode.removeChild(facingMode);
+    }
 
-    if (document.querySelector('#presets').childElementCount === 0)
-        document.querySelector('#presets-label').style.display = 'none';
+    if (document.querySelector('#presets').childElementCount === 0) {
+        let presetsLabel = document.querySelector('#presets-label');
+        presetsLabel.parentNode.removeChild(presetsLabel);
+    }
 
     setupCamera(video, {video:true}, (err, stream) => {
-        discoverCameras((err, {label, id}) => {
-            const option = document.createElement('option');
-            option.value = id;
-            option.text = label;
-            videoSelect.appendChild(option);
+        if (err)
+            alert(err);
+        else
+            discoverCameras((err, camera) => {
+                if (err)
+                    alert(err);
+                else {
+                    const option = document.createElement('option');
+                    option.value = camera.id;
+                    option.text = camera.label;
+                    videoSelect.appendChild(option);
 
-            label = label.toLowerCase();
-            if (label.includes('front')) {
-                facingFrontId = id;
-                facingCameraId = id;
-            }
-            else if (label.includes('back')) 
-                facingBackId = id;
+                    let label = camera.label.toLowerCase();
+                    if (label.includes('front')) {
+                        facingFrontId = camera.id;
+                        facingCameraId = camera.id;
+                    }
+                    else if (label.includes('back')) 
+                        facingBackId = camera.id;
 
-            if (videoSelect.length === 1 || option.text.indexOf('Built-in') !== -1) {
-                option.setAttribute('selected', 'selected');
-                videoSelect.dispatchEvent(new Event('change'));
-            }
-        });
+                    if (videoSelect.length === 1 || label.indexOf('built-in') !== -1) {
+                        option.setAttribute('selected', 'selected');
+                        videoSelect.dispatchEvent(new Event('change'));
+                    }							
+                }
+            });
     });
 });
 
 videoSelect.onchange = () => {
     const id = facingCameraId ? facingCameraId : videoSelect.value;
-    const constraints = {
-        video: { 
-            width: 1280,
-            deviceId: id ? { exact:id } : null
-        }
-    };
+    startVideo(id);
+};	
 
-    setupCamera(video, constraints, (err, stream) => {
-        if (err)
-            alert('WEBCAM FAILED: ' + JSON.stringify(err));
-        else {
-            resizeCanvas(videoScale);
-            startAnimation();
-            showOnBoarding();
-        }
-    });
-};
-
-// -- Tasks --
+// -- Menu tasks --
 
 function showOnBoarding() {
-    if (onboarding) 
+    let onboarding = document.querySelector('#on-boarding');
+    if (onboarding) {
+        if (isMobileDevice) 
+            onboarding.innerHTML = onboarding.innerHTML.replace('Click', 'Touch');
         onboarding.style.display = 'block';
+    }
 }
 
 function hideOnBoarding() {
+    let onboarding = document.querySelector('#on-boarding');
     if (onboarding) {
         onboarding.style.display = 'none';
-        onboarding = null;
+        onboarding.parentNode.removeChild(onboarding);
     }
 }
 
@@ -121,8 +114,6 @@ function goToParentPage() {
 function showMenu() {
     hideOnBoarding();
     menu.style.display = 'block';
-    if (isMobileDevice)
-       menu.setAttribute('style', 'max-width: ' + canvas.width + 'px !important');
 }
 
 function hideMenu() {
@@ -130,7 +121,7 @@ function hideMenu() {
 }
 
 function toggleMenu() {
-    menu.style.display === 'none' ? showMenu() : hideMenu();;
+    menu.style.display === 'none' || menu.style.display === '' ? showMenu() : hideMenu();;
 }
 
 function toggleFacingMode() {
@@ -140,39 +131,11 @@ function toggleFacingMode() {
     }
 }
 
-function resizeCanvas(scale) {
-    videoScale = scale;
-    const videoAspect = video.videoWidth / video.videoHeight;
-    const windowAspect = window.innerWidth / window.innerHeight;
-    if (videoAspect > windowAspect || isMobileDevice) {
-        if (videoScale === undefined)
-            videoScale = 1.0;
-        canvas.width = window.innerWidth * videoScale;
-        canvas.height = canvas.width / videoAspect;
-    }
-    else {
-        if (videoScale === undefined)
-            videoScale = windowAspect / videoAspect;
-        canvas.height = window.innerHeight * videoScale;
-        canvas.width = canvas.height * videoAspect;
-    }
-
-    gl.uniform1f(width, canvas.width);
-    gl.uniform1f(height, canvas.height);
-    gl.viewport(0, 0, canvas.width, canvas.height);
-}
-
-function startAnimation() {
-    window.cancelAnimationFrame(animID);
-    animID = window.requestAnimationFrame(function loop() {
-        updateTexture(gl, texture, vertexBuffer, video);
-        animID = window.requestAnimationFrame(loop);
-    });
-}
-
 function saveSnapshot() {
     const now = new Date();
-    const stamp = `${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()}-${now.getHours()}-${now.getMinutes()}-${now.getSeconds()}`;
+    const stamp = 
+         `${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()}-` + 
+         `${now.getHours()}-${now.getMinutes()}-${now.getSeconds()}`;
     const img = document.querySelector('#snapshot-img');
     const link = document.querySelector('#snapshot-link');
     img.src = canvas.toDataURL();
@@ -181,10 +144,10 @@ function saveSnapshot() {
     link.click();
 }
 
-function CreateSlider(id, name, min, max, step, oninput) {
+function createSlider(id, name, min, max, step, oninput) {
     const slider = document.createElement('div');
     slider.id = id;
-    slider.className = 'd-flex flex-row bd-highlight mb-3';
+    slider.className = 'd-flex flex-row bd-highlight mb-3 ml-4';
     const label = document.createElement('div');
     label.className = 'p-2 bd-highlight flex-nowrap right-label';
     label.for = id;
@@ -207,9 +170,50 @@ function CreateSlider(id, name, min, max, step, oninput) {
 
 function createPreset(name, onclick) {
     const preset = document.createElement('button');
-    preset.className = 'presets btn btn-primary';
+    preset.className = 'btn btn-primary btn-block';
     preset.innerText = name;
     preset.onclick = onclick;
-    document.querySelector('#presets').appendChild(preset);
+    const block = document.createElement('div');
+    block.className = 'presets';
+    block.style.width = '2em';
+    block.appendChild(preset);
+    document.querySelector('#presets').appendChild(block);
     return preset;
+}	
+
+// -- Video tasks --
+
+function resizeCanvas() {
+    canvas.width = canvas.parentElement.clientWidth;
+    canvas.height = canvas.width * (video.videoHeight / video.videoWidth);			
+    gl.uniform1f(width, canvas.width);
+    gl.uniform1f(height, canvas.height);
+    gl.viewport(0, 0, canvas.width, canvas.height);
 }
+
+function startVideo(id) {
+    const constraints = {
+        video: { 
+            width: 1280,
+            deviceId: id ? { exact:id } : null
+        }
+    };
+
+    setupCamera(video, constraints, (err, stream) => {
+        if (err)
+            alert('WEBCAM FAILED: ' + err);
+        else {
+            resizeCanvas();
+            startAnimation();
+            showOnBoarding();
+        }
+    });
+}
+
+function startAnimation() {
+    window.cancelAnimationFrame(animID);
+    animID = window.requestAnimationFrame(function loop() {
+        updateTexture(gl, texture, vertexBuffer, video);
+        animID = window.requestAnimationFrame(loop);
+    });
+}		

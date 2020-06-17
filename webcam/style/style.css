@@ -1,111 +1,41 @@
-body {
-	padding: 0;
-	margin: 0;
-	font: 1em sans-serif;
-	color: black;
-	background-color: white;
-}
-
-#on-boarding {
-	position: absolute;
-	/* top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%); */
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: auto;
-	background-color: rgba(255, 0, 255, 0.5);
-	overflow: auto;
-	font-size: 2em;
-	padding: 1em;
-}
-
-.no-spacing {
-	padding: 0 !important;
+* {
 	margin: 0 !important;
-}
-
-#menu {
-	position: absolute;
-	background-color: rgba(255, 0, 255, 0.5);
-	overflow: auto;
-	top: 0;
-	left: 0;
-	font-size: .8em;
-  }
-
-.left-label {
-	text-align: right;
-	vertical-align: bottom;
-	margin-bottom: 0;
-	font-size: 1.3em;
-}
-
-.right-label {
-	text-align: left;
-	font-size: 1.3em;
-	min-width: 33%;
-}
-
-select {
-	height: 2.6em;
-}
-
-.controls {
-	margin-left:5 px; 
-	padding: 5px;
-}
-
-#snapshot, #facingMode {
 	padding: 0 !important;
-	margin-left: 8px;
-	width: 2em;
-	height: 2em;
 }
-
-#goBack > button {
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-color: transparent;
-	border-width: 0;
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	margin: 0;
-	padding: 0;
-	color: dodgerblue;
+.hide {
+	display: none;
 }
-
-#closeMenu > button {
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-color: transparent;
-	border-width: 0;
-	position: absolute;
-	top: 2px;
-	right: 2px;
-	margin: 0;
-	padding: 0;
-	color: dodgerblue;
-}
-
-.presets, #save-snapshot {
-	margin-right: 16px;
-	height: 2.2em;
-}
-
-#videoSource {
-	max-width: 50%;
-}
-
 .fade-in {
 	animation: fadein 1.5s;
 }
-
 @keyframes fadein {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+	from { opacity: 0; }
+	to   { opacity: 1; }
+}
+.popup {
+	background-color: rgba(255, 0, 255, 0.5);
+	position: absolute;
+}
+#go-back-btn, #close-menu-btn {
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-color: transparent;
+	border-width: 0;
+	position: relative;
+	color: dodgerblue;
+}	
+#go-back-btn {
+	top: 0;
+	left: 0;
+#close-menu-btn {
+	top: 2px;
+	right: 2px;
+}
+.left-label {
+	text-align: right;
+	vertical-align: bottom;
+}
+#videoSource {
+	max-width: 50%;
 }
