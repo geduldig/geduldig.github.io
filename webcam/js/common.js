@@ -174,7 +174,7 @@ function createPreset(name, onclick) {
     preset.innerText = name;
     preset.onclick = onclick;
     const block = document.createElement('div');
-    block.className = 'presets';
+    block.className = 'presets m-2';
     block.style.width = '2em';
     block.appendChild(preset);
     document.querySelector('#presets').appendChild(block);
