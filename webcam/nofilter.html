@@ -67,11 +67,11 @@
 		uniform sampler2D sampler0;
 		uniform float width, height;
 		uniform float K1;
+		const vec2 CENTER = vec2(.5, .5);
 		void main() {
-			//vec2 st = vec2(gl_FragCoord.s/width, 1. - gl_FragCoord.t/height);
-			vec2 center = vec2(.5, .5);
-			vec2 st = center + (gl_FragCoord.st - center) * (1. - K1);
-			st = vec2(st.s/width, 1. - st.t/height);
+			vec2 st = vec2(gl_FragCoord.s/width, 1. - gl_FragCoord.t/height);
+			st = CENTER + (st - CENTER) * (1. - K1);
+			//st = vec2(st.s/width, 1. - st.t/height);
 			vec3 rgb = texture2D(sampler0, st).rgb;
 			gl_FragColor = vec4(rgb, 1.);
 		}
@@ -88,7 +88,7 @@
 	<script src='js/common.js?v=7'></script>
 
 	<script>
-		console.log('VERSION 7');
+		console.log('VERSION 8');
 
 		// -- Shader control knobs --
 		
