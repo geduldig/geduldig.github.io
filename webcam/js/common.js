@@ -1,4 +1,4 @@
-console.log('COMMON VERSION 5');
+console.log('COMMON VERSION 6');
 
 const isMobileDevice = 
     navigator.userAgent.match(/Android/i) ||
@@ -41,11 +41,6 @@ document.addEventListener('DOMContentLoaded', function(event) {
     if (isMobileDevice) {
         let snapshot = document.querySelector('#snapshot');
         snapshot.parentNode.removeChild(snapshot);
-        // videoSelect.parentNode.removeChild(videoSelect);
-    }
-    else {
-        // let facingMode = document.querySelector('#facingMode');
-        // facingMode.parentNode.removeChild(facingMode);
     }
 
     if (document.querySelector('#presets').childElementCount === 0) {
@@ -90,7 +85,6 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
 videoSelect.onchange = () => {
     const id = facingCameraId ? facingCameraId : videoSelect.value;
-    alert('ID: ' + id);
     startVideo(id);
 };	
 
