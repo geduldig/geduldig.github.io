@@ -30,7 +30,7 @@
 				<div class='d-flex flex-row bd-highlight mb-1'>
 					<label class='p-2 mb-0 bd-highlight left-label' for='videoSource'>Camera</label>
 					<select class='p-0 ml-2 bd-highlight h7' id='videoSource' class='form-control'></select>
-					<button class='p-0 ml-2 bd-highlight btn btn-primary' id='facingMode' onclick=toggleFacingMode()>
+					<button class='p-0 ml-2 bd-highlight btn btn-primary hide' id='facingMode' onclick=toggleFacingMode()>
 						<img src='style/flipCamera.png' width='30'/>
 					</button>
 					<button class='p-0 ml-2 bd-highlight btn btn-primary' id='snapshot' onclick=saveSnapshot()>
@@ -66,6 +66,7 @@
 		precision mediump float;
 		uniform sampler2D sampler0;
 		uniform float width, height;
+		uniform float K1;
 		void main() {
 			vec2 st = vec2(gl_FragCoord.s/width, 1. - gl_FragCoord.t/height);
 			vec3 rgb = texture2D(sampler0, st).rgb;
@@ -81,16 +82,23 @@
 	<script src='js/webglShader.js'></script>
 	<script src='js/webglTexture.js'></script>
 	<script src='js/webcam.js'></script>
-	<script src='js/common.js'></script>
+	<script src='js/common.js?v=7'></script>
 
 	<script>
-		console.log('VERSION 3');
+		console.log('VERSION 5');
+
+		// -- Shader control knobs --
+		
+		const k1 = gl.getUniformLocation(program, 'K1');
 
 		// -- Sliders and presets --
 
-		const slider1Update = createSlider('slider1', '1', 0, 1, 0.01, () => {});
-		slider1Update(.5);
+		const slider1Update = createSlider('slider1', 'K1', 0, 1, 0.01, () => {
+			gl.uniform1f(k1, document.querySelector('#slider1 > input').value);			
+		});		
 		
-		createPreset('1', () => {});		
+		createPreset('1', () => { 
+			slider1Update(.5); 
+		});		
  	</script>
 </body>
