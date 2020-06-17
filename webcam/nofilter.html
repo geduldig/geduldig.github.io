@@ -71,6 +71,7 @@
 			//vec2 st = vec2(gl_FragCoord.s/width, 1. - gl_FragCoord.t/height);
 			vec2 center = vec2(.5, .5);
 			vec2 st = center + (gl_FragCoord.st - center) * (1. - K1);
+			st = vec2(st.s/width, 1. - st.t/height);
 			vec3 rgb = texture2D(sampler0, st).rgb;
 			gl_FragColor = vec4(rgb, 1.);
 		}
@@ -87,7 +88,7 @@
 	<script src='js/common.js?v=7'></script>
 
 	<script>
-		console.log('VERSION 6');
+		console.log('VERSION 7');
 
 		// -- Shader control knobs --
 		
@@ -98,7 +99,7 @@
 		const slider1Update = createSlider('slider1', 'K1', 0, 1, 0.01, () => {
 			gl.uniform1f(k1, document.querySelector('#slider1 > input').value);			
 		});
-				
+
 		slider1Update(0);
 
 		createPreset('1', () => { 
