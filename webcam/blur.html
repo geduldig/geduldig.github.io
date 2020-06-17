@@ -126,11 +126,6 @@
 
 		// -- Sliders --
 
-		const maxScale = isMobileDevice ? 2.0 : 1.0;
-		createSlider('slider0', 'Video scale', 0.2, maxScale, 0.01, () => {
-			resizeCanvas(document.querySelector('#slider0 > input').value);
-		});
-
 		const slider1Update = createSlider('slider1', 'Gamma', 0, 1, 0.01, () => {
 			gl.uniform1f(k1, document.querySelector('#slider1 > input').value);
 		});
