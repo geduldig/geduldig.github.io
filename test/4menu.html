@@ -49,8 +49,8 @@
 /* 		height: 2.2em !important; */
 	}
 	#snapshot, #facingMode {
-		width: 2em !important;
-		height: 2em !important;
+/* 		width: 2em !important;
+		height: 2em !important; */
 	}
 </style>
 
@@ -132,7 +132,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 43');
+		console.log('VERSION 44');
 		const isMobileDevice = 
 			navigator.userAgent.match(/Android/i) ||
 			navigator.userAgent.match(/webOS/i) ||
@@ -314,7 +314,7 @@
 			preset.onclick = onclick;
 			const block = document.createElement('div');
 			block.className = 'presets';
-			block.style.width = '4em';
+			block.style.width = '2em';
 			block.appendChild(preset);
 			document.querySelector('#presets').appendChild(block);
 			return preset;
