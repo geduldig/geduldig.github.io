@@ -19,7 +19,7 @@
 	<main role='main' class='container-fluid h-100'>
 		<div class='row h-100'>
 			<div class='col-12 h-100'>
-				<div class='h-100'>
+				<div class=''>
 					<video id='video' autoplay playsinline style='display:none'></video>
 					<canvas id='canvas'></canvas>
 				</div>
@@ -57,7 +57,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 2');
+		console.log('VERSION 3');
 
 		// -- DOM elements --
 		const canvas = document.querySelector('#canvas');
@@ -83,42 +83,19 @@
 		// -- DOM events --
 
 		document.addEventListener('DOMContentLoaded', function(event) {
-			// setupCamera(video, {video:true}, (err, stream) => {
-			// 	if (err)
-			// 		alert(err);
-			// 	else
-			// 		discoverCameras((err, camera) => {
-			// 			if (err)
-			// 				alert(err);
-			// 			else {
-			// 				let label = camera.label.toLowerCase();
-			// 				if (label.includes('built-in') || label.includes('front')) 
-			// 					startVideo(camera.id);
-			// 			}
-			// 		});
-			// });
 			startVideo(null);
 		});
 		
 		// -- Tasks --
-
-		function resizeCanvas() {
-			canvas.width = canvas.parentElement.clientWidth;
-			canvas.height = canvas.width * (video.videoHeight / video.videoWidth);			
-			gl.uniform1f(width, canvas.width);
-			gl.uniform1f(height, canvas.height);
-			gl.viewport(0, 0, canvas.width, canvas.height);
-		}
 		
-		function startVideo(id) {
+		function startVideo() {
 			const constraints = {
 				video: { 
-					width: 1280,
-					deviceId: id ? { exact:id } : null
+					width: 1280
 				}
 			};
 
-			setupCamera(video, constraints, (err, stream) => {
+			setupCamera(video, {video:true}, (err, stream) => {
 				if (err)
 					alert('WEBCAM FAILED: ' + err);
 				else {
@@ -126,6 +103,14 @@
 					startAnimation();
 				}
 			});
+		}
+
+		function resizeCanvas() {
+			canvas.width = canvas.parentElement.clientWidth;
+			canvas.height = canvas.width * (video.videoHeight / video.videoWidth);			
+			gl.uniform1f(width, canvas.width);
+			gl.uniform1f(height, canvas.height);
+			gl.viewport(0, 0, canvas.width, canvas.height);
 		}
 
 		function startAnimation() {
