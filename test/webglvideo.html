@@ -57,7 +57,7 @@
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 30');
+		console.log('VERSION 2');
 
 		// -- DOM elements --
 		const canvas = document.querySelector('#canvas');
@@ -83,20 +83,21 @@
 		// -- DOM events --
 
 		document.addEventListener('DOMContentLoaded', function(event) {
-			setupCamera(video, {video:true}, (err, stream) => {
-				if (err)
-					alert(err);
-				else
-					discoverCameras((err, camera) => {
-						if (err)
-							alert(err);
-						else {
-							let label = camera.label.toLowerCase();
-							if (label.includes('built-in') || label.includes('front')) 
-								startVideo(camera.id);
-						}
-					});
-			});
+			// setupCamera(video, {video:true}, (err, stream) => {
+			// 	if (err)
+			// 		alert(err);
+			// 	else
+			// 		discoverCameras((err, camera) => {
+			// 			if (err)
+			// 				alert(err);
+			// 			else {
+			// 				let label = camera.label.toLowerCase();
+			// 				if (label.includes('built-in') || label.includes('front')) 
+			// 					startVideo(camera.id);
+			// 			}
+			// 		});
+			// });
+			startVideo(null);
 		});
 		
 		// -- Tasks --
