@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" crossorigin="anonymous">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous">
 
 <body>
 	<div style='width:100%'>
@@ -32,17 +30,15 @@
 
 	<!-- MAIN PROGRAM -->	
 
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" crossorigin="anonymous"></script>
 	<script src='js/webglShader.js'></script>
 	<script src='js/webglTexture.js'></script>
 	<script src='js/webcam.js'></script>
 
 	<script>
-		console.log('VERSION 6');
+		console.log('VERSION 7');
 
 		// -- DOM elements --
+
 		const canvas = document.querySelector('#canvas');
 		const video = document.querySelector('#video');
 		const vs = document.querySelector('#vshader').textContent;
@@ -63,13 +59,11 @@
 		gl.vertexAttribPointer(position, vertexBuffer.itemSize, gl.FLOAT, false, 0, 0);
 		let animID = undefined;
 
-		// -- DOM events --
+		// -- Stream camera --
 
 		document.addEventListener('DOMContentLoaded', function(event) {
 			startVideo(null);
 		});
-		
-		// -- Tasks --
 		
 		function startVideo() {
 			const constraints = {
