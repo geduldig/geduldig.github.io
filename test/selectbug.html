@@ -1,27 +1,26 @@
 <!DOCTYPE html>
 <html>
 	<body>
-		<form style='position:absolute;right:50%'><select id='dropdown1'></select></form>
-		<form style='position:absolute;left:50%'><select id='dropdown2'></select></form>
+		<form style='position:absolute;right:50%;margin:1%'><select id='dropdown1'></select></form>
+		<form style='position:absolute;left:50%;margin:1%'><select id='dropdown2'></select></form>
 
 		<script>
 			const dropdown1 = document.querySelector('#dropdown1');
 			const dropdown2 = document.querySelector('#dropdown2');
-			const hideUntil = 1000; 
-			const size = hideUntil + 10;
+			const firstItem = 1000; 
+			const lastItem = firstItem + 10;
 
-			for (let i = 0; i < size; i++) {
+			for (let i = 0; i <= lastItem; i++) {
 				const option1 = document.createElement('option');
 				const option2 = document.createElement('option');
-				option1.text = option2.text = i.toString();
-				option1.hidden = i < hideUntil;
-				option2.hidden = i < hideUntil;
+				option1.text = option2.text = i;
+				option1.hidden = option2.hidden = i < firstItem;
 				dropdown1.appendChild(option1);
 				dropdown2.appendChild(option2);
 			}
 
-			dropdown1.selectedIndex = hideUntil;
-			dropdown2.selectedIndex = size - 1;
+			dropdown1.selectedIndex = firstItem;
+			dropdown2.selectedIndex = lastItem;
 		</script>
     </body>
 </html> 
